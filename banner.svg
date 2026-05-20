@@ -1,427 +1,90 @@
-<svg width="800" height="200" viewBox="0 0 800 200" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 350" width="800" height="350">
   <defs>
-    <style>
-      /* ---- Parallax Scrolling ---- */
-      @keyframes scrollFar  { 0% { transform: translateX(0); } 100% { transform: translateX(-800px); } }
-      @keyframes scrollMid  { 0% { transform: translateX(0); } 100% { transform: translateX(-800px); } }
-      @keyframes scrollNear { 0% { transform: translateX(0); } 100% { transform: translateX(-800px); } }
-
-      /* ---- Character Walk ---- */
-      @keyframes walkCycle {
-        0%, 33.32%   { opacity: 1; }
-        33.34%, 100% { opacity: 0; }
-      }
-
-      /* ---- Floating Title ---- */
-      @keyframes float {
-        0%, 100% { transform: translateY(0px); }
-        50%      { transform: translateY(-6px); }
-      }
-
-      /* ---- Bounce (Question Block) ---- */
-      @keyframes bounce {
-        0%, 100% { transform: translateY(0px); }
-        50%      { transform: translateY(-4px); }
-      }
-
-      /* ---- Coin Spin ---- */
-      @keyframes coinSpin {
-        0%   { transform: scaleX(1); }
-        25%  { transform: scaleX(0.3); }
-        50%  { transform: scaleX(0); }
-        75%  { transform: scaleX(0.3); }
-        100% { transform: scaleX(1); }
-      }
-
-      /* ---- Retro Rainbow Text ---- */
-      @keyframes rainbow {
-        0%   { fill: #FF3333; }
-        20%  { fill: #FF8800; }
-        40%  { fill: #FFFF00; }
-        60%  { fill: #00FF00; }
-        80%  { fill: #0088FF; }
-        100% { fill: #FF3333; }
-      }
-
-      /* ---- Sparkle / Twinkle ---- */
-      @keyframes sparkle {
-        0%, 100% { opacity: 0.3; transform: scale(0.8); }
-        50%      { opacity: 1;   transform: scale(1.2); }
-      }
-
-      /* ---- Blink Cursor ---- */
-      @keyframes blink {
-        0%, 49%  { opacity: 1; }
-        50%, 100% { opacity: 0; }
-      }
-
-      /* ---- Glow Pulse ---- */
-      @keyframes glowPulse {
-        0%, 100% { filter: drop-shadow(0 0 2px rgba(255,215,0,0.5)); }
-        50%      { filter: drop-shadow(0 0 8px rgba(255,215,0,0.9)); }
-      }
-
-      /* ---- Classes ---- */
-      .layer-far  { animation: scrollFar  30s linear infinite; }
-      .layer-mid  { animation: scrollMid  18s linear infinite; }
-
-      .walk-f1, .walk-f2, .walk-f3 {
-        opacity: 0;
-        animation: walkCycle 0.45s steps(1) infinite;
-      }
-      .walk-f1 { animation-delay: 0.000s; }
-      .walk-f2 { animation-delay: 0.150s; }
-      .walk-f3 { animation-delay: 0.300s; }
-
-      .float   { animation: float 3s ease-in-out infinite; }
-      .bounce  { animation: bounce 1.5s ease-in-out infinite; }
-      .coin    { animation: coinSpin 1.2s linear infinite; transform-origin: center; }
-      .rainbow { animation: rainbow 6s linear infinite; }
-      .sparkle { animation: sparkle 2s ease-in-out infinite; }
-      .blink-cursor { animation: blink 1s step-end infinite; }
-      .glow    { animation: glowPulse 2s ease-in-out infinite; }
-
-      /* ---- Mario Movement & State Sync ---- */
-      @keyframes marioMove {
-        0% { transform: translate(-50px, 100px); }
-        20% { transform: translate(150px, 100px); }
-        22% { transform: translate(180px, 70px); }
-        24% { transform: translate(216px, 40px); }
-        26% { transform: translate(248px, 70px); }
-        28% { transform: translate(280px, 100px); }
-        42% { transform: translate(430px, 100px); }
-        44% { transform: translate(455px, 75px); }
-        47% { transform: translate(480px, 50px); }
-        50% { transform: translate(505px, 75px); }
-        52% { transform: translate(530px, 100px); }
-        56% { transform: translate(580px, 100px); }
-        58% { transform: translate(610px, 66px); }
-        61% { transform: translate(640px, 30px); }
-        64% { transform: translate(670px, 66px); }
-        66% { transform: translate(700px, 100px); }
-        80% { transform: translate(850px, 100px); }
-        100% { transform: translate(850px, 100px); }
-      }
-
-      @keyframes walkVisibility {
-        0%, 19.99% { opacity: 1; }
-        20%, 28%   { opacity: 0; }
-        28.01%, 41.99% { opacity: 1; }
-        42%, 52%   { opacity: 0; }
-        52.01%, 55.99% { opacity: 1; }
-        56%, 66%   { opacity: 0; }
-        66.01%, 100% { opacity: 1; }
-      }
-
-      @keyframes jumpVisibility {
-        0%, 19.99% { opacity: 0; }
-        20%, 28%   { opacity: 1; }
-        28.01%, 41.99% { opacity: 0; }
-        42%, 52%   { opacity: 1; }
-        52.01%, 55.99% { opacity: 0; }
-        56%, 66%   { opacity: 1; }
-        66.01%, 100% { opacity: 0; }
-      }
-
-      .mario-container {
-        animation: marioMove 12s linear infinite;
-      }
-
-      .mario-walk-cycle {
-        animation: walkVisibility 12s step-start infinite;
-      }
-
-      .mario-jump-frame {
-        animation: jumpVisibility 12s step-start infinite;
-        opacity: 0;
-      }
-
-      /* ---- Block 2 Bounce & Coin Pop ---- */
-      @keyframes block2Bounce {
-        0%, 23.99% { transform: translateY(0px); }
-        24%        { transform: translateY(-6px); }
-        25%        { transform: translateY(2px); }
-        26%, 100%  { transform: translateY(0px); }
-      }
-      .block-2 {
-        animation: block2Bounce 12s ease-in-out infinite;
-      }
-
-      @keyframes coin2Pop {
-        0%, 23.99% { opacity: 0; transform: translateY(0px) scale(0); }
-        24%        { opacity: 1; transform: translateY(-20px) scale(1); }
-        25.5%      { opacity: 1; transform: translateY(-30px) scale(1) scaleX(0.2); }
-        27%        { opacity: 0; transform: translateY(-10px) scale(0.5); }
-        27.01%, 100% { opacity: 0; transform: translateY(0px) scale(0); }
-      }
-      .coin-2-pop {
-        animation: coin2Pop 12s ease-in-out infinite;
-        transform-origin: center;
-      }
-
-      /* ---- Coin Collection ---- */
-      @keyframes coinCollect1 {
-        0%, 67.49% { opacity: 1; }
-        67.5%, 100% { opacity: 0; }
-      }
-      @keyframes coinCollect2 {
-        0%, 69.49% { opacity: 1; }
-        69.5%, 100% { opacity: 0; }
-      }
-      @keyframes coinCollect3 {
-        0%, 71.49% { opacity: 1; }
-        71.5%, 100% { opacity: 0; }
-      }
-      .coin-c1 { animation: coinCollect1 12s step-end infinite; }
-      .coin-c2 { animation: coinCollect2 12s step-end infinite; }
-      .coin-c3 { animation: coinCollect3 12s step-end infinite; }
-
-      /* ---- Responsive Light/Dark Mode Sky and Cloud styling ---- */
-      .sky-bg {
-        fill: url(#sky-dark);
-      }
-      .cloud-element {
-        fill: #ffffff;
-        opacity: 0.12;
-      }
-      .star-element {
-        display: block;
-      }
-      .hud-text {
-        fill: #FFFFFF;
-        opacity: 0.75;
-      }
-
-      @media (prefers-color-scheme: light) {
-        .sky-bg {
-          fill: url(#sky-light);
-        }
-        .cloud-element {
-          fill: #ffffff;
-          opacity: 0.75;
-        }
-        .star-element {
-          display: none;
-        }
-        .hud-text {
-          fill: #000000;
-          opacity: 0.65;
-        }
-      }
-    </style>
-
-    <!-- Dark Mode Sky Gradient -->
-    <linearGradient id="sky-dark" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%"   stop-color="#0a051d"/>
-      <stop offset="60%"  stop-color="#190e38"/>
-      <stop offset="100%" stop-color="#341b54"/>
+    <linearGradient id="skyGradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a1232"/>
+      <stop offset="20%" stop-color="#122555"/>
+      <stop offset="45%" stop-color="#1e4d8c"/>
+      <stop offset="65%" stop-color="#3a82c4"/>
+      <stop offset="80%" stop-color="#5ba8dc"/>
+      <stop offset="95%" stop-color="#7ec8eb"/>
     </linearGradient>
-
-    <!-- Light Mode Sky Gradient -->
-    <linearGradient id="sky-light" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%"   stop-color="#5c94fc"/>
-      <stop offset="70%"  stop-color="#80b0ff"/>
-      <stop offset="100%" stop-color="#a0c8ff"/>
-    </linearGradient>
-
-    <!-- Ground Brick Pattern -->
-    <pattern id="brick" width="32" height="16" patternUnits="userSpaceOnUse">
-      <rect width="32" height="16" fill="#C84C0C"/>
-      <rect x="0"  y="0"  width="15" height="7" fill="#E87040" rx="1"/>
-      <rect x="17" y="0"  width="15" height="7" fill="#E87040" rx="1"/>
-      <rect x="8"  y="9"  width="15" height="7" fill="#E87040" rx="1"/>
-      <rect x="25" y="9"  width="7"  height="7" fill="#E87040" rx="1"/>
-      <rect x="0"  y="9"  width="6"  height="7" fill="#E87040" rx="1"/>
-    </pattern>
-
-    <!-- Twinkle Star Shape -->
-    <g id="star">
-      <polygon points="0,-4 1,-1 4,-1 1.5,1 2.5,4 0,2 -2.5,4 -1.5,1 -4,-1 -1,-1" fill="#FFD700"/>
-    </g>
-
-    <!-- Cloud Graphic -->
-    <g id="cloud">
-      <ellipse cx="30" cy="18" rx="26" ry="10" class="cloud-element"/>
-      <ellipse cx="48" cy="13" rx="18" ry="8" class="cloud-element"/>
-      <ellipse cx="14" cy="14" rx="14" ry="8" class="cloud-element"/>
-    </g>
-
-    <!-- Coin Graphics -->
-    <g id="coin-def">
-      <ellipse cx="8" cy="10" rx="5" ry="8" fill="#FFD700" stroke="#CC9900" stroke-width="1.5"/>
-      <ellipse cx="8" cy="10" rx="2" ry="6" fill="#FFEE66" opacity="0.6"/>
-    </g>
   </defs>
 
-  <!-- ========= BACKGROUND ========= -->
-  <rect width="100%" height="100%" class="sky-bg"/>
+  <style>
+    @keyframes cloudDriftRight {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(20px); }
+    }
+    @keyframes cloudDriftLeft {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(-15px); }
+    }
+    .cloud-back { animation: cloudDriftLeft 30s ease-in-out infinite; }
+    .cloud-front { animation: cloudDriftRight 22s ease-in-out infinite; }
+  </style>
 
-  <!-- Far Layer: Twinkling Stars (Dark Mode Only) -->
-  <g class="layer-far star-element">
-    <use href="#star" x="60"   y="20"  class="sparkle" style="animation-delay: 0s;"/>
-    <use href="#star" x="150"  y="45"  class="sparkle" style="animation-delay: 0.7s;"/>
-    <use href="#star" x="280"  y="15"  class="sparkle" style="animation-delay: 1.2s;"/>
-    <use href="#star" x="400"  y="35"  class="sparkle" style="animation-delay: 0.3s;"/>
-    <use href="#star" x="520"  y="10"  class="sparkle" style="animation-delay: 1.8s;"/>
-    <use href="#star" x="650"  y="40"  class="sparkle" style="animation-delay: 0.5s;"/>
-    <use href="#star" x="750"  y="25"  class="sparkle" style="animation-delay: 1.0s;"/>
-    <!-- Duplicate for loop -->
-    <use href="#star" x="860"  y="20"  class="sparkle" style="animation-delay: 0s;"/>
-    <use href="#star" x="950"  y="45"  class="sparkle" style="animation-delay: 0.7s;"/>
-    <use href="#star" x="1080" y="15"  class="sparkle" style="animation-delay: 1.2s;"/>
-    <use href="#star" x="1200" y="35"  class="sparkle" style="animation-delay: 0.3s;"/>
-    <use href="#star" x="1320" y="10"  class="sparkle" style="animation-delay: 1.8s;"/>
-    <use href="#star" x="1450" y="40"  class="sparkle" style="animation-delay: 0.5s;"/>
-    <use href="#star" x="1550" y="25"  class="sparkle" style="animation-delay: 1.0s;"/>
+  <!-- SKY -->
+  <rect width="800" height="350" fill="url(#skyGradient)"/>
+
+  <!-- BACK MOUNTAINS -->
+  <g id="mountains-back">
+    <path d="M-20,245 Q150,95 320,245 Z" fill="#1a5f20"/>
+    <path d="M90,215 Q150,160 210,215" stroke="#22732a" stroke-width="1.5" fill="none" opacity="0.5"/>
+    <path d="M110,195 Q150,150 190,195" stroke="#22732a" stroke-width="1.5" fill="none" opacity="0.4"/>
+
+    <path d="M220,245 Q430,55 640,245 Z" fill="#175a1c"/>
+    <path d="M320,200 Q430,120 540,200" stroke="#1f6e25" stroke-width="1.8" fill="none" opacity="0.5"/>
+    <path d="M360,175 Q430,105 500,175" stroke="#1f6e25" stroke-width="1.5" fill="none" opacity="0.4"/>
+    <path d="M390,155 Q430,95 470,155" stroke="#1f6e25" stroke-width="1.2" fill="none" opacity="0.3"/>
+
+    <path d="M560,245 Q720,100 880,245 Z" fill="#1a5f20"/>
+    <path d="M620,210 Q720,150 820,210" stroke="#22732a" stroke-width="1.5" fill="none" opacity="0.5"/>
+    <path d="M650,190 Q720,140 790,190" stroke="#22732a" stroke-width="1.5" fill="none" opacity="0.4"/>
   </g>
 
-  <!-- Mid Layer: Parallax Clouds -->
-  <g class="layer-mid">
-    <use href="#cloud" x="80"  y="25"/>
-    <use href="#cloud" x="300" y="50"/>
-    <use href="#cloud" x="560" y="15"/>
-    <use href="#cloud" x="720" y="45"/>
-    <!-- Duplicate -->
-    <use href="#cloud" x="880"  y="25"/>
-    <use href="#cloud" x="1100" y="50"/>
-    <use href="#cloud" x="1360" y="15"/>
-    <use href="#cloud" x="1520" y="45"/>
+  <!-- FRONT MOUNTAINS -->
+  <g id="mountains-front">
+    <path d="M-40,245 Q60,165 160,245 Z" fill="#2d8f35"/>
+    <path d="M0,225 Q60,190 120,225" stroke="#35a33e" stroke-width="1.2" fill="none" opacity="0.4"/>
+
+    <path d="M320,245 Q500,110 680,245 Z" fill="#2b8a32"/>
+    <path d="M400,215 Q500,155 600,215" stroke="#35a33e" stroke-width="1.5" fill="none" opacity="0.45"/>
+    <path d="M430,195 Q500,145 570,195" stroke="#35a33e" stroke-width="1.2" fill="none" opacity="0.35"/>
+
+    <path d="M660,245 Q760,160 860,245 Z" fill="#2d8f35"/>
+    <path d="M700,220 Q760,185 820,220" stroke="#35a33e" stroke-width="1.2" fill="none" opacity="0.4"/>
   </g>
 
-  <!-- Near Layer: Ground, pipes, blocks, coins -->
-  <g class="layer-near">
-    <!-- Ground -->
-    <rect y="168" width="800" height="32" fill="url(#brick)"/>
-    <rect y="166" width="800" height="3" fill="#88CC44"/>
-
-    <!-- Question Blocks -->
-    <g style="animation: bounce 1.5s ease-in-out infinite; animation-delay: 0s;">
-      <g transform="translate(200,96)">
-        <rect width="32" height="32" fill="#E07020" stroke="#6B3E08" stroke-width="2" rx="1"/>
-        <rect x="2" y="2" width="28" height="28" fill="#FBD000" rx="1"/>
-        <rect x="4" y="4" width="24" height="24" fill="#E07020" rx="1"/>
-        <!-- Custom Drawn pixel art '?' symbol inside block -->
-        <path d="M 12 8 h 8 v 4 h -4 v 4 h -4 v -4 h 4 v -2 h -4 Z M 12 18 h 4 v 4 h -4 Z" fill="#FBD000"/>
-      </g>
+  <!-- BACK CLOUDS (slower drift) -->
+  <g class="cloud-back">
+    <g transform="translate(100,72)">
+      <ellipse cx="0" cy="6" rx="30" ry="12" fill="white" opacity="0.92"/>
+      <circle cx="-14" cy="-1" r="11" fill="white" opacity="0.92"/>
+      <circle cx="4" cy="-8" r="14" fill="white" opacity="0.92"/>
+      <circle cx="17" cy="1" r="9" fill="white" opacity="0.92"/>
     </g>
-    <g class="block-2">
-      <g transform="translate(236,96)">
-        <rect width="32" height="32" fill="#E07020" stroke="#6B3E08" stroke-width="2" rx="1"/>
-        <rect x="2" y="2" width="28" height="28" fill="#FBD000" rx="1"/>
-        <rect x="4" y="4" width="24" height="24" fill="#E07020" rx="1"/>
-        <path d="M 12 8 h 8 v 4 h -4 v 4 h -4 v -4 h 4 v -2 h -4 Z M 12 18 h 4 v 4 h -4 Z" fill="#FBD000"/>
-      </g>
-    </g>
-    <g style="animation: bounce 1.5s ease-in-out infinite; animation-delay: 0.6s;">
-      <g transform="translate(272,96)">
-        <rect width="32" height="32" fill="#E07020" stroke="#6B3E08" stroke-width="2" rx="1"/>
-        <rect x="2" y="2" width="28" height="28" fill="#FBD000" rx="1"/>
-        <rect x="4" y="4" width="24" height="24" fill="#E07020" rx="1"/>
-        <path d="M 12 8 h 8 v 4 h -4 v 4 h -4 v -4 h 4 v -2 h -4 Z M 12 18 h 4 v 4 h -4 Z" fill="#FBD000"/>
-      </g>
-    </g>
-
-    <!-- Green Pipes -->
-    <g transform="translate(500,118)">
-      <rect x="0" y="0" width="44" height="14" fill="#00AA00" stroke="#004400" stroke-width="1.5" rx="1"/>
-      <rect x="3" y="3" width="8" height="8" fill="#55DD55"/>
-      <rect x="5" y="14" width="34" height="36" fill="#00AA00" stroke="#004400" stroke-width="1.5"/>
-      <rect x="8" y="14" width="6" height="36" fill="#55DD55"/>
-    </g>
-    <g transform="translate(640,102)">
-      <rect x="0" y="0" width="44" height="14" fill="#00AA00" stroke="#004400" stroke-width="1.5" rx="1"/>
-      <rect x="3" y="3" width="8" height="8" fill="#55DD55"/>
-      <rect x="5" y="14" width="34" height="52" fill="#00AA00" stroke="#004400" stroke-width="1.5"/>
-      <rect x="8" y="14" width="6" height="52" fill="#55DD55"/>
-    </g>
-
-    <!-- Coins (Floating above blocks) -->
-    <g class="coin glow" style="animation-delay:0s;"   transform="translate(208, 72)"><use href="#coin-def"/></g>
-    <g class="coin-2-pop glow" transform="translate(244, 72)"><use href="#coin-def"/></g>
-    <g class="coin glow" style="animation-delay:0.6s;" transform="translate(280, 72)"><use href="#coin-def"/></g>
-
-    <!-- Ground Level Coins -->
-    <g class="coin glow coin-c1" transform="translate(710, 125)"><use href="#coin-def"/></g>
-    <g class="coin glow coin-c2" transform="translate(730, 125)"><use href="#coin-def"/></g>
-    <g class="coin glow coin-c3" transform="translate(750, 125)"><use href="#coin-def"/></g>
-  </g>
-
-  <!-- ========= MARIO CHARACTER ========= -->
-  <!-- ========= MARIO CHARACTER ========= -->
-  <g class="mario-container">
-    <g class="mario-walk-cycle">
-      <g class="walk-f1">
-      <path d="M 12 8 h 4 v 4 h -4 Z M 16 8 h 4 v 4 h -4 Z M 20 8 h 4 v 4 h -4 Z M 32 8 h 4 v 4 h -4 Z M 8 12 h 4 v 4 h -4 Z M 16 12 h 4 v 4 h -4 Z M 36 12 h 4 v 4 h -4 Z M 8 16 h 4 v 4 h -4 Z M 16 16 h 4 v 4 h -4 Z M 20 16 h 4 v 4 h -4 Z M 32 16 h 4 v 4 h -4 Z M 8 20 h 4 v 4 h -4 Z M 12 20 h 4 v 4 h -4 Z M 36 20 h 4 v 4 h -4 Z M 4 52 h 4 v 4 h -4 Z M 8 52 h 4 v 4 h -4 Z M 12 52 h 4 v 4 h -4 Z M 32 52 h 4 v 4 h -4 Z M 36 52 h 4 v 4 h -4 Z M 40 52 h 4 v 4 h -4 Z M 0 56 h 4 v 4 h -4 Z M 4 56 h 4 v 4 h -4 Z M 8 56 h 4 v 4 h -4 Z M 12 56 h 4 v 4 h -4 Z M 32 56 h 4 v 4 h -4 Z M 36 56 h 4 v 4 h -4 Z M 40 56 h 4 v 4 h -4 Z M 44 56 h 4 v 4 h -4 Z" fill="#6B3E08"/>
-      <path d="M 28 8 h 4 v 4 h -4 Z M 32 12 h 4 v 4 h -4 Z M 28 16 h 4 v 4 h -4 Z M 40 16 h 4 v 4 h -4 Z M 32 20 h 4 v 4 h -4 Z" fill="#E09A75"/>
-      <path d="M 24 8 h 4 v 4 h -4 Z M 36 8 h 4 v 4 h -4 Z M 12 12 h 4 v 4 h -4 Z M 20 12 h 4 v 4 h -4 Z M 24 12 h 4 v 4 h -4 Z M 28 12 h 4 v 4 h -4 Z M 40 12 h 4 v 4 h -4 Z M 12 16 h 4 v 4 h -4 Z M 24 16 h 4 v 4 h -4 Z M 36 16 h 4 v 4 h -4 Z M 44 16 h 4 v 4 h -4 Z M 16 20 h 4 v 4 h -4 Z M 20 20 h 4 v 4 h -4 Z M 24 20 h 4 v 4 h -4 Z M 28 20 h 4 v 4 h -4 Z M 16 24 h 4 v 4 h -4 Z M 20 24 h 4 v 4 h -4 Z M 24 24 h 4 v 4 h -4 Z M 28 24 h 4 v 4 h -4 Z M 32 24 h 4 v 4 h -4 Z M 36 24 h 4 v 4 h -4 Z" fill="#FBC49F"/>
-      <path d="M 32 28 h 4 v 4 h -4 Z M 36 32 h 4 v 4 h -4 Z M 36 36 h 4 v 4 h -4 Z" fill="#003388"/>
-      <path d="M 16 28 h 4 v 4 h -4 Z M 16 32 h 4 v 4 h -4 Z M 20 32 h 4 v 4 h -4 Z M 24 32 h 4 v 4 h -4 Z M 12 36 h 4 v 4 h -4 Z M 16 36 h 4 v 4 h -4 Z M 24 36 h 4 v 4 h -4 Z M 28 36 h 4 v 4 h -4 Z M 8 40 h 4 v 4 h -4 Z M 12 40 h 4 v 4 h -4 Z M 16 40 h 4 v 4 h -4 Z M 20 40 h 4 v 4 h -4 Z M 24 40 h 4 v 4 h -4 Z M 28 40 h 4 v 4 h -4 Z M 32 40 h 4 v 4 h -4 Z M 36 40 h 4 v 4 h -4 Z M 8 44 h 4 v 4 h -4 Z M 12 44 h 4 v 4 h -4 Z M 16 44 h 4 v 4 h -4 Z M 20 44 h 4 v 4 h -4 Z M 24 44 h 4 v 4 h -4 Z M 28 44 h 4 v 4 h -4 Z M 32 44 h 4 v 4 h -4 Z M 36 44 h 4 v 4 h -4 Z M 8 48 h 4 v 4 h -4 Z M 12 48 h 4 v 4 h -4 Z M 16 48 h 4 v 4 h -4 Z M 28 48 h 4 v 4 h -4 Z M 32 48 h 4 v 4 h -4 Z M 36 48 h 4 v 4 h -4 Z" fill="#0050CC"/>
-      <path d="M 16 0 h 4 v 4 h -4 Z M 20 0 h 4 v 4 h -4 Z M 24 0 h 4 v 4 h -4 Z M 28 0 h 4 v 4 h -4 Z M 32 0 h 4 v 4 h -4 Z M 12 4 h 4 v 4 h -4 Z M 16 4 h 4 v 4 h -4 Z M 20 4 h 4 v 4 h -4 Z M 24 4 h 4 v 4 h -4 Z M 28 4 h 4 v 4 h -4 Z M 32 4 h 4 v 4 h -4 Z M 36 4 h 4 v 4 h -4 Z M 40 4 h 4 v 4 h -4 Z M 44 4 h 4 v 4 h -4 Z M 8 28 h 4 v 4 h -4 Z M 12 28 h 4 v 4 h -4 Z M 20 28 h 4 v 4 h -4 Z M 24 28 h 4 v 4 h -4 Z M 28 28 h 4 v 4 h -4 Z M 4 32 h 4 v 4 h -4 Z M 8 32 h 4 v 4 h -4 Z M 12 32 h 4 v 4 h -4 Z M 28 32 h 4 v 4 h -4 Z M 32 32 h 4 v 4 h -4 Z M 8 36 h 4 v 4 h -4 Z M 32 36 h 4 v 4 h -4 Z" fill="#E52521"/>
-      <path d="M 0 32 h 4 v 4 h -4 Z M 40 32 h 4 v 4 h -4 Z M 0 36 h 4 v 4 h -4 Z M 4 36 h 4 v 4 h -4 Z M 40 36 h 4 v 4 h -4 Z M 44 36 h 4 v 4 h -4 Z" fill="#FFFFFF"/>
-      <path d="M 20 36 h 4 v 4 h -4 Z" fill="#FFD700"/>
-      </g>
-      <g class="walk-f2">
-      <path d="M 8 8 h 4 v 4 h -4 Z M 12 8 h 4 v 4 h -4 Z M 16 8 h 4 v 4 h -4 Z M 28 8 h 4 v 4 h -4 Z M 4 12 h 4 v 4 h -4 Z M 12 12 h 4 v 4 h -4 Z M 32 12 h 4 v 4 h -4 Z M 4 16 h 4 v 4 h -4 Z M 12 16 h 4 v 4 h -4 Z M 16 16 h 4 v 4 h -4 Z M 28 16 h 4 v 4 h -4 Z M 4 20 h 4 v 4 h -4 Z M 8 20 h 4 v 4 h -4 Z M 32 20 h 4 v 4 h -4 Z M 0 52 h 4 v 4 h -4 Z M 4 52 h 4 v 4 h -4 Z M 8 52 h 4 v 4 h -4 Z M 28 52 h 4 v 4 h -4 Z M 32 52 h 4 v 4 h -4 Z M 36 52 h 4 v 4 h -4 Z" fill="#6B3E08"/>
-      <path d="M 24 8 h 4 v 4 h -4 Z M 28 12 h 4 v 4 h -4 Z M 24 16 h 4 v 4 h -4 Z M 36 16 h 4 v 4 h -4 Z M 28 20 h 4 v 4 h -4 Z" fill="#E09A75"/>
-      <path d="M 20 8 h 4 v 4 h -4 Z M 32 8 h 4 v 4 h -4 Z M 8 12 h 4 v 4 h -4 Z M 16 12 h 4 v 4 h -4 Z M 20 12 h 4 v 4 h -4 Z M 24 12 h 4 v 4 h -4 Z M 36 12 h 4 v 4 h -4 Z M 8 16 h 4 v 4 h -4 Z M 20 16 h 4 v 4 h -4 Z M 32 16 h 4 v 4 h -4 Z M 40 16 h 4 v 4 h -4 Z M 12 20 h 4 v 4 h -4 Z M 16 20 h 4 v 4 h -4 Z M 20 20 h 4 v 4 h -4 Z M 24 20 h 4 v 4 h -4 Z M 12 24 h 4 v 4 h -4 Z M 16 24 h 4 v 4 h -4 Z M 20 24 h 4 v 4 h -4 Z M 24 24 h 4 v 4 h -4 Z M 28 24 h 4 v 4 h -4 Z M 32 24 h 4 v 4 h -4 Z" fill="#FBC49F"/>
-      <path d="M 32 32 h 4 v 4 h -4 Z M 36 36 h 4 v 4 h -4 Z" fill="#003388"/>
-      <path d="M 16 28 h 4 v 4 h -4 Z M 12 32 h 4 v 4 h -4 Z M 16 32 h 4 v 4 h -4 Z M 20 32 h 4 v 4 h -4 Z M 8 36 h 4 v 4 h -4 Z M 12 36 h 4 v 4 h -4 Z M 20 36 h 4 v 4 h -4 Z M 24 36 h 4 v 4 h -4 Z M 8 40 h 4 v 4 h -4 Z M 12 40 h 4 v 4 h -4 Z M 16 40 h 4 v 4 h -4 Z M 20 40 h 4 v 4 h -4 Z M 24 40 h 4 v 4 h -4 Z M 28 40 h 4 v 4 h -4 Z M 8 44 h 4 v 4 h -4 Z M 12 44 h 4 v 4 h -4 Z M 16 44 h 4 v 4 h -4 Z M 20 44 h 4 v 4 h -4 Z M 24 44 h 4 v 4 h -4 Z M 28 44 h 4 v 4 h -4 Z M 4 48 h 4 v 4 h -4 Z M 8 48 h 4 v 4 h -4 Z M 28 48 h 4 v 4 h -4 Z M 32 48 h 4 v 4 h -4 Z" fill="#0050CC"/>
-      <path d="M 12 0 h 4 v 4 h -4 Z M 16 0 h 4 v 4 h -4 Z M 20 0 h 4 v 4 h -4 Z M 24 0 h 4 v 4 h -4 Z M 28 0 h 4 v 4 h -4 Z M 8 4 h 4 v 4 h -4 Z M 12 4 h 4 v 4 h -4 Z M 16 4 h 4 v 4 h -4 Z M 20 4 h 4 v 4 h -4 Z M 24 4 h 4 v 4 h -4 Z M 28 4 h 4 v 4 h -4 Z M 32 4 h 4 v 4 h -4 Z M 36 4 h 4 v 4 h -4 Z M 40 4 h 4 v 4 h -4 Z M 8 28 h 4 v 4 h -4 Z M 12 28 h 4 v 4 h -4 Z M 20 28 h 4 v 4 h -4 Z M 24 28 h 4 v 4 h -4 Z M 4 32 h 4 v 4 h -4 Z M 8 32 h 4 v 4 h -4 Z M 24 32 h 4 v 4 h -4 Z M 28 32 h 4 v 4 h -4 Z M 0 36 h 4 v 4 h -4 Z M 4 36 h 4 v 4 h -4 Z M 28 36 h 4 v 4 h -4 Z M 32 36 h 4 v 4 h -4 Z" fill="#E52521"/>
-      <path d="M 0 40 h 4 v 4 h -4 Z M 4 40 h 4 v 4 h -4 Z M 32 40 h 4 v 4 h -4 Z M 36 40 h 4 v 4 h -4 Z" fill="#FFFFFF"/>
-      <path d="M 16 36 h 4 v 4 h -4 Z" fill="#FFD700"/>
-      </g>
-      <g class="walk-f3">
-      <path d="M 8 8 h 4 v 4 h -4 Z M 12 8 h 4 v 4 h -4 Z M 16 8 h 4 v 4 h -4 Z M 28 8 h 4 v 4 h -4 Z M 4 12 h 4 v 4 h -4 Z M 12 12 h 4 v 4 h -4 Z M 32 12 h 4 v 4 h -4 Z M 4 16 h 4 v 4 h -4 Z M 12 16 h 4 v 4 h -4 Z M 16 16 h 4 v 4 h -4 Z M 28 16 h 4 v 4 h -4 Z M 4 20 h 4 v 4 h -4 Z M 8 20 h 4 v 4 h -4 Z M 32 20 h 4 v 4 h -4 Z M 4 52 h 4 v 4 h -4 Z M 8 52 h 4 v 4 h -4 Z M 12 52 h 4 v 4 h -4 Z M 24 52 h 4 v 4 h -4 Z M 28 52 h 4 v 4 h -4 Z M 32 52 h 4 v 4 h -4 Z M 0 56 h 4 v 4 h -4 Z M 4 56 h 4 v 4 h -4 Z M 8 56 h 4 v 4 h -4 Z M 24 56 h 4 v 4 h -4 Z M 28 56 h 4 v 4 h -4 Z M 32 56 h 4 v 4 h -4 Z" fill="#6B3E08"/>
-      <path d="M 24 8 h 4 v 4 h -4 Z M 28 12 h 4 v 4 h -4 Z M 24 16 h 4 v 4 h -4 Z M 36 16 h 4 v 4 h -4 Z M 28 20 h 4 v 4 h -4 Z" fill="#E09A75"/>
-      <path d="M 20 8 h 4 v 4 h -4 Z M 32 8 h 4 v 4 h -4 Z M 8 12 h 4 v 4 h -4 Z M 16 12 h 4 v 4 h -4 Z M 20 12 h 4 v 4 h -4 Z M 24 12 h 4 v 4 h -4 Z M 36 12 h 4 v 4 h -4 Z M 8 16 h 4 v 4 h -4 Z M 20 16 h 4 v 4 h -4 Z M 32 16 h 4 v 4 h -4 Z M 40 16 h 4 v 4 h -4 Z M 12 20 h 4 v 4 h -4 Z M 16 20 h 4 v 4 h -4 Z M 20 20 h 4 v 4 h -4 Z M 24 20 h 4 v 4 h -4 Z M 12 24 h 4 v 4 h -4 Z M 16 24 h 4 v 4 h -4 Z M 20 24 h 4 v 4 h -4 Z M 24 24 h 4 v 4 h -4 Z M 28 24 h 4 v 4 h -4 Z M 32 24 h 4 v 4 h -4 Z" fill="#FBC49F"/>
-      <path d="M 28 28 h 4 v 4 h -4 Z M 32 32 h 4 v 4 h -4 Z M 36 36 h 4 v 4 h -4 Z" fill="#003388"/>
-      <path d="M 16 28 h 4 v 4 h -4 Z M 12 32 h 4 v 4 h -4 Z M 16 32 h 4 v 4 h -4 Z M 20 32 h 4 v 4 h -4 Z M 8 36 h 4 v 4 h -4 Z M 12 36 h 4 v 4 h -4 Z M 20 36 h 4 v 4 h -4 Z M 24 36 h 4 v 4 h -4 Z M 8 40 h 4 v 4 h -4 Z M 12 40 h 4 v 4 h -4 Z M 16 40 h 4 v 4 h -4 Z M 20 40 h 4 v 4 h -4 Z M 24 40 h 4 v 4 h -4 Z M 28 40 h 4 v 4 h -4 Z M 8 44 h 4 v 4 h -4 Z M 12 44 h 4 v 4 h -4 Z M 16 44 h 4 v 4 h -4 Z M 20 44 h 4 v 4 h -4 Z M 24 44 h 4 v 4 h -4 Z M 28 44 h 4 v 4 h -4 Z M 8 48 h 4 v 4 h -4 Z M 12 48 h 4 v 4 h -4 Z M 24 48 h 4 v 4 h -4 Z M 28 48 h 4 v 4 h -4 Z M 32 48 h 4 v 4 h -4 Z" fill="#0050CC"/>
-      <path d="M 12 0 h 4 v 4 h -4 Z M 16 0 h 4 v 4 h -4 Z M 20 0 h 4 v 4 h -4 Z M 24 0 h 4 v 4 h -4 Z M 28 0 h 4 v 4 h -4 Z M 8 4 h 4 v 4 h -4 Z M 12 4 h 4 v 4 h -4 Z M 16 4 h 4 v 4 h -4 Z M 20 4 h 4 v 4 h -4 Z M 24 4 h 4 v 4 h -4 Z M 28 4 h 4 v 4 h -4 Z M 32 4 h 4 v 4 h -4 Z M 36 4 h 4 v 4 h -4 Z M 40 4 h 4 v 4 h -4 Z M 8 28 h 4 v 4 h -4 Z M 12 28 h 4 v 4 h -4 Z M 20 28 h 4 v 4 h -4 Z M 24 28 h 4 v 4 h -4 Z M 8 32 h 4 v 4 h -4 Z M 24 32 h 4 v 4 h -4 Z M 28 32 h 4 v 4 h -4 Z M 4 36 h 4 v 4 h -4 Z M 28 36 h 4 v 4 h -4 Z M 32 36 h 4 v 4 h -4 Z M 4 40 h 4 v 4 h -4 Z" fill="#E52521"/>
-      <path d="M 32 40 h 4 v 4 h -4 Z M 36 40 h 4 v 4 h -4 Z" fill="#FFFFFF"/>
-      <path d="M 16 36 h 4 v 4 h -4 Z" fill="#FFD700"/>
-      </g>
-    </g>
-    <g class="mario-jump-frame">
-      <path d="M 16 8 h 4 v 4 h -4 Z M 20 8 h 4 v 4 h -4 Z M 24 8 h 4 v 4 h -4 Z M 36 8 h 4 v 4 h -4 Z M 12 12 h 4 v 4 h -4 Z M 20 12 h 4 v 4 h -4 Z M 40 12 h 4 v 4 h -4 Z M 12 16 h 4 v 4 h -4 Z M 20 16 h 4 v 4 h -4 Z M 24 16 h 4 v 4 h -4 Z M 36 16 h 4 v 4 h -4 Z M 12 20 h 4 v 4 h -4 Z M 16 20 h 4 v 4 h -4 Z M 40 20 h 4 v 4 h -4 Z M 8 56 h 4 v 4 h -4 Z M 12 56 h 4 v 4 h -4 Z M 16 56 h 4 v 4 h -4 Z M 44 56 h 4 v 4 h -4 Z M 48 56 h 4 v 4 h -4 Z M 52 56 h 4 v 4 h -4 Z M 4 60 h 4 v 4 h -4 Z M 8 60 h 4 v 4 h -4 Z M 12 60 h 4 v 4 h -4 Z M 48 60 h 4 v 4 h -4 Z M 52 60 h 4 v 4 h -4 Z M 56 60 h 4 v 4 h -4 Z" fill="#6B3E08"/>
-      <path d="M 32 8 h 4 v 4 h -4 Z M 36 12 h 4 v 4 h -4 Z M 32 16 h 4 v 4 h -4 Z M 44 16 h 4 v 4 h -4 Z M 36 20 h 4 v 4 h -4 Z" fill="#E09A75"/>
-      <path d="M 28 8 h 4 v 4 h -4 Z M 40 8 h 4 v 4 h -4 Z M 16 12 h 4 v 4 h -4 Z M 24 12 h 4 v 4 h -4 Z M 28 12 h 4 v 4 h -4 Z M 32 12 h 4 v 4 h -4 Z M 44 12 h 4 v 4 h -4 Z M 48 12 h 4 v 4 h -4 Z M 16 16 h 4 v 4 h -4 Z M 28 16 h 4 v 4 h -4 Z M 40 16 h 4 v 4 h -4 Z M 48 16 h 4 v 4 h -4 Z M 20 20 h 4 v 4 h -4 Z M 24 20 h 4 v 4 h -4 Z M 28 20 h 4 v 4 h -4 Z M 32 20 h 4 v 4 h -4 Z M 20 24 h 4 v 4 h -4 Z M 24 24 h 4 v 4 h -4 Z M 28 24 h 4 v 4 h -4 Z M 32 24 h 4 v 4 h -4 Z M 36 24 h 4 v 4 h -4 Z M 40 24 h 4 v 4 h -4 Z" fill="#FBC49F"/>
-      <path d="M 24 28 h 4 v 4 h -4 Z M 24 32 h 4 v 4 h -4 Z M 28 32 h 4 v 4 h -4 Z M 32 32 h 4 v 4 h -4 Z M 20 36 h 4 v 4 h -4 Z M 24 36 h 4 v 4 h -4 Z M 32 36 h 4 v 4 h -4 Z M 36 36 h 4 v 4 h -4 Z M 16 40 h 4 v 4 h -4 Z M 20 40 h 4 v 4 h -4 Z M 24 40 h 4 v 4 h -4 Z M 28 40 h 4 v 4 h -4 Z M 32 40 h 4 v 4 h -4 Z M 36 40 h 4 v 4 h -4 Z M 40 40 h 4 v 4 h -4 Z M 12 44 h 4 v 4 h -4 Z M 16 44 h 4 v 4 h -4 Z M 20 44 h 4 v 4 h -4 Z M 24 44 h 4 v 4 h -4 Z M 28 44 h 4 v 4 h -4 Z M 32 44 h 4 v 4 h -4 Z M 36 44 h 4 v 4 h -4 Z M 40 44 h 4 v 4 h -4 Z M 44 44 h 4 v 4 h -4 Z M 48 44 h 4 v 4 h -4 Z M 8 48 h 4 v 4 h -4 Z M 12 48 h 4 v 4 h -4 Z M 16 48 h 4 v 4 h -4 Z M 20 48 h 4 v 4 h -4 Z M 24 48 h 4 v 4 h -4 Z M 28 48 h 4 v 4 h -4 Z M 32 48 h 4 v 4 h -4 Z M 36 48 h 4 v 4 h -4 Z M 40 48 h 4 v 4 h -4 Z M 44 48 h 4 v 4 h -4 Z M 48 48 h 4 v 4 h -4 Z M 8 52 h 4 v 4 h -4 Z M 12 52 h 4 v 4 h -4 Z M 16 52 h 4 v 4 h -4 Z M 20 52 h 4 v 4 h -4 Z M 24 52 h 4 v 4 h -4 Z M 28 52 h 4 v 4 h -4 Z M 36 52 h 4 v 4 h -4 Z M 40 52 h 4 v 4 h -4 Z M 44 52 h 4 v 4 h -4 Z M 48 52 h 4 v 4 h -4 Z" fill="#0050CC"/>
-      <path d="M 20 0 h 4 v 4 h -4 Z M 24 0 h 4 v 4 h -4 Z M 28 0 h 4 v 4 h -4 Z M 32 0 h 4 v 4 h -4 Z M 36 0 h 4 v 4 h -4 Z M 40 0 h 4 v 4 h -4 Z M 16 4 h 4 v 4 h -4 Z M 20 4 h 4 v 4 h -4 Z M 24 4 h 4 v 4 h -4 Z M 28 4 h 4 v 4 h -4 Z M 32 4 h 4 v 4 h -4 Z M 36 4 h 4 v 4 h -4 Z M 40 4 h 4 v 4 h -4 Z M 44 4 h 4 v 4 h -4 Z M 48 4 h 4 v 4 h -4 Z M 52 4 h 4 v 4 h -4 Z M 16 28 h 4 v 4 h -4 Z M 20 28 h 4 v 4 h -4 Z M 28 28 h 4 v 4 h -4 Z M 32 28 h 4 v 4 h -4 Z M 36 28 h 4 v 4 h -4 Z M 12 32 h 4 v 4 h -4 Z M 16 32 h 4 v 4 h -4 Z M 20 32 h 4 v 4 h -4 Z M 36 32 h 4 v 4 h -4 Z M 40 32 h 4 v 4 h -4 Z M 12 36 h 4 v 4 h -4 Z M 16 36 h 4 v 4 h -4 Z M 40 36 h 4 v 4 h -4 Z M 44 36 h 4 v 4 h -4 Z M 48 36 h 4 v 4 h -4 Z M 44 40 h 4 v 4 h -4 Z M 48 40 h 4 v 4 h -4 Z" fill="#E52521"/>
-      <path d="M 60 32 h 4 v 4 h -4 Z M 8 36 h 4 v 4 h -4 Z M 56 36 h 4 v 4 h -4 Z M 60 36 h 4 v 4 h -4 Z M 4 40 h 4 v 4 h -4 Z M 8 40 h 4 v 4 h -4 Z M 12 40 h 4 v 4 h -4 Z M 52 40 h 4 v 4 h -4 Z M 56 40 h 4 v 4 h -4 Z M 4 44 h 4 v 4 h -4 Z M 8 44 h 4 v 4 h -4 Z M 52 44 h 4 v 4 h -4 Z" fill="#FFFFFF"/>
-      <path d="M 28 36 h 4 v 4 h -4 Z" fill="#FFD700"/>
+    <g transform="translate(620,78)">
+      <ellipse cx="0" cy="5" rx="28" ry="11" fill="white" opacity="0.88"/>
+      <circle cx="-12" cy="0" r="10" fill="white" opacity="0.88"/>
+      <circle cx="3" cy="-7" r="13" fill="white" opacity="0.88"/>
+      <circle cx="15" cy="1" r="8" fill="white" opacity="0.88"/>
     </g>
   </g>
 
-  <!-- ========= TEXT OVERLAY (Pixel Art Paths) ========= -->
-  <!-- 1. Main Title: "ItMeMario" -->
-  <g class="float" transform="translate(400, 32)">
-    <!-- 3D Shadow -->
-    <path d="M 5 0 h 5 v 5 h -5 ZM 10 0 h 5 v 5 h -5 ZM 15 0 h 5 v 5 h -5 ZM 10 5 h 5 v 5 h -5 ZM 10 10 h 5 v 5 h -5 ZM 10 15 h 5 v 5 h -5 ZM 10 20 h 5 v 5 h -5 ZM 10 25 h 5 v 5 h -5 ZM 5 30 h 5 v 5 h -5 ZM 10 30 h 5 v 5 h -5 ZM 15 30 h 5 v 5 h -5 ZM 30 0 h 5 v 5 h -5 ZM 35 0 h 5 v 5 h -5 ZM 40 0 h 5 v 5 h -5 ZM 45 0 h 5 v 5 h -5 ZM 50 0 h 5 v 5 h -5 ZM 40 5 h 5 v 5 h -5 ZM 40 10 h 5 v 5 h -5 ZM 40 15 h 5 v 5 h -5 ZM 40 20 h 5 v 5 h -5 ZM 40 25 h 5 v 5 h -5 ZM 40 30 h 5 v 5 h -5 ZM 60 0 h 5 v 5 h -5 ZM 80 0 h 5 v 5 h -5 ZM 60 5 h 5 v 5 h -5 ZM 65 5 h 5 v 5 h -5 ZM 75 5 h 5 v 5 h -5 ZM 80 5 h 5 v 5 h -5 ZM 60 10 h 5 v 5 h -5 ZM 70 10 h 5 v 5 h -5 ZM 80 10 h 5 v 5 h -5 ZM 60 15 h 5 v 5 h -5 ZM 70 15 h 5 v 5 h -5 ZM 80 15 h 5 v 5 h -5 ZM 60 20 h 5 v 5 h -5 ZM 80 20 h 5 v 5 h -5 ZM 60 25 h 5 v 5 h -5 ZM 80 25 h 5 v 5 h -5 ZM 60 30 h 5 v 5 h -5 ZM 80 30 h 5 v 5 h -5 ZM 90 0 h 5 v 5 h -5 ZM 95 0 h 5 v 5 h -5 ZM 100 0 h 5 v 5 h -5 ZM 105 0 h 5 v 5 h -5 ZM 110 0 h 5 v 5 h -5 ZM 90 5 h 5 v 5 h -5 ZM 90 10 h 5 v 5 h -5 ZM 90 15 h 5 v 5 h -5 ZM 95 15 h 5 v 5 h -5 ZM 100 15 h 5 v 5 h -5 ZM 105 15 h 5 v 5 h -5 ZM 90 20 h 5 v 5 h -5 ZM 90 25 h 5 v 5 h -5 ZM 90 30 h 5 v 5 h -5 ZM 95 30 h 5 v 5 h -5 ZM 100 30 h 5 v 5 h -5 ZM 105 30 h 5 v 5 h -5 ZM 110 30 h 5 v 5 h -5 ZM 120 0 h 5 v 5 h -5 ZM 140 0 h 5 v 5 h -5 ZM 120 5 h 5 v 5 h -5 ZM 125 5 h 5 v 5 h -5 ZM 135 5 h 5 v 5 h -5 ZM 140 5 h 5 v 5 h -5 ZM 120 10 h 5 v 5 h -5 ZM 130 10 h 5 v 5 h -5 ZM 140 10 h 5 v 5 h -5 ZM 120 15 h 5 v 5 h -5 ZM 130 15 h 5 v 5 h -5 ZM 140 15 h 5 v 5 h -5 ZM 120 20 h 5 v 5 h -5 ZM 140 20 h 5 v 5 h -5 ZM 120 25 h 5 v 5 h -5 ZM 140 25 h 5 v 5 h -5 ZM 120 30 h 5 v 5 h -5 ZM 140 30 h 5 v 5 h -5 ZM 155 0 h 5 v 5 h -5 ZM 160 0 h 5 v 5 h -5 ZM 165 0 h 5 v 5 h -5 ZM 150 5 h 5 v 5 h -5 ZM 170 5 h 5 v 5 h -5 ZM 150 10 h 5 v 5 h -5 ZM 170 10 h 5 v 5 h -5 ZM 150 15 h 5 v 5 h -5 ZM 155 15 h 5 v 5 h -5 ZM 160 15 h 5 v 5 h -5 ZM 165 15 h 5 v 5 h -5 ZM 170 15 h 5 v 5 h -5 ZM 150 20 h 5 v 5 h -5 ZM 170 20 h 5 v 5 h -5 ZM 150 25 h 5 v 5 h -5 ZM 170 25 h 5 v 5 h -5 ZM 150 30 h 5 v 5 h -5 ZM 170 30 h 5 v 5 h -5 ZM 180 0 h 5 v 5 h -5 ZM 185 0 h 5 v 5 h -5 ZM 190 0 h 5 v 5 h -5 ZM 195 0 h 5 v 5 h -5 ZM 180 5 h 5 v 5 h -5 ZM 200 5 h 5 v 5 h -5 ZM 180 10 h 5 v 5 h -5 ZM 200 10 h 5 v 5 h -5 ZM 180 15 h 5 v 5 h -5 ZM 185 15 h 5 v 5 h -5 ZM 190 15 h 5 v 5 h -5 ZM 195 15 h 5 v 5 h -5 ZM 180 20 h 5 v 5 h -5 ZM 190 20 h 5 v 5 h -5 ZM 180 25 h 5 v 5 h -5 ZM 195 25 h 5 v 5 h -5 ZM 180 30 h 5 v 5 h -5 ZM 200 30 h 5 v 5 h -5 ZM 215 0 h 5 v 5 h -5 ZM 220 0 h 5 v 5 h -5 ZM 225 0 h 5 v 5 h -5 ZM 220 5 h 5 v 5 h -5 ZM 220 10 h 5 v 5 h -5 ZM 220 15 h 5 v 5 h -5 ZM 220 20 h 5 v 5 h -5 ZM 220 25 h 5 v 5 h -5 ZM 215 30 h 5 v 5 h -5 ZM 220 30 h 5 v 5 h -5 ZM 225 30 h 5 v 5 h -5 ZM 245 0 h 5 v 5 h -5 ZM 250 0 h 5 v 5 h -5 ZM 255 0 h 5 v 5 h -5 ZM 240 5 h 5 v 5 h -5 ZM 260 5 h 5 v 5 h -5 ZM 240 10 h 5 v 5 h -5 ZM 260 10 h 5 v 5 h -5 ZM 240 15 h 5 v 5 h -5 ZM 260 15 h 5 v 5 h -5 ZM 240 20 h 5 v 5 h -5 ZM 260 20 h 5 v 5 h -5 ZM 240 25 h 5 v 5 h -5 ZM 260 25 h 5 v 5 h -5 ZM 245 30 h 5 v 5 h -5 ZM 250 30 h 5 v 5 h -5 ZM 255 30 h 5 v 5 h -5 Z" fill="#000000" opacity="0.5" transform="translate(2, 2) translate(-132.5, 0)"/>
-    <!-- Animated Rainbow Title -->
-    <path d="M 5 0 h 5 v 5 h -5 ZM 10 0 h 5 v 5 h -5 ZM 15 0 h 5 v 5 h -5 ZM 10 5 h 5 v 5 h -5 ZM 10 10 h 5 v 5 h -5 ZM 10 15 h 5 v 5 h -5 ZM 10 20 h 5 v 5 h -5 ZM 10 25 h 5 v 5 h -5 ZM 5 30 h 5 v 5 h -5 ZM 10 30 h 5 v 5 h -5 ZM 15 30 h 5 v 5 h -5 ZM 30 0 h 5 v 5 h -5 ZM 35 0 h 5 v 5 h -5 ZM 40 0 h 5 v 5 h -5 ZM 45 0 h 5 v 5 h -5 ZM 50 0 h 5 v 5 h -5 ZM 40 5 h 5 v 5 h -5 ZM 40 10 h 5 v 5 h -5 ZM 40 15 h 5 v 5 h -5 ZM 40 20 h 5 v 5 h -5 ZM 40 25 h 5 v 5 h -5 ZM 40 30 h 5 v 5 h -5 ZM 60 0 h 5 v 5 h -5 ZM 80 0 h 5 v 5 h -5 ZM 60 5 h 5 v 5 h -5 ZM 65 5 h 5 v 5 h -5 ZM 75 5 h 5 v 5 h -5 ZM 80 5 h 5 v 5 h -5 ZM 60 10 h 5 v 5 h -5 ZM 70 10 h 5 v 5 h -5 ZM 80 10 h 5 v 5 h -5 ZM 60 15 h 5 v 5 h -5 ZM 70 15 h 5 v 5 h -5 ZM 80 15 h 5 v 5 h -5 ZM 60 20 h 5 v 5 h -5 ZM 80 20 h 5 v 5 h -5 ZM 60 25 h 5 v 5 h -5 ZM 80 25 h 5 v 5 h -5 ZM 60 30 h 5 v 5 h -5 ZM 80 30 h 5 v 5 h -5 ZM 90 0 h 5 v 5 h -5 ZM 95 0 h 5 v 5 h -5 ZM 100 0 h 5 v 5 h -5 ZM 105 0 h 5 v 5 h -5 ZM 110 0 h 5 v 5 h -5 ZM 90 5 h 5 v 5 h -5 ZM 90 10 h 5 v 5 h -5 ZM 90 15 h 5 v 5 h -5 ZM 95 15 h 5 v 5 h -5 ZM 100 15 h 5 v 5 h -5 ZM 105 15 h 5 v 5 h -5 ZM 90 20 h 5 v 5 h -5 ZM 90 25 h 5 v 5 h -5 ZM 90 30 h 5 v 5 h -5 ZM 95 30 h 5 v 5 h -5 ZM 100 30 h 5 v 5 h -5 ZM 105 30 h 5 v 5 h -5 ZM 110 30 h 5 v 5 h -5 ZM 120 0 h 5 v 5 h -5 ZM 140 0 h 5 v 5 h -5 ZM 120 5 h 5 v 5 h -5 ZM 125 5 h 5 v 5 h -5 ZM 135 5 h 5 v 5 h -5 ZM 140 5 h 5 v 5 h -5 ZM 120 10 h 5 v 5 h -5 ZM 130 10 h 5 v 5 h -5 ZM 140 10 h 5 v 5 h -5 ZM 120 15 h 5 v 5 h -5 ZM 130 15 h 5 v 5 h -5 ZM 140 15 h 5 v 5 h -5 ZM 120 20 h 5 v 5 h -5 ZM 140 20 h 5 v 5 h -5 ZM 120 25 h 5 v 5 h -5 ZM 140 25 h 5 v 5 h -5 ZM 120 30 h 5 v 5 h -5 ZM 140 30 h 5 v 5 h -5 ZM 155 0 h 5 v 5 h -5 ZM 160 0 h 5 v 5 h -5 ZM 165 0 h 5 v 5 h -5 ZM 150 5 h 5 v 5 h -5 ZM 170 5 h 5 v 5 h -5 ZM 150 10 h 5 v 5 h -5 ZM 170 10 h 5 v 5 h -5 ZM 150 15 h 5 v 5 h -5 ZM 155 15 h 5 v 5 h -5 ZM 160 15 h 5 v 5 h -5 ZM 165 15 h 5 v 5 h -5 ZM 170 15 h 5 v 5 h -5 ZM 150 20 h 5 v 5 h -5 ZM 170 20 h 5 v 5 h -5 ZM 150 25 h 5 v 5 h -5 ZM 170 25 h 5 v 5 h -5 ZM 150 30 h 5 v 5 h -5 ZM 170 30 h 5 v 5 h -5 ZM 180 0 h 5 v 5 h -5 ZM 185 0 h 5 v 5 h -5 ZM 190 0 h 5 v 5 h -5 ZM 195 0 h 5 v 5 h -5 ZM 180 5 h 5 v 5 h -5 ZM 200 5 h 5 v 5 h -5 ZM 180 10 h 5 v 5 h -5 ZM 200 10 h 5 v 5 h -5 ZM 180 15 h 5 v 5 h -5 ZM 185 15 h 5 v 5 h -5 ZM 190 15 h 5 v 5 h -5 ZM 195 15 h 5 v 5 h -5 ZM 180 20 h 5 v 5 h -5 ZM 190 20 h 5 v 5 h -5 ZM 180 25 h 5 v 5 h -5 ZM 195 25 h 5 v 5 h -5 ZM 180 30 h 5 v 5 h -5 ZM 200 30 h 5 v 5 h -5 ZM 215 0 h 5 v 5 h -5 ZM 220 0 h 5 v 5 h -5 ZM 225 0 h 5 v 5 h -5 ZM 220 5 h 5 v 5 h -5 ZM 220 10 h 5 v 5 h -5 ZM 220 15 h 5 v 5 h -5 ZM 220 20 h 5 v 5 h -5 ZM 220 25 h 5 v 5 h -5 ZM 215 30 h 5 v 5 h -5 ZM 220 30 h 5 v 5 h -5 ZM 225 30 h 5 v 5 h -5 ZM 245 0 h 5 v 5 h -5 ZM 250 0 h 5 v 5 h -5 ZM 255 0 h 5 v 5 h -5 ZM 240 5 h 5 v 5 h -5 ZM 260 5 h 5 v 5 h -5 ZM 240 10 h 5 v 5 h -5 ZM 260 10 h 5 v 5 h -5 ZM 240 15 h 5 v 5 h -5 ZM 260 15 h 5 v 5 h -5 ZM 240 20 h 5 v 5 h -5 ZM 260 20 h 5 v 5 h -5 ZM 240 25 h 5 v 5 h -5 ZM 260 25 h 5 v 5 h -5 ZM 245 30 h 5 v 5 h -5 ZM 250 30 h 5 v 5 h -5 ZM 255 30 h 5 v 5 h -5 Z" class="rainbow" transform="translate(-132.5, 0)"/>
+  <!-- FRONT CLOUDS (faster drift) -->
+  <g class="cloud-front">
+    <g transform="translate(340,42)">
+      <ellipse cx="0" cy="7" rx="38" ry="15" fill="white" opacity="0.96"/>
+      <circle cx="-18" cy="-1" r="14" fill="white" opacity="0.96"/>
+      <circle cx="5" cy="-10" r="17" fill="white" opacity="0.96"/>
+      <circle cx="22" cy="0" r="11" fill="white" opacity="0.96"/>
+    </g>
+    <g transform="translate(760,58)">
+      <ellipse cx="0" cy="4" rx="22" ry="9" fill="white" opacity="0.9"/>
+      <circle cx="-9" cy="0" r="8" fill="white" opacity="0.9"/>
+      <circle cx="3" cy="-5" r="10" fill="white" opacity="0.9"/>
+      <circle cx="12" cy="1" r="7" fill="white" opacity="0.9"/>
+    </g>
   </g>
 
-  <!-- 2. Subtitle: "FULL-STACK | OPEN SOURCE | GAMING" -->
-  <g transform="translate(400, 74)">
-    <path d="M 0 0 h 2 v 2 h -2 ZM 2 0 h 2 v 2 h -2 ZM 4 0 h 2 v 2 h -2 ZM 6 0 h 2 v 2 h -2 ZM 8 0 h 2 v 2 h -2 ZM 0 2 h 2 v 2 h -2 ZM 0 4 h 2 v 2 h -2 ZM 0 6 h 2 v 2 h -2 ZM 2 6 h 2 v 2 h -2 ZM 4 6 h 2 v 2 h -2 ZM 6 6 h 2 v 2 h -2 ZM 0 8 h 2 v 2 h -2 ZM 0 10 h 2 v 2 h -2 ZM 0 12 h 2 v 2 h -2 ZM 12 0 h 2 v 2 h -2 ZM 20 0 h 2 v 2 h -2 ZM 12 2 h 2 v 2 h -2 ZM 20 2 h 2 v 2 h -2 ZM 12 4 h 2 v 2 h -2 ZM 20 4 h 2 v 2 h -2 ZM 12 6 h 2 v 2 h -2 ZM 20 6 h 2 v 2 h -2 ZM 12 8 h 2 v 2 h -2 ZM 20 8 h 2 v 2 h -2 ZM 12 10 h 2 v 2 h -2 ZM 20 10 h 2 v 2 h -2 ZM 14 12 h 2 v 2 h -2 ZM 16 12 h 2 v 2 h -2 ZM 18 12 h 2 v 2 h -2 ZM 24 0 h 2 v 2 h -2 ZM 24 2 h 2 v 2 h -2 ZM 24 4 h 2 v 2 h -2 ZM 24 6 h 2 v 2 h -2 ZM 24 8 h 2 v 2 h -2 ZM 24 10 h 2 v 2 h -2 ZM 24 12 h 2 v 2 h -2 ZM 26 12 h 2 v 2 h -2 ZM 28 12 h 2 v 2 h -2 ZM 30 12 h 2 v 2 h -2 ZM 32 12 h 2 v 2 h -2 ZM 36 0 h 2 v 2 h -2 ZM 36 2 h 2 v 2 h -2 ZM 36 4 h 2 v 2 h -2 ZM 36 6 h 2 v 2 h -2 ZM 36 8 h 2 v 2 h -2 ZM 36 10 h 2 v 2 h -2 ZM 36 12 h 2 v 2 h -2 ZM 38 12 h 2 v 2 h -2 ZM 40 12 h 2 v 2 h -2 ZM 42 12 h 2 v 2 h -2 ZM 44 12 h 2 v 2 h -2 ZM 48 6 h 2 v 2 h -2 ZM 50 6 h 2 v 2 h -2 ZM 52 6 h 2 v 2 h -2 ZM 54 6 h 2 v 2 h -2 ZM 56 6 h 2 v 2 h -2 ZM 62 0 h 2 v 2 h -2 ZM 64 0 h 2 v 2 h -2 ZM 66 0 h 2 v 2 h -2 ZM 60 2 h 2 v 2 h -2 ZM 68 2 h 2 v 2 h -2 ZM 62 4 h 2 v 2 h -2 ZM 64 6 h 2 v 2 h -2 ZM 66 8 h 2 v 2 h -2 ZM 60 10 h 2 v 2 h -2 ZM 68 10 h 2 v 2 h -2 ZM 62 12 h 2 v 2 h -2 ZM 64 12 h 2 v 2 h -2 ZM 66 12 h 2 v 2 h -2 ZM 72 0 h 2 v 2 h -2 ZM 74 0 h 2 v 2 h -2 ZM 76 0 h 2 v 2 h -2 ZM 78 0 h 2 v 2 h -2 ZM 80 0 h 2 v 2 h -2 ZM 76 2 h 2 v 2 h -2 ZM 76 4 h 2 v 2 h -2 ZM 76 6 h 2 v 2 h -2 ZM 76 8 h 2 v 2 h -2 ZM 76 10 h 2 v 2 h -2 ZM 76 12 h 2 v 2 h -2 ZM 86 0 h 2 v 2 h -2 ZM 88 0 h 2 v 2 h -2 ZM 90 0 h 2 v 2 h -2 ZM 84 2 h 2 v 2 h -2 ZM 92 2 h 2 v 2 h -2 ZM 84 4 h 2 v 2 h -2 ZM 92 4 h 2 v 2 h -2 ZM 84 6 h 2 v 2 h -2 ZM 86 6 h 2 v 2 h -2 ZM 88 6 h 2 v 2 h -2 ZM 90 6 h 2 v 2 h -2 ZM 92 6 h 2 v 2 h -2 ZM 84 8 h 2 v 2 h -2 ZM 92 8 h 2 v 2 h -2 ZM 84 10 h 2 v 2 h -2 ZM 92 10 h 2 v 2 h -2 ZM 84 12 h 2 v 2 h -2 ZM 92 12 h 2 v 2 h -2 ZM 98 0 h 2 v 2 h -2 ZM 100 0 h 2 v 2 h -2 ZM 102 0 h 2 v 2 h -2 ZM 96 2 h 2 v 2 h -2 ZM 104 2 h 2 v 2 h -2 ZM 96 4 h 2 v 2 h -2 ZM 96 6 h 2 v 2 h -2 ZM 96 8 h 2 v 2 h -2 ZM 96 10 h 2 v 2 h -2 ZM 104 10 h 2 v 2 h -2 ZM 98 12 h 2 v 2 h -2 ZM 100 12 h 2 v 2 h -2 ZM 102 12 h 2 v 2 h -2 ZM 108 0 h 2 v 2 h -2 ZM 116 0 h 2 v 2 h -2 ZM 108 2 h 2 v 2 h -2 ZM 114 2 h 2 v 2 h -2 ZM 108 4 h 2 v 2 h -2 ZM 112 4 h 2 v 2 h -2 ZM 108 6 h 2 v 2 h -2 ZM 110 6 h 2 v 2 h -2 ZM 108 8 h 2 v 2 h -2 ZM 112 8 h 2 v 2 h -2 ZM 108 10 h 2 v 2 h -2 ZM 114 10 h 2 v 2 h -2 ZM 108 12 h 2 v 2 h -2 ZM 116 12 h 2 v 2 h -2 ZM 136 0 h 2 v 2 h -2 ZM 136 2 h 2 v 2 h -2 ZM 136 4 h 2 v 2 h -2 ZM 136 6 h 2 v 2 h -2 ZM 136 8 h 2 v 2 h -2 ZM 136 10 h 2 v 2 h -2 ZM 136 12 h 2 v 2 h -2 ZM 158 0 h 2 v 2 h -2 ZM 160 0 h 2 v 2 h -2 ZM 162 0 h 2 v 2 h -2 ZM 156 2 h 2 v 2 h -2 ZM 164 2 h 2 v 2 h -2 ZM 156 4 h 2 v 2 h -2 ZM 164 4 h 2 v 2 h -2 ZM 156 6 h 2 v 2 h -2 ZM 164 6 h 2 v 2 h -2 ZM 156 8 h 2 v 2 h -2 ZM 164 8 h 2 v 2 h -2 ZM 156 10 h 2 v 2 h -2 ZM 164 10 h 2 v 2 h -2 ZM 158 12 h 2 v 2 h -2 ZM 160 12 h 2 v 2 h -2 ZM 162 12 h 2 v 2 h -2 ZM 168 0 h 2 v 2 h -2 ZM 170 0 h 2 v 2 h -2 ZM 172 0 h 2 v 2 h -2 ZM 174 0 h 2 v 2 h -2 ZM 168 2 h 2 v 2 h -2 ZM 176 2 h 2 v 2 h -2 ZM 168 4 h 2 v 2 h -2 ZM 176 4 h 2 v 2 h -2 ZM 168 6 h 2 v 2 h -2 ZM 170 6 h 2 v 2 h -2 ZM 172 6 h 2 v 2 h -2 ZM 174 6 h 2 v 2 h -2 ZM 168 8 h 2 v 2 h -2 ZM 168 10 h 2 v 2 h -2 ZM 168 12 h 2 v 2 h -2 ZM 180 0 h 2 v 2 h -2 ZM 182 0 h 2 v 2 h -2 ZM 184 0 h 2 v 2 h -2 ZM 186 0 h 2 v 2 h -2 ZM 188 0 h 2 v 2 h -2 ZM 180 2 h 2 v 2 h -2 ZM 180 4 h 2 v 2 h -2 ZM 180 6 h 2 v 2 h -2 ZM 182 6 h 2 v 2 h -2 ZM 184 6 h 2 v 2 h -2 ZM 186 6 h 2 v 2 h -2 ZM 180 8 h 2 v 2 h -2 ZM 180 10 h 2 v 2 h -2 ZM 180 12 h 2 v 2 h -2 ZM 182 12 h 2 v 2 h -2 ZM 184 12 h 2 v 2 h -2 ZM 186 12 h 2 v 2 h -2 ZM 188 12 h 2 v 2 h -2 ZM 192 0 h 2 v 2 h -2 ZM 200 0 h 2 v 2 h -2 ZM 192 2 h 2 v 2 h -2 ZM 194 2 h 2 v 2 h -2 ZM 200 2 h 2 v 2 h -2 ZM 192 4 h 2 v 2 h -2 ZM 196 4 h 2 v 2 h -2 ZM 200 4 h 2 v 2 h -2 ZM 192 6 h 2 v 2 h -2 ZM 198 6 h 2 v 2 h -2 ZM 200 6 h 2 v 2 h -2 ZM 192 8 h 2 v 2 h -2 ZM 200 8 h 2 v 2 h -2 ZM 192 10 h 2 v 2 h -2 ZM 200 10 h 2 v 2 h -2 ZM 192 12 h 2 v 2 h -2 ZM 200 12 h 2 v 2 h -2 ZM 218 0 h 2 v 2 h -2 ZM 220 0 h 2 v 2 h -2 ZM 222 0 h 2 v 2 h -2 ZM 216 2 h 2 v 2 h -2 ZM 224 2 h 2 v 2 h -2 ZM 218 4 h 2 v 2 h -2 ZM 220 6 h 2 v 2 h -2 ZM 222 8 h 2 v 2 h -2 ZM 216 10 h 2 v 2 h -2 ZM 224 10 h 2 v 2 h -2 ZM 218 12 h 2 v 2 h -2 ZM 220 12 h 2 v 2 h -2 ZM 222 12 h 2 v 2 h -2 ZM 230 0 h 2 v 2 h -2 ZM 232 0 h 2 v 2 h -2 ZM 234 0 h 2 v 2 h -2 ZM 228 2 h 2 v 2 h -2 ZM 236 2 h 2 v 2 h -2 ZM 228 4 h 2 v 2 h -2 ZM 236 4 h 2 v 2 h -2 ZM 228 6 h 2 v 2 h -2 ZM 236 6 h 2 v 2 h -2 ZM 228 8 h 2 v 2 h -2 ZM 236 8 h 2 v 2 h -2 ZM 228 10 h 2 v 2 h -2 ZM 236 10 h 2 v 2 h -2 ZM 230 12 h 2 v 2 h -2 ZM 232 12 h 2 v 2 h -2 ZM 234 12 h 2 v 2 h -2 ZM 240 0 h 2 v 2 h -2 ZM 248 0 h 2 v 2 h -2 ZM 240 2 h 2 v 2 h -2 ZM 248 2 h 2 v 2 h -2 ZM 240 4 h 2 v 2 h -2 ZM 248 4 h 2 v 2 h -2 ZM 240 6 h 2 v 2 h -2 ZM 248 6 h 2 v 2 h -2 ZM 240 8 h 2 v 2 h -2 ZM 248 8 h 2 v 2 h -2 ZM 240 10 h 2 v 2 h -2 ZM 248 10 h 2 v 2 h -2 ZM 242 12 h 2 v 2 h -2 ZM 244 12 h 2 v 2 h -2 ZM 246 12 h 2 v 2 h -2 ZM 252 0 h 2 v 2 h -2 ZM 254 0 h 2 v 2 h -2 ZM 256 0 h 2 v 2 h -2 ZM 258 0 h 2 v 2 h -2 ZM 252 2 h 2 v 2 h -2 ZM 260 2 h 2 v 2 h -2 ZM 252 4 h 2 v 2 h -2 ZM 260 4 h 2 v 2 h -2 ZM 252 6 h 2 v 2 h -2 ZM 254 6 h 2 v 2 h -2 ZM 256 6 h 2 v 2 h -2 ZM 258 6 h 2 v 2 h -2 ZM 252 8 h 2 v 2 h -2 ZM 256 8 h 2 v 2 h -2 ZM 252 10 h 2 v 2 h -2 ZM 258 10 h 2 v 2 h -2 ZM 252 12 h 2 v 2 h -2 ZM 260 12 h 2 v 2 h -2 ZM 266 0 h 2 v 2 h -2 ZM 268 0 h 2 v 2 h -2 ZM 270 0 h 2 v 2 h -2 ZM 264 2 h 2 v 2 h -2 ZM 272 2 h 2 v 2 h -2 ZM 264 4 h 2 v 2 h -2 ZM 264 6 h 2 v 2 h -2 ZM 264 8 h 2 v 2 h -2 ZM 264 10 h 2 v 2 h -2 ZM 272 10 h 2 v 2 h -2 ZM 266 12 h 2 v 2 h -2 ZM 268 12 h 2 v 2 h -2 ZM 270 12 h 2 v 2 h -2 ZM 276 0 h 2 v 2 h -2 ZM 278 0 h 2 v 2 h -2 ZM 280 0 h 2 v 2 h -2 ZM 282 0 h 2 v 2 h -2 ZM 284 0 h 2 v 2 h -2 ZM 276 2 h 2 v 2 h -2 ZM 276 4 h 2 v 2 h -2 ZM 276 6 h 2 v 2 h -2 ZM 278 6 h 2 v 2 h -2 ZM 280 6 h 2 v 2 h -2 ZM 282 6 h 2 v 2 h -2 ZM 276 8 h 2 v 2 h -2 ZM 276 10 h 2 v 2 h -2 ZM 276 12 h 2 v 2 h -2 ZM 278 12 h 2 v 2 h -2 ZM 280 12 h 2 v 2 h -2 ZM 282 12 h 2 v 2 h -2 ZM 284 12 h 2 v 2 h -2 ZM 304 0 h 2 v 2 h -2 ZM 304 2 h 2 v 2 h -2 ZM 304 4 h 2 v 2 h -2 ZM 304 6 h 2 v 2 h -2 ZM 304 8 h 2 v 2 h -2 ZM 304 10 h 2 v 2 h -2 ZM 304 12 h 2 v 2 h -2 ZM 326 0 h 2 v 2 h -2 ZM 328 0 h 2 v 2 h -2 ZM 330 0 h 2 v 2 h -2 ZM 324 2 h 2 v 2 h -2 ZM 332 2 h 2 v 2 h -2 ZM 324 4 h 2 v 2 h -2 ZM 324 6 h 2 v 2 h -2 ZM 328 6 h 2 v 2 h -2 ZM 330 6 h 2 v 2 h -2 ZM 332 6 h 2 v 2 h -2 ZM 324 8 h 2 v 2 h -2 ZM 332 8 h 2 v 2 h -2 ZM 324 10 h 2 v 2 h -2 ZM 332 10 h 2 v 2 h -2 ZM 326 12 h 2 v 2 h -2 ZM 328 12 h 2 v 2 h -2 ZM 330 12 h 2 v 2 h -2 ZM 338 0 h 2 v 2 h -2 ZM 340 0 h 2 v 2 h -2 ZM 342 0 h 2 v 2 h -2 ZM 336 2 h 2 v 2 h -2 ZM 344 2 h 2 v 2 h -2 ZM 336 4 h 2 v 2 h -2 ZM 344 4 h 2 v 2 h -2 ZM 336 6 h 2 v 2 h -2 ZM 338 6 h 2 v 2 h -2 ZM 340 6 h 2 v 2 h -2 ZM 342 6 h 2 v 2 h -2 ZM 344 6 h 2 v 2 h -2 ZM 336 8 h 2 v 2 h -2 ZM 344 8 h 2 v 2 h -2 ZM 336 10 h 2 v 2 h -2 ZM 344 10 h 2 v 2 h -2 ZM 336 12 h 2 v 2 h -2 ZM 344 12 h 2 v 2 h -2 ZM 348 0 h 2 v 2 h -2 ZM 356 0 h 2 v 2 h -2 ZM 348 2 h 2 v 2 h -2 ZM 350 2 h 2 v 2 h -2 ZM 354 2 h 2 v 2 h -2 ZM 356 2 h 2 v 2 h -2 ZM 348 4 h 2 v 2 h -2 ZM 352 4 h 2 v 2 h -2 ZM 356 4 h 2 v 2 h -2 ZM 348 6 h 2 v 2 h -2 ZM 352 6 h 2 v 2 h -2 ZM 356 6 h 2 v 2 h -2 ZM 348 8 h 2 v 2 h -2 ZM 356 8 h 2 v 2 h -2 ZM 348 10 h 2 v 2 h -2 ZM 356 10 h 2 v 2 h -2 ZM 348 12 h 2 v 2 h -2 ZM 356 12 h 2 v 2 h -2 ZM 362 0 h 2 v 2 h -2 ZM 364 0 h 2 v 2 h -2 ZM 366 0 h 2 v 2 h -2 ZM 364 2 h 2 v 2 h -2 ZM 364 4 h 2 v 2 h -2 ZM 364 6 h 2 v 2 h -2 ZM 364 8 h 2 v 2 h -2 ZM 364 10 h 2 v 2 h -2 ZM 362 12 h 2 v 2 h -2 ZM 364 12 h 2 v 2 h -2 ZM 366 12 h 2 v 2 h -2 ZM 372 0 h 2 v 2 h -2 ZM 380 0 h 2 v 2 h -2 ZM 372 2 h 2 v 2 h -2 ZM 374 2 h 2 v 2 h -2 ZM 380 2 h 2 v 2 h -2 ZM 372 4 h 2 v 2 h -2 ZM 376 4 h 2 v 2 h -2 ZM 380 4 h 2 v 2 h -2 ZM 372 6 h 2 v 2 h -2 ZM 378 6 h 2 v 2 h -2 ZM 380 6 h 2 v 2 h -2 ZM 372 8 h 2 v 2 h -2 ZM 380 8 h 2 v 2 h -2 ZM 372 10 h 2 v 2 h -2 ZM 380 10 h 2 v 2 h -2 ZM 372 12 h 2 v 2 h -2 ZM 380 12 h 2 v 2 h -2 ZM 386 0 h 2 v 2 h -2 ZM 388 0 h 2 v 2 h -2 ZM 390 0 h 2 v 2 h -2 ZM 384 2 h 2 v 2 h -2 ZM 392 2 h 2 v 2 h -2 ZM 384 4 h 2 v 2 h -2 ZM 384 6 h 2 v 2 h -2 ZM 388 6 h 2 v 2 h -2 ZM 390 6 h 2 v 2 h -2 ZM 392 6 h 2 v 2 h -2 ZM 384 8 h 2 v 2 h -2 ZM 392 8 h 2 v 2 h -2 ZM 384 10 h 2 v 2 h -2 ZM 392 10 h 2 v 2 h -2 ZM 386 12 h 2 v 2 h -2 ZM 388 12 h 2 v 2 h -2 ZM 390 12 h 2 v 2 h -2 Z" fill="#000000" opacity="0.4" transform="translate(1, 1) translate(-197.0, 0)"/>
-    <path d="M 0 0 h 2 v 2 h -2 ZM 2 0 h 2 v 2 h -2 ZM 4 0 h 2 v 2 h -2 ZM 6 0 h 2 v 2 h -2 ZM 8 0 h 2 v 2 h -2 ZM 0 2 h 2 v 2 h -2 ZM 0 4 h 2 v 2 h -2 ZM 0 6 h 2 v 2 h -2 ZM 2 6 h 2 v 2 h -2 ZM 4 6 h 2 v 2 h -2 ZM 6 6 h 2 v 2 h -2 ZM 0 8 h 2 v 2 h -2 ZM 0 10 h 2 v 2 h -2 ZM 0 12 h 2 v 2 h -2 ZM 12 0 h 2 v 2 h -2 ZM 20 0 h 2 v 2 h -2 ZM 12 2 h 2 v 2 h -2 ZM 20 2 h 2 v 2 h -2 ZM 12 4 h 2 v 2 h -2 ZM 20 4 h 2 v 2 h -2 ZM 12 6 h 2 v 2 h -2 ZM 20 6 h 2 v 2 h -2 ZM 12 8 h 2 v 2 h -2 ZM 20 8 h 2 v 2 h -2 ZM 12 10 h 2 v 2 h -2 ZM 20 10 h 2 v 2 h -2 ZM 14 12 h 2 v 2 h -2 ZM 16 12 h 2 v 2 h -2 ZM 18 12 h 2 v 2 h -2 ZM 24 0 h 2 v 2 h -2 ZM 24 2 h 2 v 2 h -2 ZM 24 4 h 2 v 2 h -2 ZM 24 6 h 2 v 2 h -2 ZM 24 8 h 2 v 2 h -2 ZM 24 10 h 2 v 2 h -2 ZM 24 12 h 2 v 2 h -2 ZM 26 12 h 2 v 2 h -2 ZM 28 12 h 2 v 2 h -2 ZM 30 12 h 2 v 2 h -2 ZM 32 12 h 2 v 2 h -2 ZM 36 0 h 2 v 2 h -2 ZM 36 2 h 2 v 2 h -2 ZM 36 4 h 2 v 2 h -2 ZM 36 6 h 2 v 2 h -2 ZM 36 8 h 2 v 2 h -2 ZM 36 10 h 2 v 2 h -2 ZM 36 12 h 2 v 2 h -2 ZM 38 12 h 2 v 2 h -2 ZM 40 12 h 2 v 2 h -2 ZM 42 12 h 2 v 2 h -2 ZM 44 12 h 2 v 2 h -2 ZM 48 6 h 2 v 2 h -2 ZM 50 6 h 2 v 2 h -2 ZM 52 6 h 2 v 2 h -2 ZM 54 6 h 2 v 2 h -2 ZM 56 6 h 2 v 2 h -2 ZM 62 0 h 2 v 2 h -2 ZM 64 0 h 2 v 2 h -2 ZM 66 0 h 2 v 2 h -2 ZM 60 2 h 2 v 2 h -2 ZM 68 2 h 2 v 2 h -2 ZM 62 4 h 2 v 2 h -2 ZM 64 6 h 2 v 2 h -2 ZM 66 8 h 2 v 2 h -2 ZM 60 10 h 2 v 2 h -2 ZM 68 10 h 2 v 2 h -2 ZM 62 12 h 2 v 2 h -2 ZM 64 12 h 2 v 2 h -2 ZM 66 12 h 2 v 2 h -2 ZM 72 0 h 2 v 2 h -2 ZM 74 0 h 2 v 2 h -2 ZM 76 0 h 2 v 2 h -2 ZM 78 0 h 2 v 2 h -2 ZM 80 0 h 2 v 2 h -2 ZM 76 2 h 2 v 2 h -2 ZM 76 4 h 2 v 2 h -2 ZM 76 6 h 2 v 2 h -2 ZM 76 8 h 2 v 2 h -2 ZM 76 10 h 2 v 2 h -2 ZM 76 12 h 2 v 2 h -2 ZM 86 0 h 2 v 2 h -2 ZM 88 0 h 2 v 2 h -2 ZM 90 0 h 2 v 2 h -2 ZM 84 2 h 2 v 2 h -2 ZM 92 2 h 2 v 2 h -2 ZM 84 4 h 2 v 2 h -2 ZM 92 4 h 2 v 2 h -2 ZM 84 6 h 2 v 2 h -2 ZM 86 6 h 2 v 2 h -2 ZM 88 6 h 2 v 2 h -2 ZM 90 6 h 2 v 2 h -2 ZM 92 6 h 2 v 2 h -2 ZM 84 8 h 2 v 2 h -2 ZM 92 8 h 2 v 2 h -2 ZM 84 10 h 2 v 2 h -2 ZM 92 10 h 2 v 2 h -2 ZM 84 12 h 2 v 2 h -2 ZM 92 12 h 2 v 2 h -2 ZM 98 0 h 2 v 2 h -2 ZM 100 0 h 2 v 2 h -2 ZM 102 0 h 2 v 2 h -2 ZM 96 2 h 2 v 2 h -2 ZM 104 2 h 2 v 2 h -2 ZM 96 4 h 2 v 2 h -2 ZM 96 6 h 2 v 2 h -2 ZM 96 8 h 2 v 2 h -2 ZM 96 10 h 2 v 2 h -2 ZM 104 10 h 2 v 2 h -2 ZM 98 12 h 2 v 2 h -2 ZM 100 12 h 2 v 2 h -2 ZM 102 12 h 2 v 2 h -2 ZM 108 0 h 2 v 2 h -2 ZM 116 0 h 2 v 2 h -2 ZM 108 2 h 2 v 2 h -2 ZM 114 2 h 2 v 2 h -2 ZM 108 4 h 2 v 2 h -2 ZM 112 4 h 2 v 2 h -2 ZM 108 6 h 2 v 2 h -2 ZM 110 6 h 2 v 2 h -2 ZM 108 8 h 2 v 2 h -2 ZM 112 8 h 2 v 2 h -2 ZM 108 10 h 2 v 2 h -2 ZM 114 10 h 2 v 2 h -2 ZM 108 12 h 2 v 2 h -2 ZM 116 12 h 2 v 2 h -2 ZM 136 0 h 2 v 2 h -2 ZM 136 2 h 2 v 2 h -2 ZM 136 4 h 2 v 2 h -2 ZM 136 6 h 2 v 2 h -2 ZM 136 8 h 2 v 2 h -2 ZM 136 10 h 2 v 2 h -2 ZM 136 12 h 2 v 2 h -2 ZM 158 0 h 2 v 2 h -2 ZM 160 0 h 2 v 2 h -2 ZM 162 0 h 2 v 2 h -2 ZM 156 2 h 2 v 2 h -2 ZM 164 2 h 2 v 2 h -2 ZM 156 4 h 2 v 2 h -2 ZM 164 4 h 2 v 2 h -2 ZM 156 6 h 2 v 2 h -2 ZM 164 6 h 2 v 2 h -2 ZM 156 8 h 2 v 2 h -2 ZM 164 8 h 2 v 2 h -2 ZM 156 10 h 2 v 2 h -2 ZM 164 10 h 2 v 2 h -2 ZM 158 12 h 2 v 2 h -2 ZM 160 12 h 2 v 2 h -2 ZM 162 12 h 2 v 2 h -2 ZM 168 0 h 2 v 2 h -2 ZM 170 0 h 2 v 2 h -2 ZM 172 0 h 2 v 2 h -2 ZM 174 0 h 2 v 2 h -2 ZM 168 2 h 2 v 2 h -2 ZM 176 2 h 2 v 2 h -2 ZM 168 4 h 2 v 2 h -2 ZM 176 4 h 2 v 2 h -2 ZM 168 6 h 2 v 2 h -2 ZM 170 6 h 2 v 2 h -2 ZM 172 6 h 2 v 2 h -2 ZM 174 6 h 2 v 2 h -2 ZM 168 8 h 2 v 2 h -2 ZM 168 10 h 2 v 2 h -2 ZM 168 12 h 2 v 2 h -2 ZM 180 0 h 2 v 2 h -2 ZM 182 0 h 2 v 2 h -2 ZM 184 0 h 2 v 2 h -2 ZM 186 0 h 2 v 2 h -2 ZM 188 0 h 2 v 2 h -2 ZM 180 2 h 2 v 2 h -2 ZM 180 4 h 2 v 2 h -2 ZM 180 6 h 2 v 2 h -2 ZM 182 6 h 2 v 2 h -2 ZM 184 6 h 2 v 2 h -2 ZM 186 6 h 2 v 2 h -2 ZM 180 8 h 2 v 2 h -2 ZM 180 10 h 2 v 2 h -2 ZM 180 12 h 2 v 2 h -2 ZM 182 12 h 2 v 2 h -2 ZM 184 12 h 2 v 2 h -2 ZM 186 12 h 2 v 2 h -2 ZM 188 12 h 2 v 2 h -2 ZM 192 0 h 2 v 2 h -2 ZM 200 0 h 2 v 2 h -2 ZM 192 2 h 2 v 2 h -2 ZM 194 2 h 2 v 2 h -2 ZM 200 2 h 2 v 2 h -2 ZM 192 4 h 2 v 2 h -2 ZM 196 4 h 2 v 2 h -2 ZM 200 4 h 2 v 2 h -2 ZM 192 6 h 2 v 2 h -2 ZM 198 6 h 2 v 2 h -2 ZM 200 6 h 2 v 2 h -2 ZM 192 8 h 2 v 2 h -2 ZM 200 8 h 2 v 2 h -2 ZM 192 10 h 2 v 2 h -2 ZM 200 10 h 2 v 2 h -2 ZM 192 12 h 2 v 2 h -2 ZM 200 12 h 2 v 2 h -2 ZM 218 0 h 2 v 2 h -2 ZM 220 0 h 2 v 2 h -2 ZM 222 0 h 2 v 2 h -2 ZM 216 2 h 2 v 2 h -2 ZM 224 2 h 2 v 2 h -2 ZM 218 4 h 2 v 2 h -2 ZM 220 6 h 2 v 2 h -2 ZM 222 8 h 2 v 2 h -2 ZM 216 10 h 2 v 2 h -2 ZM 224 10 h 2 v 2 h -2 ZM 218 12 h 2 v 2 h -2 ZM 220 12 h 2 v 2 h -2 ZM 222 12 h 2 v 2 h -2 ZM 230 0 h 2 v 2 h -2 ZM 232 0 h 2 v 2 h -2 ZM 234 0 h 2 v 2 h -2 ZM 228 2 h 2 v 2 h -2 ZM 236 2 h 2 v 2 h -2 ZM 228 4 h 2 v 2 h -2 ZM 236 4 h 2 v 2 h -2 ZM 228 6 h 2 v 2 h -2 ZM 236 6 h 2 v 2 h -2 ZM 228 8 h 2 v 2 h -2 ZM 236 8 h 2 v 2 h -2 ZM 228 10 h 2 v 2 h -2 ZM 236 10 h 2 v 2 h -2 ZM 230 12 h 2 v 2 h -2 ZM 232 12 h 2 v 2 h -2 ZM 234 12 h 2 v 2 h -2 ZM 240 0 h 2 v 2 h -2 ZM 248 0 h 2 v 2 h -2 ZM 240 2 h 2 v 2 h -2 ZM 248 2 h 2 v 2 h -2 ZM 240 4 h 2 v 2 h -2 ZM 248 4 h 2 v 2 h -2 ZM 240 6 h 2 v 2 h -2 ZM 248 6 h 2 v 2 h -2 ZM 240 8 h 2 v 2 h -2 ZM 248 8 h 2 v 2 h -2 ZM 240 10 h 2 v 2 h -2 ZM 248 10 h 2 v 2 h -2 ZM 242 12 h 2 v 2 h -2 ZM 244 12 h 2 v 2 h -2 ZM 246 12 h 2 v 2 h -2 ZM 252 0 h 2 v 2 h -2 ZM 254 0 h 2 v 2 h -2 ZM 256 0 h 2 v 2 h -2 ZM 258 0 h 2 v 2 h -2 ZM 252 2 h 2 v 2 h -2 ZM 260 2 h 2 v 2 h -2 ZM 252 4 h 2 v 2 h -2 ZM 260 4 h 2 v 2 h -2 ZM 252 6 h 2 v 2 h -2 ZM 254 6 h 2 v 2 h -2 ZM 256 6 h 2 v 2 h -2 ZM 258 6 h 2 v 2 h -2 ZM 252 8 h 2 v 2 h -2 ZM 256 8 h 2 v 2 h -2 ZM 252 10 h 2 v 2 h -2 ZM 258 10 h 2 v 2 h -2 ZM 252 12 h 2 v 2 h -2 ZM 260 12 h 2 v 2 h -2 ZM 266 0 h 2 v 2 h -2 ZM 268 0 h 2 v 2 h -2 ZM 270 0 h 2 v 2 h -2 ZM 264 2 h 2 v 2 h -2 ZM 272 2 h 2 v 2 h -2 ZM 264 4 h 2 v 2 h -2 ZM 264 6 h 2 v 2 h -2 ZM 264 8 h 2 v 2 h -2 ZM 264 10 h 2 v 2 h -2 ZM 272 10 h 2 v 2 h -2 ZM 266 12 h 2 v 2 h -2 ZM 268 12 h 2 v 2 h -2 ZM 270 12 h 2 v 2 h -2 ZM 276 0 h 2 v 2 h -2 ZM 278 0 h 2 v 2 h -2 ZM 280 0 h 2 v 2 h -2 ZM 282 0 h 2 v 2 h -2 ZM 284 0 h 2 v 2 h -2 ZM 276 2 h 2 v 2 h -2 ZM 276 4 h 2 v 2 h -2 ZM 276 6 h 2 v 2 h -2 ZM 278 6 h 2 v 2 h -2 ZM 280 6 h 2 v 2 h -2 ZM 282 6 h 2 v 2 h -2 ZM 276 8 h 2 v 2 h -2 ZM 276 10 h 2 v 2 h -2 ZM 276 12 h 2 v 2 h -2 ZM 278 12 h 2 v 2 h -2 ZM 280 12 h 2 v 2 h -2 ZM 282 12 h 2 v 2 h -2 ZM 284 12 h 2 v 2 h -2 ZM 304 0 h 2 v 2 h -2 ZM 304 2 h 2 v 2 h -2 ZM 304 4 h 2 v 2 h -2 ZM 304 6 h 2 v 2 h -2 ZM 304 8 h 2 v 2 h -2 ZM 304 10 h 2 v 2 h -2 ZM 304 12 h 2 v 2 h -2 ZM 326 0 h 2 v 2 h -2 ZM 328 0 h 2 v 2 h -2 ZM 330 0 h 2 v 2 h -2 ZM 324 2 h 2 v 2 h -2 ZM 332 2 h 2 v 2 h -2 ZM 324 4 h 2 v 2 h -2 ZM 324 6 h 2 v 2 h -2 ZM 328 6 h 2 v 2 h -2 ZM 330 6 h 2 v 2 h -2 ZM 332 6 h 2 v 2 h -2 ZM 324 8 h 2 v 2 h -2 ZM 332 8 h 2 v 2 h -2 ZM 324 10 h 2 v 2 h -2 ZM 332 10 h 2 v 2 h -2 ZM 326 12 h 2 v 2 h -2 ZM 328 12 h 2 v 2 h -2 ZM 330 12 h 2 v 2 h -2 ZM 338 0 h 2 v 2 h -2 ZM 340 0 h 2 v 2 h -2 ZM 342 0 h 2 v 2 h -2 ZM 336 2 h 2 v 2 h -2 ZM 344 2 h 2 v 2 h -2 ZM 336 4 h 2 v 2 h -2 ZM 344 4 h 2 v 2 h -2 ZM 336 6 h 2 v 2 h -2 ZM 338 6 h 2 v 2 h -2 ZM 340 6 h 2 v 2 h -2 ZM 342 6 h 2 v 2 h -2 ZM 344 6 h 2 v 2 h -2 ZM 336 8 h 2 v 2 h -2 ZM 344 8 h 2 v 2 h -2 ZM 336 10 h 2 v 2 h -2 ZM 344 10 h 2 v 2 h -2 ZM 336 12 h 2 v 2 h -2 ZM 344 12 h 2 v 2 h -2 ZM 348 0 h 2 v 2 h -2 ZM 356 0 h 2 v 2 h -2 ZM 348 2 h 2 v 2 h -2 ZM 350 2 h 2 v 2 h -2 ZM 354 2 h 2 v 2 h -2 ZM 356 2 h 2 v 2 h -2 ZM 348 4 h 2 v 2 h -2 ZM 352 4 h 2 v 2 h -2 ZM 356 4 h 2 v 2 h -2 ZM 348 6 h 2 v 2 h -2 ZM 352 6 h 2 v 2 h -2 ZM 356 6 h 2 v 2 h -2 ZM 348 8 h 2 v 2 h -2 ZM 356 8 h 2 v 2 h -2 ZM 348 10 h 2 v 2 h -2 ZM 356 10 h 2 v 2 h -2 ZM 348 12 h 2 v 2 h -2 ZM 356 12 h 2 v 2 h -2 ZM 362 0 h 2 v 2 h -2 ZM 364 0 h 2 v 2 h -2 ZM 366 0 h 2 v 2 h -2 ZM 364 2 h 2 v 2 h -2 ZM 364 4 h 2 v 2 h -2 ZM 364 6 h 2 v 2 h -2 ZM 364 8 h 2 v 2 h -2 ZM 364 10 h 2 v 2 h -2 ZM 362 12 h 2 v 2 h -2 ZM 364 12 h 2 v 2 h -2 ZM 366 12 h 2 v 2 h -2 ZM 372 0 h 2 v 2 h -2 ZM 380 0 h 2 v 2 h -2 ZM 372 2 h 2 v 2 h -2 ZM 374 2 h 2 v 2 h -2 ZM 380 2 h 2 v 2 h -2 ZM 372 4 h 2 v 2 h -2 ZM 376 4 h 2 v 2 h -2 ZM 380 4 h 2 v 2 h -2 ZM 372 6 h 2 v 2 h -2 ZM 378 6 h 2 v 2 h -2 ZM 380 6 h 2 v 2 h -2 ZM 372 8 h 2 v 2 h -2 ZM 380 8 h 2 v 2 h -2 ZM 372 10 h 2 v 2 h -2 ZM 380 10 h 2 v 2 h -2 ZM 372 12 h 2 v 2 h -2 ZM 380 12 h 2 v 2 h -2 ZM 386 0 h 2 v 2 h -2 ZM 388 0 h 2 v 2 h -2 ZM 390 0 h 2 v 2 h -2 ZM 384 2 h 2 v 2 h -2 ZM 392 2 h 2 v 2 h -2 ZM 384 4 h 2 v 2 h -2 ZM 384 6 h 2 v 2 h -2 ZM 388 6 h 2 v 2 h -2 ZM 390 6 h 2 v 2 h -2 ZM 392 6 h 2 v 2 h -2 ZM 384 8 h 2 v 2 h -2 ZM 392 8 h 2 v 2 h -2 ZM 384 10 h 2 v 2 h -2 ZM 392 10 h 2 v 2 h -2 ZM 386 12 h 2 v 2 h -2 ZM 388 12 h 2 v 2 h -2 ZM 390 12 h 2 v 2 h -2 Z" fill="#FFEEAA" transform="translate(-197.0, 0)"/>
-  </g>
-
-  <!-- 3. Blinking "PRESS START" -->
-  <g class="blink-cursor" transform="translate(400, 146)">
-    <path d="M 0.0 0.0 h 1.5 v 1.5 h -1.5 ZM 1.5 1.5 h 1.5 v 1.5 h -1.5 ZM 3.0 3.0 h 1.5 v 1.5 h -1.5 ZM 4.5 4.5 h 1.5 v 1.5 h -1.5 ZM 3.0 6.0 h 1.5 v 1.5 h -1.5 ZM 1.5 7.5 h 1.5 v 1.5 h -1.5 ZM 0.0 9.0 h 1.5 v 1.5 h -1.5 ZM 18.0 0.0 h 1.5 v 1.5 h -1.5 ZM 19.5 0.0 h 1.5 v 1.5 h -1.5 ZM 21.0 0.0 h 1.5 v 1.5 h -1.5 ZM 22.5 0.0 h 1.5 v 1.5 h -1.5 ZM 18.0 1.5 h 1.5 v 1.5 h -1.5 ZM 24.0 1.5 h 1.5 v 1.5 h -1.5 ZM 18.0 3.0 h 1.5 v 1.5 h -1.5 ZM 24.0 3.0 h 1.5 v 1.5 h -1.5 ZM 18.0 4.5 h 1.5 v 1.5 h -1.5 ZM 19.5 4.5 h 1.5 v 1.5 h -1.5 ZM 21.0 4.5 h 1.5 v 1.5 h -1.5 ZM 22.5 4.5 h 1.5 v 1.5 h -1.5 ZM 18.0 6.0 h 1.5 v 1.5 h -1.5 ZM 18.0 7.5 h 1.5 v 1.5 h -1.5 ZM 18.0 9.0 h 1.5 v 1.5 h -1.5 ZM 27.0 0.0 h 1.5 v 1.5 h -1.5 ZM 28.5 0.0 h 1.5 v 1.5 h -1.5 ZM 30.0 0.0 h 1.5 v 1.5 h -1.5 ZM 31.5 0.0 h 1.5 v 1.5 h -1.5 ZM 27.0 1.5 h 1.5 v 1.5 h -1.5 ZM 33.0 1.5 h 1.5 v 1.5 h -1.5 ZM 27.0 3.0 h 1.5 v 1.5 h -1.5 ZM 33.0 3.0 h 1.5 v 1.5 h -1.5 ZM 27.0 4.5 h 1.5 v 1.5 h -1.5 ZM 28.5 4.5 h 1.5 v 1.5 h -1.5 ZM 30.0 4.5 h 1.5 v 1.5 h -1.5 ZM 31.5 4.5 h 1.5 v 1.5 h -1.5 ZM 27.0 6.0 h 1.5 v 1.5 h -1.5 ZM 30.0 6.0 h 1.5 v 1.5 h -1.5 ZM 27.0 7.5 h 1.5 v 1.5 h -1.5 ZM 31.5 7.5 h 1.5 v 1.5 h -1.5 ZM 27.0 9.0 h 1.5 v 1.5 h -1.5 ZM 33.0 9.0 h 1.5 v 1.5 h -1.5 ZM 36.0 0.0 h 1.5 v 1.5 h -1.5 ZM 37.5 0.0 h 1.5 v 1.5 h -1.5 ZM 39.0 0.0 h 1.5 v 1.5 h -1.5 ZM 40.5 0.0 h 1.5 v 1.5 h -1.5 ZM 42.0 0.0 h 1.5 v 1.5 h -1.5 ZM 36.0 1.5 h 1.5 v 1.5 h -1.5 ZM 36.0 3.0 h 1.5 v 1.5 h -1.5 ZM 36.0 4.5 h 1.5 v 1.5 h -1.5 ZM 37.5 4.5 h 1.5 v 1.5 h -1.5 ZM 39.0 4.5 h 1.5 v 1.5 h -1.5 ZM 40.5 4.5 h 1.5 v 1.5 h -1.5 ZM 36.0 6.0 h 1.5 v 1.5 h -1.5 ZM 36.0 7.5 h 1.5 v 1.5 h -1.5 ZM 36.0 9.0 h 1.5 v 1.5 h -1.5 ZM 37.5 9.0 h 1.5 v 1.5 h -1.5 ZM 39.0 9.0 h 1.5 v 1.5 h -1.5 ZM 40.5 9.0 h 1.5 v 1.5 h -1.5 ZM 42.0 9.0 h 1.5 v 1.5 h -1.5 ZM 46.5 0.0 h 1.5 v 1.5 h -1.5 ZM 48.0 0.0 h 1.5 v 1.5 h -1.5 ZM 49.5 0.0 h 1.5 v 1.5 h -1.5 ZM 45.0 1.5 h 1.5 v 1.5 h -1.5 ZM 51.0 1.5 h 1.5 v 1.5 h -1.5 ZM 46.5 3.0 h 1.5 v 1.5 h -1.5 ZM 48.0 4.5 h 1.5 v 1.5 h -1.5 ZM 49.5 6.0 h 1.5 v 1.5 h -1.5 ZM 45.0 7.5 h 1.5 v 1.5 h -1.5 ZM 51.0 7.5 h 1.5 v 1.5 h -1.5 ZM 46.5 9.0 h 1.5 v 1.5 h -1.5 ZM 48.0 9.0 h 1.5 v 1.5 h -1.5 ZM 49.5 9.0 h 1.5 v 1.5 h -1.5 ZM 55.5 0.0 h 1.5 v 1.5 h -1.5 ZM 57.0 0.0 h 1.5 v 1.5 h -1.5 ZM 58.5 0.0 h 1.5 v 1.5 h -1.5 ZM 54.0 1.5 h 1.5 v 1.5 h -1.5 ZM 60.0 1.5 h 1.5 v 1.5 h -1.5 ZM 55.5 3.0 h 1.5 v 1.5 h -1.5 ZM 57.0 4.5 h 1.5 v 1.5 h -1.5 ZM 58.5 6.0 h 1.5 v 1.5 h -1.5 ZM 54.0 7.5 h 1.5 v 1.5 h -1.5 ZM 60.0 7.5 h 1.5 v 1.5 h -1.5 ZM 55.5 9.0 h 1.5 v 1.5 h -1.5 ZM 57.0 9.0 h 1.5 v 1.5 h -1.5 ZM 58.5 9.0 h 1.5 v 1.5 h -1.5 ZM 73.5 0.0 h 1.5 v 1.5 h -1.5 ZM 75.0 0.0 h 1.5 v 1.5 h -1.5 ZM 76.5 0.0 h 1.5 v 1.5 h -1.5 ZM 72.0 1.5 h 1.5 v 1.5 h -1.5 ZM 78.0 1.5 h 1.5 v 1.5 h -1.5 ZM 73.5 3.0 h 1.5 v 1.5 h -1.5 ZM 75.0 4.5 h 1.5 v 1.5 h -1.5 ZM 76.5 6.0 h 1.5 v 1.5 h -1.5 ZM 72.0 7.5 h 1.5 v 1.5 h -1.5 ZM 78.0 7.5 h 1.5 v 1.5 h -1.5 ZM 73.5 9.0 h 1.5 v 1.5 h -1.5 ZM 75.0 9.0 h 1.5 v 1.5 h -1.5 ZM 76.5 9.0 h 1.5 v 1.5 h -1.5 ZM 81.0 0.0 h 1.5 v 1.5 h -1.5 ZM 82.5 0.0 h 1.5 v 1.5 h -1.5 ZM 84.0 0.0 h 1.5 v 1.5 h -1.5 ZM 85.5 0.0 h 1.5 v 1.5 h -1.5 ZM 87.0 0.0 h 1.5 v 1.5 h -1.5 ZM 84.0 1.5 h 1.5 v 1.5 h -1.5 ZM 84.0 3.0 h 1.5 v 1.5 h -1.5 ZM 84.0 4.5 h 1.5 v 1.5 h -1.5 ZM 84.0 6.0 h 1.5 v 1.5 h -1.5 ZM 84.0 7.5 h 1.5 v 1.5 h -1.5 ZM 84.0 9.0 h 1.5 v 1.5 h -1.5 ZM 91.5 0.0 h 1.5 v 1.5 h -1.5 ZM 93.0 0.0 h 1.5 v 1.5 h -1.5 ZM 94.5 0.0 h 1.5 v 1.5 h -1.5 ZM 90.0 1.5 h 1.5 v 1.5 h -1.5 ZM 96.0 1.5 h 1.5 v 1.5 h -1.5 ZM 90.0 3.0 h 1.5 v 1.5 h -1.5 ZM 96.0 3.0 h 1.5 v 1.5 h -1.5 ZM 90.0 4.5 h 1.5 v 1.5 h -1.5 ZM 91.5 4.5 h 1.5 v 1.5 h -1.5 ZM 93.0 4.5 h 1.5 v 1.5 h -1.5 ZM 94.5 4.5 h 1.5 v 1.5 h -1.5 ZM 96.0 4.5 h 1.5 v 1.5 h -1.5 ZM 90.0 6.0 h 1.5 v 1.5 h -1.5 ZM 96.0 6.0 h 1.5 v 1.5 h -1.5 ZM 90.0 7.5 h 1.5 v 1.5 h -1.5 ZM 96.0 7.5 h 1.5 v 1.5 h -1.5 ZM 90.0 9.0 h 1.5 v 1.5 h -1.5 ZM 96.0 9.0 h 1.5 v 1.5 h -1.5 ZM 99.0 0.0 h 1.5 v 1.5 h -1.5 ZM 100.5 0.0 h 1.5 v 1.5 h -1.5 ZM 102.0 0.0 h 1.5 v 1.5 h -1.5 ZM 103.5 0.0 h 1.5 v 1.5 h -1.5 ZM 99.0 1.5 h 1.5 v 1.5 h -1.5 ZM 105.0 1.5 h 1.5 v 1.5 h -1.5 ZM 99.0 3.0 h 1.5 v 1.5 h -1.5 ZM 105.0 3.0 h 1.5 v 1.5 h -1.5 ZM 99.0 4.5 h 1.5 v 1.5 h -1.5 ZM 100.5 4.5 h 1.5 v 1.5 h -1.5 ZM 102.0 4.5 h 1.5 v 1.5 h -1.5 ZM 103.5 4.5 h 1.5 v 1.5 h -1.5 ZM 99.0 6.0 h 1.5 v 1.5 h -1.5 ZM 102.0 6.0 h 1.5 v 1.5 h -1.5 ZM 99.0 7.5 h 1.5 v 1.5 h -1.5 ZM 103.5 7.5 h 1.5 v 1.5 h -1.5 ZM 99.0 9.0 h 1.5 v 1.5 h -1.5 ZM 105.0 9.0 h 1.5 v 1.5 h -1.5 ZM 108.0 0.0 h 1.5 v 1.5 h -1.5 ZM 109.5 0.0 h 1.5 v 1.5 h -1.5 ZM 111.0 0.0 h 1.5 v 1.5 h -1.5 ZM 112.5 0.0 h 1.5 v 1.5 h -1.5 ZM 114.0 0.0 h 1.5 v 1.5 h -1.5 ZM 111.0 1.5 h 1.5 v 1.5 h -1.5 ZM 111.0 3.0 h 1.5 v 1.5 h -1.5 ZM 111.0 4.5 h 1.5 v 1.5 h -1.5 ZM 111.0 6.0 h 1.5 v 1.5 h -1.5 ZM 111.0 7.5 h 1.5 v 1.5 h -1.5 ZM 111.0 9.0 h 1.5 v 1.5 h -1.5 ZM 132.0 0.0 h 1.5 v 1.5 h -1.5 ZM 130.5 1.5 h 1.5 v 1.5 h -1.5 ZM 129.0 3.0 h 1.5 v 1.5 h -1.5 ZM 127.5 4.5 h 1.5 v 1.5 h -1.5 ZM 129.0 6.0 h 1.5 v 1.5 h -1.5 ZM 130.5 7.5 h 1.5 v 1.5 h -1.5 ZM 132.0 9.0 h 1.5 v 1.5 h -1.5 Z" fill="#FFD700" transform="translate(-66.75, 0)"/>
-  </g>
-
-  <!-- ========= HUD HEADS UP DISPLAY ========= -->
-  <!-- Score Display (Top Left) -->
-  <g transform="translate(16, 12)">
-    <path d="M 1.5 0.0 h 1.5 v 1.5 h -1.5 ZM 3.0 0.0 h 1.5 v 1.5 h -1.5 ZM 4.5 0.0 h 1.5 v 1.5 h -1.5 ZM 0.0 1.5 h 1.5 v 1.5 h -1.5 ZM 6.0 1.5 h 1.5 v 1.5 h -1.5 ZM 1.5 3.0 h 1.5 v 1.5 h -1.5 ZM 3.0 4.5 h 1.5 v 1.5 h -1.5 ZM 4.5 6.0 h 1.5 v 1.5 h -1.5 ZM 0.0 7.5 h 1.5 v 1.5 h -1.5 ZM 6.0 7.5 h 1.5 v 1.5 h -1.5 ZM 1.5 9.0 h 1.5 v 1.5 h -1.5 ZM 3.0 9.0 h 1.5 v 1.5 h -1.5 ZM 4.5 9.0 h 1.5 v 1.5 h -1.5 ZM 10.5 0.0 h 1.5 v 1.5 h -1.5 ZM 12.0 0.0 h 1.5 v 1.5 h -1.5 ZM 13.5 0.0 h 1.5 v 1.5 h -1.5 ZM 9.0 1.5 h 1.5 v 1.5 h -1.5 ZM 15.0 1.5 h 1.5 v 1.5 h -1.5 ZM 9.0 3.0 h 1.5 v 1.5 h -1.5 ZM 9.0 4.5 h 1.5 v 1.5 h -1.5 ZM 9.0 6.0 h 1.5 v 1.5 h -1.5 ZM 9.0 7.5 h 1.5 v 1.5 h -1.5 ZM 15.0 7.5 h 1.5 v 1.5 h -1.5 ZM 10.5 9.0 h 1.5 v 1.5 h -1.5 ZM 12.0 9.0 h 1.5 v 1.5 h -1.5 ZM 13.5 9.0 h 1.5 v 1.5 h -1.5 ZM 19.5 0.0 h 1.5 v 1.5 h -1.5 ZM 21.0 0.0 h 1.5 v 1.5 h -1.5 ZM 22.5 0.0 h 1.5 v 1.5 h -1.5 ZM 18.0 1.5 h 1.5 v 1.5 h -1.5 ZM 24.0 1.5 h 1.5 v 1.5 h -1.5 ZM 18.0 3.0 h 1.5 v 1.5 h -1.5 ZM 24.0 3.0 h 1.5 v 1.5 h -1.5 ZM 18.0 4.5 h 1.5 v 1.5 h -1.5 ZM 24.0 4.5 h 1.5 v 1.5 h -1.5 ZM 18.0 6.0 h 1.5 v 1.5 h -1.5 ZM 24.0 6.0 h 1.5 v 1.5 h -1.5 ZM 18.0 7.5 h 1.5 v 1.5 h -1.5 ZM 24.0 7.5 h 1.5 v 1.5 h -1.5 ZM 19.5 9.0 h 1.5 v 1.5 h -1.5 ZM 21.0 9.0 h 1.5 v 1.5 h -1.5 ZM 22.5 9.0 h 1.5 v 1.5 h -1.5 ZM 27.0 0.0 h 1.5 v 1.5 h -1.5 ZM 28.5 0.0 h 1.5 v 1.5 h -1.5 ZM 30.0 0.0 h 1.5 v 1.5 h -1.5 ZM 31.5 0.0 h 1.5 v 1.5 h -1.5 ZM 27.0 1.5 h 1.5 v 1.5 h -1.5 ZM 33.0 1.5 h 1.5 v 1.5 h -1.5 ZM 27.0 3.0 h 1.5 v 1.5 h -1.5 ZM 33.0 3.0 h 1.5 v 1.5 h -1.5 ZM 27.0 4.5 h 1.5 v 1.5 h -1.5 ZM 28.5 4.5 h 1.5 v 1.5 h -1.5 ZM 30.0 4.5 h 1.5 v 1.5 h -1.5 ZM 31.5 4.5 h 1.5 v 1.5 h -1.5 ZM 27.0 6.0 h 1.5 v 1.5 h -1.5 ZM 30.0 6.0 h 1.5 v 1.5 h -1.5 ZM 27.0 7.5 h 1.5 v 1.5 h -1.5 ZM 31.5 7.5 h 1.5 v 1.5 h -1.5 ZM 27.0 9.0 h 1.5 v 1.5 h -1.5 ZM 33.0 9.0 h 1.5 v 1.5 h -1.5 ZM 36.0 0.0 h 1.5 v 1.5 h -1.5 ZM 37.5 0.0 h 1.5 v 1.5 h -1.5 ZM 39.0 0.0 h 1.5 v 1.5 h -1.5 ZM 40.5 0.0 h 1.5 v 1.5 h -1.5 ZM 42.0 0.0 h 1.5 v 1.5 h -1.5 ZM 36.0 1.5 h 1.5 v 1.5 h -1.5 ZM 36.0 3.0 h 1.5 v 1.5 h -1.5 ZM 36.0 4.5 h 1.5 v 1.5 h -1.5 ZM 37.5 4.5 h 1.5 v 1.5 h -1.5 ZM 39.0 4.5 h 1.5 v 1.5 h -1.5 ZM 40.5 4.5 h 1.5 v 1.5 h -1.5 ZM 36.0 6.0 h 1.5 v 1.5 h -1.5 ZM 36.0 7.5 h 1.5 v 1.5 h -1.5 ZM 36.0 9.0 h 1.5 v 1.5 h -1.5 ZM 37.5 9.0 h 1.5 v 1.5 h -1.5 ZM 39.0 9.0 h 1.5 v 1.5 h -1.5 ZM 40.5 9.0 h 1.5 v 1.5 h -1.5 ZM 42.0 9.0 h 1.5 v 1.5 h -1.5 Z" class="hud-text"/>
-    <path d="M 1.5 0.0 h 1.5 v 1.5 h -1.5 ZM 3.0 0.0 h 1.5 v 1.5 h -1.5 ZM 4.5 0.0 h 1.5 v 1.5 h -1.5 ZM 0.0 1.5 h 1.5 v 1.5 h -1.5 ZM 6.0 1.5 h 1.5 v 1.5 h -1.5 ZM 0.0 3.0 h 1.5 v 1.5 h -1.5 ZM 4.5 3.0 h 1.5 v 1.5 h -1.5 ZM 6.0 3.0 h 1.5 v 1.5 h -1.5 ZM 0.0 4.5 h 1.5 v 1.5 h -1.5 ZM 3.0 4.5 h 1.5 v 1.5 h -1.5 ZM 6.0 4.5 h 1.5 v 1.5 h -1.5 ZM 0.0 6.0 h 1.5 v 1.5 h -1.5 ZM 1.5 6.0 h 1.5 v 1.5 h -1.5 ZM 6.0 6.0 h 1.5 v 1.5 h -1.5 ZM 0.0 7.5 h 1.5 v 1.5 h -1.5 ZM 6.0 7.5 h 1.5 v 1.5 h -1.5 ZM 1.5 9.0 h 1.5 v 1.5 h -1.5 ZM 3.0 9.0 h 1.5 v 1.5 h -1.5 ZM 4.5 9.0 h 1.5 v 1.5 h -1.5 ZM 10.5 0.0 h 1.5 v 1.5 h -1.5 ZM 12.0 0.0 h 1.5 v 1.5 h -1.5 ZM 13.5 0.0 h 1.5 v 1.5 h -1.5 ZM 9.0 1.5 h 1.5 v 1.5 h -1.5 ZM 15.0 1.5 h 1.5 v 1.5 h -1.5 ZM 9.0 3.0 h 1.5 v 1.5 h -1.5 ZM 13.5 3.0 h 1.5 v 1.5 h -1.5 ZM 15.0 3.0 h 1.5 v 1.5 h -1.5 ZM 9.0 4.5 h 1.5 v 1.5 h -1.5 ZM 12.0 4.5 h 1.5 v 1.5 h -1.5 ZM 15.0 4.5 h 1.5 v 1.5 h -1.5 ZM 9.0 6.0 h 1.5 v 1.5 h -1.5 ZM 10.5 6.0 h 1.5 v 1.5 h -1.5 ZM 15.0 6.0 h 1.5 v 1.5 h -1.5 ZM 9.0 7.5 h 1.5 v 1.5 h -1.5 ZM 15.0 7.5 h 1.5 v 1.5 h -1.5 ZM 10.5 9.0 h 1.5 v 1.5 h -1.5 ZM 12.0 9.0 h 1.5 v 1.5 h -1.5 ZM 13.5 9.0 h 1.5 v 1.5 h -1.5 ZM 21.0 0.0 h 1.5 v 1.5 h -1.5 ZM 19.5 1.5 h 1.5 v 1.5 h -1.5 ZM 21.0 1.5 h 1.5 v 1.5 h -1.5 ZM 21.0 3.0 h 1.5 v 1.5 h -1.5 ZM 21.0 4.5 h 1.5 v 1.5 h -1.5 ZM 21.0 6.0 h 1.5 v 1.5 h -1.5 ZM 21.0 7.5 h 1.5 v 1.5 h -1.5 ZM 19.5 9.0 h 1.5 v 1.5 h -1.5 ZM 21.0 9.0 h 1.5 v 1.5 h -1.5 ZM 22.5 9.0 h 1.5 v 1.5 h -1.5 ZM 28.5 0.0 h 1.5 v 1.5 h -1.5 ZM 30.0 0.0 h 1.5 v 1.5 h -1.5 ZM 31.5 0.0 h 1.5 v 1.5 h -1.5 ZM 27.0 1.5 h 1.5 v 1.5 h -1.5 ZM 33.0 1.5 h 1.5 v 1.5 h -1.5 ZM 33.0 3.0 h 1.5 v 1.5 h -1.5 ZM 30.0 4.5 h 1.5 v 1.5 h -1.5 ZM 31.5 4.5 h 1.5 v 1.5 h -1.5 ZM 33.0 6.0 h 1.5 v 1.5 h -1.5 ZM 27.0 7.5 h 1.5 v 1.5 h -1.5 ZM 33.0 7.5 h 1.5 v 1.5 h -1.5 ZM 28.5 9.0 h 1.5 v 1.5 h -1.5 ZM 30.0 9.0 h 1.5 v 1.5 h -1.5 ZM 31.5 9.0 h 1.5 v 1.5 h -1.5 ZM 37.5 0.0 h 1.5 v 1.5 h -1.5 ZM 39.0 0.0 h 1.5 v 1.5 h -1.5 ZM 40.5 0.0 h 1.5 v 1.5 h -1.5 ZM 36.0 1.5 h 1.5 v 1.5 h -1.5 ZM 42.0 1.5 h 1.5 v 1.5 h -1.5 ZM 42.0 3.0 h 1.5 v 1.5 h -1.5 ZM 39.0 4.5 h 1.5 v 1.5 h -1.5 ZM 40.5 4.5 h 1.5 v 1.5 h -1.5 ZM 42.0 6.0 h 1.5 v 1.5 h -1.5 ZM 36.0 7.5 h 1.5 v 1.5 h -1.5 ZM 42.0 7.5 h 1.5 v 1.5 h -1.5 ZM 37.5 9.0 h 1.5 v 1.5 h -1.5 ZM 39.0 9.0 h 1.5 v 1.5 h -1.5 ZM 40.5 9.0 h 1.5 v 1.5 h -1.5 ZM 45.0 0.0 h 1.5 v 1.5 h -1.5 ZM 46.5 0.0 h 1.5 v 1.5 h -1.5 ZM 48.0 0.0 h 1.5 v 1.5 h -1.5 ZM 49.5 0.0 h 1.5 v 1.5 h -1.5 ZM 51.0 0.0 h 1.5 v 1.5 h -1.5 ZM 51.0 1.5 h 1.5 v 1.5 h -1.5 ZM 49.5 3.0 h 1.5 v 1.5 h -1.5 ZM 48.0 4.5 h 1.5 v 1.5 h -1.5 ZM 46.5 6.0 h 1.5 v 1.5 h -1.5 ZM 46.5 7.5 h 1.5 v 1.5 h -1.5 ZM 46.5 9.0 h 1.5 v 1.5 h -1.5 Z" class="hud-text" transform="translate(0, 13)"/>
-  </g>
-
-  <!-- World Display (Top Right) -->
-  <g transform="translate(734, 12)">
-    <path d="M 0.0 0.0 h 1.5 v 1.5 h -1.5 ZM 6.0 0.0 h 1.5 v 1.5 h -1.5 ZM 0.0 1.5 h 1.5 v 1.5 h -1.5 ZM 6.0 1.5 h 1.5 v 1.5 h -1.5 ZM 0.0 3.0 h 1.5 v 1.5 h -1.5 ZM 6.0 3.0 h 1.5 v 1.5 h -1.5 ZM 0.0 4.5 h 1.5 v 1.5 h -1.5 ZM 3.0 4.5 h 1.5 v 1.5 h -1.5 ZM 6.0 4.5 h 1.5 v 1.5 h -1.5 ZM 0.0 6.0 h 1.5 v 1.5 h -1.5 ZM 3.0 6.0 h 1.5 v 1.5 h -1.5 ZM 6.0 6.0 h 1.5 v 1.5 h -1.5 ZM 0.0 7.5 h 1.5 v 1.5 h -1.5 ZM 1.5 7.5 h 1.5 v 1.5 h -1.5 ZM 4.5 7.5 h 1.5 v 1.5 h -1.5 ZM 6.0 7.5 h 1.5 v 1.5 h -1.5 ZM 0.0 9.0 h 1.5 v 1.5 h -1.5 ZM 6.0 9.0 h 1.5 v 1.5 h -1.5 ZM 10.5 0.0 h 1.5 v 1.5 h -1.5 ZM 12.0 0.0 h 1.5 v 1.5 h -1.5 ZM 13.5 0.0 h 1.5 v 1.5 h -1.5 ZM 9.0 1.5 h 1.5 v 1.5 h -1.5 ZM 15.0 1.5 h 1.5 v 1.5 h -1.5 ZM 9.0 3.0 h 1.5 v 1.5 h -1.5 ZM 15.0 3.0 h 1.5 v 1.5 h -1.5 ZM 9.0 4.5 h 1.5 v 1.5 h -1.5 ZM 15.0 4.5 h 1.5 v 1.5 h -1.5 ZM 9.0 6.0 h 1.5 v 1.5 h -1.5 ZM 15.0 6.0 h 1.5 v 1.5 h -1.5 ZM 9.0 7.5 h 1.5 v 1.5 h -1.5 ZM 15.0 7.5 h 1.5 v 1.5 h -1.5 ZM 10.5 9.0 h 1.5 v 1.5 h -1.5 ZM 12.0 9.0 h 1.5 v 1.5 h -1.5 ZM 13.5 9.0 h 1.5 v 1.5 h -1.5 ZM 18.0 0.0 h 1.5 v 1.5 h -1.5 ZM 19.5 0.0 h 1.5 v 1.5 h -1.5 ZM 21.0 0.0 h 1.5 v 1.5 h -1.5 ZM 22.5 0.0 h 1.5 v 1.5 h -1.5 ZM 18.0 1.5 h 1.5 v 1.5 h -1.5 ZM 24.0 1.5 h 1.5 v 1.5 h -1.5 ZM 18.0 3.0 h 1.5 v 1.5 h -1.5 ZM 24.0 3.0 h 1.5 v 1.5 h -1.5 ZM 18.0 4.5 h 1.5 v 1.5 h -1.5 ZM 19.5 4.5 h 1.5 v 1.5 h -1.5 ZM 21.0 4.5 h 1.5 v 1.5 h -1.5 ZM 22.5 4.5 h 1.5 v 1.5 h -1.5 ZM 18.0 6.0 h 1.5 v 1.5 h -1.5 ZM 21.0 6.0 h 1.5 v 1.5 h -1.5 ZM 18.0 7.5 h 1.5 v 1.5 h -1.5 ZM 22.5 7.5 h 1.5 v 1.5 h -1.5 ZM 18.0 9.0 h 1.5 v 1.5 h -1.5 ZM 24.0 9.0 h 1.5 v 1.5 h -1.5 ZM 27.0 0.0 h 1.5 v 1.5 h -1.5 ZM 27.0 1.5 h 1.5 v 1.5 h -1.5 ZM 27.0 3.0 h 1.5 v 1.5 h -1.5 ZM 27.0 4.5 h 1.5 v 1.5 h -1.5 ZM 27.0 6.0 h 1.5 v 1.5 h -1.5 ZM 27.0 7.5 h 1.5 v 1.5 h -1.5 ZM 27.0 9.0 h 1.5 v 1.5 h -1.5 ZM 28.5 9.0 h 1.5 v 1.5 h -1.5 ZM 30.0 9.0 h 1.5 v 1.5 h -1.5 ZM 31.5 9.0 h 1.5 v 1.5 h -1.5 ZM 33.0 9.0 h 1.5 v 1.5 h -1.5 ZM 36.0 0.0 h 1.5 v 1.5 h -1.5 ZM 37.5 0.0 h 1.5 v 1.5 h -1.5 ZM 39.0 0.0 h 1.5 v 1.5 h -1.5 ZM 40.5 0.0 h 1.5 v 1.5 h -1.5 ZM 36.0 1.5 h 1.5 v 1.5 h -1.5 ZM 42.0 1.5 h 1.5 v 1.5 h -1.5 ZM 36.0 3.0 h 1.5 v 1.5 h -1.5 ZM 42.0 3.0 h 1.5 v 1.5 h -1.5 ZM 36.0 4.5 h 1.5 v 1.5 h -1.5 ZM 42.0 4.5 h 1.5 v 1.5 h -1.5 ZM 36.0 6.0 h 1.5 v 1.5 h -1.5 ZM 42.0 6.0 h 1.5 v 1.5 h -1.5 ZM 36.0 7.5 h 1.5 v 1.5 h -1.5 ZM 42.0 7.5 h 1.5 v 1.5 h -1.5 ZM 36.0 9.0 h 1.5 v 1.5 h -1.5 ZM 37.5 9.0 h 1.5 v 1.5 h -1.5 ZM 39.0 9.0 h 1.5 v 1.5 h -1.5 ZM 40.5 9.0 h 1.5 v 1.5 h -1.5 Z" class="hud-text"/>
-    <path d="M 3.0 0.0 h 1.5 v 1.5 h -1.5 ZM 1.5 1.5 h 1.5 v 1.5 h -1.5 ZM 3.0 1.5 h 1.5 v 1.5 h -1.5 ZM 3.0 3.0 h 1.5 v 1.5 h -1.5 ZM 3.0 4.5 h 1.5 v 1.5 h -1.5 ZM 3.0 6.0 h 1.5 v 1.5 h -1.5 ZM 3.0 7.5 h 1.5 v 1.5 h -1.5 ZM 1.5 9.0 h 1.5 v 1.5 h -1.5 ZM 3.0 9.0 h 1.5 v 1.5 h -1.5 ZM 4.5 9.0 h 1.5 v 1.5 h -1.5 ZM 9.0 4.5 h 1.5 v 1.5 h -1.5 ZM 10.5 4.5 h 1.5 v 1.5 h -1.5 ZM 12.0 4.5 h 1.5 v 1.5 h -1.5 ZM 13.5 4.5 h 1.5 v 1.5 h -1.5 ZM 15.0 4.5 h 1.5 v 1.5 h -1.5 ZM 21.0 0.0 h 1.5 v 1.5 h -1.5 ZM 19.5 1.5 h 1.5 v 1.5 h -1.5 ZM 21.0 1.5 h 1.5 v 1.5 h -1.5 ZM 21.0 3.0 h 1.5 v 1.5 h -1.5 ZM 21.0 4.5 h 1.5 v 1.5 h -1.5 ZM 21.0 6.0 h 1.5 v 1.5 h -1.5 ZM 21.0 7.5 h 1.5 v 1.5 h -1.5 ZM 19.5 9.0 h 1.5 v 1.5 h -1.5 ZM 21.0 9.0 h 1.5 v 1.5 h -1.5 ZM 22.5 9.0 h 1.5 v 1.5 h -1.5 Z" class="hud-text" transform="translate(14, 13)"/>
-  </g>
 </svg>
