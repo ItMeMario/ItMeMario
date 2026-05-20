@@ -64,346 +64,128 @@ def get_text_width(text, scale=1, letter_spacing=1):
     return (len(text) * 5 + (len(text) - 1) * letter_spacing) * scale
 
 
+COLOR_PALETTE = {
+    'R': '#E52521',  # Red cap/shirt
+    'B': '#6B3E08',  # Brown hair/shoes
+    'P': '#FBC49F',  # Peach skin
+    'p': '#E09A75',  # Peach shadow
+    'L': '#0050CC',  # Light Blue overalls
+    'D': '#003388',  # Dark Blue overalls shadow
+    'Y': '#FFD700',  # Yellow button
+    'W': '#FFFFFF',  # White gloves
+}
+
+WALK_F1 = [
+    "    RRRRR   ",
+    "   RRRRRRRRR",
+    "   BBBPpBP  ",
+    "  BPBPPPpBP ",
+    "  BPBBPpBPpP",
+    "  BBPPPPpB  ",
+    "    PPPPPP  ",
+    "  RRLRRRD   ",
+    "WRRRLLLRRDW ",
+    "WWRLLYLLRDWW",
+    "  LLLLLLLL  ",
+    "  LLLLLLLL  ",
+    "  LLL  LLL  ",
+    " BBB    BBB ",
+    "BBBB    BBBB"
+]
+
+WALK_F2 = [
+    "   RRRRR   ",
+    "  RRRRRRRRR",
+    "  BBBPpBP  ",
+    " BPBPPPpBP ",
+    " BPBBPpBPpP",
+    " BBPPPPpB  ",
+    "   PPPPPP  ",
+    "  RRLRR    ",
+    " RRLLLRRD  ",
+    "RRLLYLLRRD ",
+    "WWLLLLLLWW ",
+    "  LLLLLL   ",
+    " LL    LL  ",
+    "BBB    BBB "
+]
+
+WALK_F3 = [
+    "   RRRRR   ",
+    "  RRRRRRRRR",
+    "  BBBPpBP  ",
+    " BPBPPPpBP ",
+    " BPBBPpBPpP",
+    " BBPPPPpB  ",
+    "   PPPPPP  ",
+    "  RRLRRD   ",
+    "  RLLLRRD  ",
+    " RLLYLLRRD ",
+    " RLLLLLLWW ",
+    "  LLLLLL   ",
+    "  LL  LLL  ",
+    " BBB  BBB  ",
+    "BBB   BBB  "
+]
+
+JUMP_F1 = [
+    "     RRRRRR     ",
+    "    RRRRRRRRRR  ",
+    "    BBBPpBP     ",
+    "   BPBPPPpBPP   ",
+    "   BPBBPpBPpP   ",
+    "   BBPPPPpB     ",
+    "     PPPPPP     ",
+    "    RRLRRR      ",
+    "   RRRLLLRR    W",
+    "  WRRLLYLLRRR WW",
+    " WWWLLLLLLLRRWW ",
+    " WWLLLLLLLLLLW  ",
+    "  LLLLLLLLLLL   ",
+    "  LLLLLL LLLL   ",
+    "  BBB      BBB  ",
+    " BBB        BBB "
+]
+
+def sprite_to_svg(grid, scale=4):
+    paths = {}
+    for r_idx, row in enumerate(grid):
+        for c_idx, val in enumerate(row):
+            if val in COLOR_PALETTE:
+                if val not in paths:
+                    paths[val] = []
+                x = c_idx * scale
+                y = r_idx * scale
+                paths[val].append(f"M {x} {y} h {scale} v {scale} h -{scale} Z")
+                
+    svg_parts = []
+    # Render order from background/shadows to foreground/details
+    render_order = ['b', 'B', 'p', 'P', 'D', 'L', 'r', 'R', 'w', 'W', 'Y']
+    for val in render_order:
+        if val in paths:
+            color = COLOR_PALETTE[val]
+            d_str = " ".join(paths[val])
+            svg_parts.append(f'      <path d="{d_str}" fill="{color}"/>')
+            
+    return "\n".join(svg_parts)
+
+
 def main():
-    mario_char_block = """<!-- ========= MARIO CHARACTER (static position) ========= -->
-  <g transform="translate(60, 100)">
-    <g class="walk-f1">
-      <rect x="16" y="0" width="4" height="4" fill="#E52521"/>
-      <rect x="20" y="0" width="4" height="4" fill="#E52521"/>
-      <rect x="24" y="0" width="4" height="4" fill="#E52521"/>
-      <rect x="28" y="0" width="4" height="4" fill="#E52521"/>
-      <rect x="32" y="0" width="4" height="4" fill="#E52521"/>
-      <rect x="12" y="4" width="4" height="4" fill="#E52521"/>
-      <rect x="16" y="4" width="4" height="4" fill="#E52521"/>
-      <rect x="20" y="4" width="4" height="4" fill="#E52521"/>
-      <rect x="24" y="4" width="4" height="4" fill="#E52521"/>
-      <rect x="28" y="4" width="4" height="4" fill="#E52521"/>
-      <rect x="32" y="4" width="4" height="4" fill="#E52521"/>
-      <rect x="36" y="4" width="4" height="4" fill="#E52521"/>
-      <rect x="40" y="4" width="4" height="4" fill="#E52521"/>
-      <rect x="44" y="4" width="4" height="4" fill="#E52521"/>
-      <rect x="12" y="8" width="4" height="4" fill="#6B3E08"/>
-      <rect x="16" y="8" width="4" height="4" fill="#6B3E08"/>
-      <rect x="20" y="8" width="4" height="4" fill="#6B3E08"/>
-      <rect x="24" y="8" width="4" height="4" fill="#FBD000"/>
-      <rect x="28" y="8" width="4" height="4" fill="#FBD000"/>
-      <rect x="32" y="8" width="4" height="4" fill="#C8A000"/>
-      <rect x="36" y="8" width="4" height="4" fill="#6B3E08"/>
-      <rect x="8" y="12" width="4" height="4" fill="#6B3E08"/>
-      <rect x="12" y="12" width="4" height="4" fill="#FBD000"/>
-      <rect x="16" y="12" width="4" height="4" fill="#6B3E08"/>
-      <rect x="20" y="12" width="4" height="4" fill="#FBD000"/>
-      <rect x="24" y="12" width="4" height="4" fill="#FBD000"/>
-      <rect x="28" y="12" width="4" height="4" fill="#FBD000"/>
-      <rect x="32" y="12" width="4" height="4" fill="#C8A000"/>
-      <rect x="36" y="12" width="4" height="4" fill="#6B3E08"/>
-      <rect x="40" y="12" width="4" height="4" fill="#FBD000"/>
-      <rect x="8" y="16" width="4" height="4" fill="#6B3E08"/>
-      <rect x="12" y="16" width="4" height="4" fill="#FBD000"/>
-      <rect x="16" y="16" width="4" height="4" fill="#6B3E08"/>
-      <rect x="20" y="16" width="4" height="4" fill="#6B3E08"/>
-      <rect x="24" y="16" width="4" height="4" fill="#FBD000"/>
-      <rect x="28" y="16" width="4" height="4" fill="#FBD000"/>
-      <rect x="32" y="16" width="4" height="4" fill="#FBD000"/>
-      <rect x="36" y="16" width="4" height="4" fill="#C8A000"/>
-      <rect x="40" y="16" width="4" height="4" fill="#FBD000"/>
-      <rect x="44" y="16" width="4" height="4" fill="#FBD000"/>
-      <rect x="8" y="20" width="4" height="4" fill="#6B3E08"/>
-      <rect x="12" y="20" width="4" height="4" fill="#6B3E08"/>
-      <rect x="16" y="20" width="4" height="4" fill="#FBD000"/>
-      <rect x="20" y="20" width="4" height="4" fill="#FBD000"/>
-      <rect x="24" y="20" width="4" height="4" fill="#FBD000"/>
-      <rect x="28" y="20" width="4" height="4" fill="#FBD000"/>
-      <rect x="32" y="20" width="4" height="4" fill="#C8A000"/>
-      <rect x="36" y="20" width="4" height="4" fill="#6B3E08"/>
-      <rect x="16" y="24" width="4" height="4" fill="#FBD000"/>
-      <rect x="20" y="24" width="4" height="4" fill="#FBD000"/>
-      <rect x="24" y="24" width="4" height="4" fill="#FBD000"/>
-      <rect x="28" y="24" width="4" height="4" fill="#FBD000"/>
-      <rect x="32" y="24" width="4" height="4" fill="#FBD000"/>
-      <rect x="36" y="24" width="4" height="4" fill="#FBD000"/>
-      <rect x="8" y="28" width="4" height="4" fill="#E52521"/>
-      <rect x="12" y="28" width="4" height="4" fill="#E52521"/>
-      <rect x="16" y="28" width="4" height="4" fill="#0050CC"/>
-      <rect x="20" y="28" width="4" height="4" fill="#E52521"/>
-      <rect x="24" y="28" width="4" height="4" fill="#E52521"/>
-      <rect x="28" y="28" width="4" height="4" fill="#E52521"/>
-      <rect x="32" y="28" width="4" height="4" fill="#003388"/>
-      <rect x="0" y="32" width="4" height="4" fill="#FBD000"/>
-      <rect x="4" y="32" width="4" height="4" fill="#E52521"/>
-      <rect x="8" y="32" width="4" height="4" fill="#E52521"/>
-      <rect x="12" y="32" width="4" height="4" fill="#E52521"/>
-      <rect x="16" y="32" width="4" height="4" fill="#0050CC"/>
-      <rect x="20" y="32" width="4" height="4" fill="#0050CC"/>
-      <rect x="24" y="32" width="4" height="4" fill="#0050CC"/>
-      <rect x="28" y="32" width="4" height="4" fill="#E52521"/>
-      <rect x="32" y="32" width="4" height="4" fill="#E52521"/>
-      <rect x="36" y="32" width="4" height="4" fill="#E52521"/>
-      <rect x="40" y="32" width="4" height="4" fill="#003388"/>
-      <rect x="44" y="32" width="4" height="4" fill="#FBD000"/>
-      <rect x="0" y="36" width="4" height="4" fill="#FBD000"/>
-      <rect x="4" y="36" width="4" height="4" fill="#FBD000"/>
-      <rect x="8" y="36" width="4" height="4" fill="#E52521"/>
-      <rect x="12" y="36" width="4" height="4" fill="#0050CC"/>
-      <rect x="16" y="36" width="4" height="4" fill="#0050CC"/>
-      <rect x="20" y="36" width="4" height="4" fill="#FFD700"/>
-      <rect x="24" y="36" width="4" height="4" fill="#0050CC"/>
-      <rect x="28" y="36" width="4" height="4" fill="#0050CC"/>
-      <rect x="32" y="36" width="4" height="4" fill="#E52521"/>
-      <rect x="36" y="36" width="4" height="4" fill="#003388"/>
-      <rect x="40" y="36" width="4" height="4" fill="#FBD000"/>
-      <rect x="44" y="36" width="4" height="4" fill="#FBD000"/>
-      <rect x="8" y="40" width="4" height="4" fill="#0050CC"/>
-      <rect x="12" y="40" width="4" height="4" fill="#0050CC"/>
-      <rect x="16" y="40" width="4" height="4" fill="#0050CC"/>
-      <rect x="20" y="40" width="4" height="4" fill="#0050CC"/>
-      <rect x="24" y="40" width="4" height="4" fill="#0050CC"/>
-      <rect x="28" y="40" width="4" height="4" fill="#0050CC"/>
-      <rect x="32" y="40" width="4" height="4" fill="#0050CC"/>
-      <rect x="36" y="40" width="4" height="4" fill="#0050CC"/>
-      <rect x="8" y="44" width="4" height="4" fill="#0050CC"/>
-      <rect x="12" y="44" width="4" height="4" fill="#0050CC"/>
-      <rect x="16" y="44" width="4" height="4" fill="#0050CC"/>
-      <rect x="20" y="44" width="4" height="4" fill="#0050CC"/>
-      <rect x="24" y="44" width="4" height="4" fill="#0050CC"/>
-      <rect x="28" y="44" width="4" height="4" fill="#0050CC"/>
-      <rect x="32" y="44" width="4" height="4" fill="#0050CC"/>
-      <rect x="36" y="44" width="4" height="4" fill="#0050CC"/>
-      <rect x="8" y="48" width="4" height="4" fill="#0050CC"/>
-      <rect x="12" y="48" width="4" height="4" fill="#0050CC"/>
-      <rect x="16" y="48" width="4" height="4" fill="#0050CC"/>
-      <rect x="28" y="48" width="4" height="4" fill="#0050CC"/>
-      <rect x="32" y="48" width="4" height="4" fill="#0050CC"/>
-      <rect x="36" y="48" width="4" height="4" fill="#0050CC"/>
-      <rect x="4" y="52" width="4" height="4" fill="#6B3E08"/>
-      <rect x="8" y="52" width="4" height="4" fill="#6B3E08"/>
-      <rect x="12" y="52" width="4" height="4" fill="#6B3E08"/>
-      <rect x="32" y="52" width="4" height="4" fill="#6B3E08"/>
-      <rect x="36" y="52" width="4" height="4" fill="#6B3E08"/>
-      <rect x="40" y="52" width="4" height="4" fill="#6B3E08"/>
-      <rect x="0" y="56" width="4" height="4" fill="#6B3E08"/>
-      <rect x="4" y="56" width="4" height="4" fill="#6B3E08"/>
-      <rect x="8" y="56" width="4" height="4" fill="#6B3E08"/>
-      <rect x="12" y="56" width="4" height="4" fill="#6B3E08"/>
-      <rect x="32" y="56" width="4" height="4" fill="#6B3E08"/>
-      <rect x="36" y="56" width="4" height="4" fill="#6B3E08"/>
-      <rect x="40" y="56" width="4" height="4" fill="#6B3E08"/>
-      <rect x="44" y="56" width="4" height="4" fill="#6B3E08"/>
+    mario_char_block = f"""<!-- ========= MARIO CHARACTER ========= -->
+  <g class="mario-container">
+    <g class="mario-walk-cycle">
+      <g class="walk-f1">
+{sprite_to_svg(WALK_F1)}
+      </g>
+      <g class="walk-f2">
+{sprite_to_svg(WALK_F2)}
+      </g>
+      <g class="walk-f3">
+{sprite_to_svg(WALK_F3)}
+      </g>
     </g>
-    <g class="walk-f2">
-      <rect x="16" y="0" width="4" height="4" fill="#E52521"/>
-      <rect x="20" y="0" width="4" height="4" fill="#E52521"/>
-      <rect x="24" y="0" width="4" height="4" fill="#E52521"/>
-      <rect x="28" y="0" width="4" height="4" fill="#E52521"/>
-      <rect x="32" y="0" width="4" height="4" fill="#E52521"/>
-      <rect x="12" y="4" width="4" height="4" fill="#E52521"/>
-      <rect x="16" y="4" width="4" height="4" fill="#E52521"/>
-      <rect x="20" y="4" width="4" height="4" fill="#E52521"/>
-      <rect x="24" y="4" width="4" height="4" fill="#E52521"/>
-      <rect x="28" y="4" width="4" height="4" fill="#E52521"/>
-      <rect x="32" y="4" width="4" height="4" fill="#E52521"/>
-      <rect x="36" y="4" width="4" height="4" fill="#E52521"/>
-      <rect x="40" y="4" width="4" height="4" fill="#E52521"/>
-      <rect x="44" y="4" width="4" height="4" fill="#E52521"/>
-      <rect x="12" y="8" width="4" height="4" fill="#6B3E08"/>
-      <rect x="16" y="8" width="4" height="4" fill="#6B3E08"/>
-      <rect x="20" y="8" width="4" height="4" fill="#6B3E08"/>
-      <rect x="24" y="8" width="4" height="4" fill="#FBD000"/>
-      <rect x="28" y="8" width="4" height="4" fill="#FBD000"/>
-      <rect x="32" y="8" width="4" height="4" fill="#C8A000"/>
-      <rect x="36" y="8" width="4" height="4" fill="#6B3E08"/>
-      <rect x="8" y="12" width="4" height="4" fill="#6B3E08"/>
-      <rect x="12" y="12" width="4" height="4" fill="#FBD000"/>
-      <rect x="16" y="12" width="4" height="4" fill="#6B3E08"/>
-      <rect x="20" y="12" width="4" height="4" fill="#FBD000"/>
-      <rect x="24" y="12" width="4" height="4" fill="#FBD000"/>
-      <rect x="28" y="12" width="4" height="4" fill="#FBD000"/>
-      <rect x="32" y="12" width="4" height="4" fill="#C8A000"/>
-      <rect x="36" y="12" width="4" height="4" fill="#6B3E08"/>
-      <rect x="40" y="12" width="4" height="4" fill="#FBD000"/>
-      <rect x="8" y="16" width="4" height="4" fill="#6B3E08"/>
-      <rect x="12" y="16" width="4" height="4" fill="#FBD000"/>
-      <rect x="16" y="16" width="4" height="4" fill="#6B3E08"/>
-      <rect x="20" y="16" width="4" height="4" fill="#6B3E08"/>
-      <rect x="24" y="16" width="4" height="4" fill="#FBD000"/>
-      <rect x="28" y="16" width="4" height="4" fill="#FBD000"/>
-      <rect x="32" y="16" width="4" height="4" fill="#FBD000"/>
-      <rect x="36" y="16" width="4" height="4" fill="#C8A000"/>
-      <rect x="40" y="16" width="4" height="4" fill="#FBD000"/>
-      <rect x="44" y="16" width="4" height="4" fill="#FBD000"/>
-      <rect x="8" y="20" width="4" height="4" fill="#6B3E08"/>
-      <rect x="12" y="20" width="4" height="4" fill="#6B3E08"/>
-      <rect x="16" y="20" width="4" height="4" fill="#FBD000"/>
-      <rect x="20" y="20" width="4" height="4" fill="#FBD000"/>
-      <rect x="24" y="20" width="4" height="4" fill="#FBD000"/>
-      <rect x="28" y="20" width="4" height="4" fill="#FBD000"/>
-      <rect x="32" y="20" width="4" height="4" fill="#C8A000"/>
-      <rect x="36" y="20" width="4" height="4" fill="#6B3E08"/>
-      <rect x="16" y="24" width="4" height="4" fill="#FBD000"/>
-      <rect x="20" y="24" width="4" height="4" fill="#FBD000"/>
-      <rect x="24" y="24" width="4" height="4" fill="#FBD000"/>
-      <rect x="28" y="24" width="4" height="4" fill="#FBD000"/>
-      <rect x="32" y="24" width="4" height="4" fill="#FBD000"/>
-      <rect x="36" y="24" width="4" height="4" fill="#FBD000"/>
-      <rect x="12" y="28" width="4" height="4" fill="#E52521"/>
-      <rect x="16" y="28" width="4" height="4" fill="#E52521"/>
-      <rect x="20" y="28" width="4" height="4" fill="#0050CC"/>
-      <rect x="24" y="28" width="4" height="4" fill="#E52521"/>
-      <rect x="28" y="28" width="4" height="4" fill="#E52521"/>
-      <rect x="8" y="32" width="4" height="4" fill="#E52521"/>
-      <rect x="12" y="32" width="4" height="4" fill="#E52521"/>
-      <rect x="16" y="32" width="4" height="4" fill="#0050CC"/>
-      <rect x="20" y="32" width="4" height="4" fill="#0050CC"/>
-      <rect x="24" y="32" width="4" height="4" fill="#0050CC"/>
-      <rect x="28" y="32" width="4" height="4" fill="#E52521"/>
-      <rect x="32" y="32" width="4" height="4" fill="#E52521"/>
-      <rect x="36" y="32" width="4" height="4" fill="#003388"/>
-      <rect x="4" y="36" width="4" height="4" fill="#E52521"/>
-      <rect x="8" y="36" width="4" height="4" fill="#E52521"/>
-      <rect x="12" y="36" width="4" height="4" fill="#0050CC"/>
-      <rect x="16" y="36" width="4" height="4" fill="#0050CC"/>
-      <rect x="20" y="36" width="4" height="4" fill="#FFD700"/>
-      <rect x="24" y="36" width="4" height="4" fill="#0050CC"/>
-      <rect x="28" y="36" width="4" height="4" fill="#0050CC"/>
-      <rect x="32" y="36" width="4" height="4" fill="#E52521"/>
-      <rect x="36" y="36" width="4" height="4" fill="#E52521"/>
-      <rect x="40" y="36" width="4" height="4" fill="#003388"/>
-      <rect x="4" y="40" width="4" height="4" fill="#FBD000"/>
-      <rect x="8" y="40" width="4" height="4" fill="#FBD000"/>
-      <rect x="12" y="40" width="4" height="4" fill="#0050CC"/>
-      <rect x="16" y="40" width="4" height="4" fill="#0050CC"/>
-      <rect x="20" y="40" width="4" height="4" fill="#0050CC"/>
-      <rect x="24" y="40" width="4" height="4" fill="#0050CC"/>
-      <rect x="28" y="40" width="4" height="4" fill="#0050CC"/>
-      <rect x="32" y="40" width="4" height="4" fill="#0050CC"/>
-      <rect x="36" y="40" width="4" height="4" fill="#FBD000"/>
-      <rect x="40" y="40" width="4" height="4" fill="#FBD000"/>
-      <rect x="12" y="44" width="4" height="4" fill="#0050CC"/>
-      <rect x="16" y="44" width="4" height="4" fill="#0050CC"/>
-      <rect x="20" y="44" width="4" height="4" fill="#0050CC"/>
-      <rect x="24" y="44" width="4" height="4" fill="#0050CC"/>
-      <rect x="28" y="44" width="4" height="4" fill="#0050CC"/>
-      <rect x="32" y="44" width="4" height="4" fill="#0050CC"/>
-      <rect x="8" y="48" width="4" height="4" fill="#0050CC"/>
-      <rect x="12" y="48" width="4" height="4" fill="#0050CC"/>
-      <rect x="32" y="48" width="4" height="4" fill="#0050CC"/>
-      <rect x="36" y="48" width="4" height="4" fill="#0050CC"/>
-      <rect x="4" y="52" width="4" height="4" fill="#6B3E08"/>
-      <rect x="8" y="52" width="4" height="4" fill="#6B3E08"/>
-      <rect x="12" y="52" width="4" height="4" fill="#6B3E08"/>
-      <rect x="32" y="52" width="4" height="4" fill="#6B3E08"/>
-      <rect x="36" y="52" width="4" height="4" fill="#6B3E08"/>
-      <rect x="40" y="52" width="4" height="4" fill="#6B3E08"/>
-    </g>
-    <g class="walk-f3">
-      <rect x="16" y="0" width="4" height="4" fill="#E52521"/>
-      <rect x="20" y="0" width="4" height="4" fill="#E52521"/>
-      <rect x="24" y="0" width="4" height="4" fill="#E52521"/>
-      <rect x="28" y="0" width="4" height="4" fill="#E52521"/>
-      <rect x="32" y="0" width="4" height="4" fill="#E52521"/>
-      <rect x="12" y="4" width="4" height="4" fill="#E52521"/>
-      <rect x="16" y="4" width="4" height="4" fill="#E52521"/>
-      <rect x="20" y="4" width="4" height="4" fill="#E52521"/>
-      <rect x="24" y="4" width="4" height="4" fill="#E52521"/>
-      <rect x="28" y="4" width="4" height="4" fill="#E52521"/>
-      <rect x="32" y="4" width="4" height="4" fill="#E52521"/>
-      <rect x="36" y="4" width="4" height="4" fill="#E52521"/>
-      <rect x="40" y="4" width="4" height="4" fill="#E52521"/>
-      <rect x="44" y="4" width="4" height="4" fill="#E52521"/>
-      <rect x="12" y="8" width="4" height="4" fill="#6B3E08"/>
-      <rect x="16" y="8" width="4" height="4" fill="#6B3E08"/>
-      <rect x="20" y="8" width="4" height="4" fill="#6B3E08"/>
-      <rect x="24" y="8" width="4" height="4" fill="#FBD000"/>
-      <rect x="28" y="8" width="4" height="4" fill="#FBD000"/>
-      <rect x="32" y="8" width="4" height="4" fill="#C8A000"/>
-      <rect x="36" y="8" width="4" height="4" fill="#6B3E08"/>
-      <rect x="8" y="12" width="4" height="4" fill="#6B3E08"/>
-      <rect x="12" y="12" width="4" height="4" fill="#FBD000"/>
-      <rect x="16" y="12" width="4" height="4" fill="#6B3E08"/>
-      <rect x="20" y="12" width="4" height="4" fill="#FBD000"/>
-      <rect x="24" y="12" width="4" height="4" fill="#FBD000"/>
-      <rect x="28" y="12" width="4" height="4" fill="#FBD000"/>
-      <rect x="32" y="12" width="4" height="4" fill="#C8A000"/>
-      <rect x="36" y="12" width="4" height="4" fill="#6B3E08"/>
-      <rect x="40" y="12" width="4" height="4" fill="#FBD000"/>
-      <rect x="8" y="16" width="4" height="4" fill="#6B3E08"/>
-      <rect x="12" y="16" width="4" height="4" fill="#FBD000"/>
-      <rect x="16" y="16" width="4" height="4" fill="#6B3E08"/>
-      <rect x="20" y="16" width="4" height="4" fill="#6B3E08"/>
-      <rect x="24" y="16" width="4" height="4" fill="#FBD000"/>
-      <rect x="28" y="16" width="4" height="4" fill="#FBD000"/>
-      <rect x="32" y="16" width="4" height="4" fill="#FBD000"/>
-      <rect x="36" y="16" width="4" height="4" fill="#C8A000"/>
-      <rect x="40" y="16" width="4" height="4" fill="#FBD000"/>
-      <rect x="44" y="16" width="4" height="4" fill="#FBD000"/>
-      <rect x="8" y="20" width="4" height="4" fill="#6B3E08"/>
-      <rect x="12" y="20" width="4" height="4" fill="#6B3E08"/>
-      <rect x="16" y="20" width="4" height="4" fill="#FBD000"/>
-      <rect x="20" y="20" width="4" height="4" fill="#FBD000"/>
-      <rect x="24" y="20" width="4" height="4" fill="#FBD000"/>
-      <rect x="28" y="20" width="4" height="4" fill="#FBD000"/>
-      <rect x="32" y="20" width="4" height="4" fill="#C8A000"/>
-      <rect x="36" y="20" width="4" height="4" fill="#6B3E08"/>
-      <rect x="16" y="24" width="4" height="4" fill="#FBD000"/>
-      <rect x="20" y="24" width="4" height="4" fill="#FBD000"/>
-      <rect x="24" y="24" width="4" height="4" fill="#FBD000"/>
-      <rect x="28" y="24" width="4" height="4" fill="#FBD000"/>
-      <rect x="32" y="24" width="4" height="4" fill="#FBD000"/>
-      <rect x="36" y="24" width="4" height="4" fill="#FBD000"/>
-      <rect x="12" y="28" width="4" height="4" fill="#E52521"/>
-      <rect x="16" y="28" width="4" height="4" fill="#E52521"/>
-      <rect x="20" y="28" width="4" height="4" fill="#0050CC"/>
-      <rect x="24" y="28" width="4" height="4" fill="#E52521"/>
-      <rect x="28" y="28" width="4" height="4" fill="#E52521"/>
-      <rect x="32" y="28" width="4" height="4" fill="#003388"/>
-      <rect x="12" y="32" width="4" height="4" fill="#E52521"/>
-      <rect x="16" y="32" width="4" height="4" fill="#0050CC"/>
-      <rect x="20" y="32" width="4" height="4" fill="#0050CC"/>
-      <rect x="24" y="32" width="4" height="4" fill="#0050CC"/>
-      <rect x="28" y="32" width="4" height="4" fill="#E52521"/>
-      <rect x="32" y="32" width="4" height="4" fill="#E52521"/>
-      <rect x="36" y="32" width="4" height="4" fill="#003388"/>
-      <rect x="8" y="36" width="4" height="4" fill="#E52521"/>
-      <rect x="12" y="36" width="4" height="4" fill="#0050CC"/>
-      <rect x="16" y="36" width="4" height="4" fill="#0050CC"/>
-      <rect x="20" y="36" width="4" height="4" fill="#FFD700"/>
-      <rect x="24" y="36" width="4" height="4" fill="#0050CC"/>
-      <rect x="28" y="36" width="4" height="4" fill="#0050CC"/>
-      <rect x="32" y="36" width="4" height="4" fill="#E52521"/>
-      <rect x="36" y="36" width="4" height="4" fill="#E52521"/>
-      <rect x="40" y="36" width="4" height="4" fill="#003388"/>
-      <rect x="8" y="40" width="4" height="4" fill="#E52521"/>
-      <rect x="12" y="40" width="4" height="4" fill="#0050CC"/>
-      <rect x="16" y="40" width="4" height="4" fill="#0050CC"/>
-      <rect x="20" y="40" width="4" height="4" fill="#0050CC"/>
-      <rect x="24" y="40" width="4" height="4" fill="#0050CC"/>
-      <rect x="28" y="40" width="4" height="4" fill="#0050CC"/>
-      <rect x="32" y="40" width="4" height="4" fill="#0050CC"/>
-      <rect x="36" y="40" width="4" height="4" fill="#FBD000"/>
-      <rect x="40" y="40" width="4" height="4" fill="#FBD000"/>
-      <rect x="12" y="44" width="4" height="4" fill="#0050CC"/>
-      <rect x="16" y="44" width="4" height="4" fill="#0050CC"/>
-      <rect x="20" y="44" width="4" height="4" fill="#0050CC"/>
-      <rect x="24" y="44" width="4" height="4" fill="#0050CC"/>
-      <rect x="28" y="44" width="4" height="4" fill="#0050CC"/>
-      <rect x="32" y="44" width="4" height="4" fill="#0050CC"/>
-      <rect x="12" y="48" width="4" height="4" fill="#0050CC"/>
-      <rect x="16" y="48" width="4" height="4" fill="#0050CC"/>
-      <rect x="28" y="48" width="4" height="4" fill="#0050CC"/>
-      <rect x="32" y="48" width="4" height="4" fill="#0050CC"/>
-      <rect x="36" y="48" width="4" height="4" fill="#0050CC"/>
-      <rect x="8" y="52" width="4" height="4" fill="#6B3E08"/>
-      <rect x="12" y="52" width="4" height="4" fill="#6B3E08"/>
-      <rect x="16" y="52" width="4" height="4" fill="#6B3E08"/>
-      <rect x="28" y="52" width="4" height="4" fill="#6B3E08"/>
-      <rect x="32" y="52" width="4" height="4" fill="#6B3E08"/>
-      <rect x="36" y="52" width="4" height="4" fill="#6B3E08"/>
-      <rect x="4" y="56" width="4" height="4" fill="#6B3E08"/>
-      <rect x="8" y="56" width="4" height="4" fill="#6B3E08"/>
-      <rect x="12" y="56" width="4" height="4" fill="#6B3E08"/>
-      <rect x="28" y="56" width="4" height="4" fill="#6B3E08"/>
-      <rect x="32" y="56" width="4" height="4" fill="#6B3E08"/>
-      <rect x="36" y="56" width="4" height="4" fill="#6B3E08"/>
+    <g class="mario-jump-frame">
+{sprite_to_svg(JUMP_F1)}
     </g>
   </g>"""
 
@@ -503,7 +285,6 @@ def main():
       /* ---- Classes ---- */
       .layer-far  {{ animation: scrollFar  30s linear infinite; }}
       .layer-mid  {{ animation: scrollMid  18s linear infinite; }}
-      .layer-near {{ animation: scrollNear  8s linear infinite; }}
 
       .walk-f1, .walk-f2, .walk-f3 {{
         opacity: 0;
@@ -520,6 +301,101 @@ def main():
       .sparkle {{ animation: sparkle 2s ease-in-out infinite; }}
       .blink-cursor {{ animation: blink 1s step-end infinite; }}
       .glow    {{ animation: glowPulse 2s ease-in-out infinite; }}
+
+      /* ---- Mario Movement & State Sync ---- */
+      @keyframes marioMove {{
+        0% {{ transform: translate(-50px, 100px); }}
+        20% {{ transform: translate(150px, 100px); }}
+        22% {{ transform: translate(180px, 70px); }}
+        24% {{ transform: translate(216px, 40px); }}
+        26% {{ transform: translate(248px, 70px); }}
+        28% {{ transform: translate(280px, 100px); }}
+        42% {{ transform: translate(430px, 100px); }}
+        44% {{ transform: translate(455px, 75px); }}
+        47% {{ transform: translate(480px, 50px); }}
+        50% {{ transform: translate(505px, 75px); }}
+        52% {{ transform: translate(530px, 100px); }}
+        56% {{ transform: translate(580px, 100px); }}
+        58% {{ transform: translate(610px, 66px); }}
+        61% {{ transform: translate(640px, 30px); }}
+        64% {{ transform: translate(670px, 66px); }}
+        66% {{ transform: translate(700px, 100px); }}
+        80% {{ transform: translate(850px, 100px); }}
+        100% {{ transform: translate(850px, 100px); }}
+      }}
+
+      @keyframes walkVisibility {{
+        0%, 19.99% {{ opacity: 1; }}
+        20%, 28%   {{ opacity: 0; }}
+        28.01%, 41.99% {{ opacity: 1; }}
+        42%, 52%   {{ opacity: 0; }}
+        52.01%, 55.99% {{ opacity: 1; }}
+        56%, 66%   {{ opacity: 0; }}
+        66.01%, 100% {{ opacity: 1; }}
+      }}
+
+      @keyframes jumpVisibility {{
+        0%, 19.99% {{ opacity: 0; }}
+        20%, 28%   {{ opacity: 1; }}
+        28.01%, 41.99% {{ opacity: 0; }}
+        42%, 52%   {{ opacity: 1; }}
+        52.01%, 55.99% {{ opacity: 0; }}
+        56%, 66%   {{ opacity: 1; }}
+        66.01%, 100% {{ opacity: 0; }}
+      }}
+
+      .mario-container {{
+        animation: marioMove 12s linear infinite;
+      }}
+
+      .mario-walk-cycle {{
+        animation: walkVisibility 12s step-start infinite;
+      }}
+
+      .mario-jump-frame {{
+        animation: jumpVisibility 12s step-start infinite;
+        opacity: 0;
+      }}
+
+      /* ---- Block 2 Bounce & Coin Pop ---- */
+      @keyframes block2Bounce {{
+        0%, 23.99% {{ transform: translateY(0px); }}
+        24%        {{ transform: translateY(-6px); }}
+        25%        {{ transform: translateY(2px); }}
+        26%, 100%  {{ transform: translateY(0px); }}
+      }}
+      .block-2 {{
+        animation: block2Bounce 12s ease-in-out infinite;
+      }}
+
+      @keyframes coin2Pop {{
+        0%, 23.99% {{ opacity: 0; transform: translateY(0px) scale(0); }}
+        24%        {{ opacity: 1; transform: translateY(-20px) scale(1); }}
+        25.5%      {{ opacity: 1; transform: translateY(-30px) scale(1) scaleX(0.2); }}
+        27%        {{ opacity: 0; transform: translateY(-10px) scale(0.5); }}
+        27.01%, 100% {{ opacity: 0; transform: translateY(0px) scale(0); }}
+      }}
+      .coin-2-pop {{
+        animation: coin2Pop 12s ease-in-out infinite;
+        transform-origin: center;
+      }}
+
+      /* ---- Coin Collection ---- */
+      @keyframes coinCollect1 {{
+        0%, 67.49% {{ opacity: 1; }}
+        67.5%, 100% {{ opacity: 0; }}
+      }}
+      @keyframes coinCollect2 {{
+        0%, 69.49% {{ opacity: 1; }}
+        69.5%, 100% {{ opacity: 0; }}
+      }}
+      @keyframes coinCollect3 {{
+        0%, 71.49% {{ opacity: 1; }}
+        71.5%, 100% {{ opacity: 0; }}
+      }}
+      .coin-c1 {{ animation: coinCollect1 12s step-end infinite; }}
+      .coin-c2 {{ animation: coinCollect2 12s step-end infinite; }}
+      .coin-c3 {{ animation: coinCollect3 12s step-end infinite; }}
 
       /* ---- Responsive Light/Dark Mode Sky and Cloud styling ---- */
       .sky-bg {{
@@ -636,11 +512,11 @@ def main():
   <!-- Near Layer: Ground, pipes, blocks, coins -->
   <g class="layer-near">
     <!-- Ground -->
-    <rect y="168" width="1600" height="32" fill="url(#brick)"/>
-    <rect y="166" width="1600" height="3" fill="#88CC44"/>
+    <rect y="168" width="800" height="32" fill="url(#brick)"/>
+    <rect y="166" width="800" height="3" fill="#88CC44"/>
 
     <!-- Question Blocks -->
-    <g class="bounce" style="animation-delay: 0s;">
+    <g style="animation: bounce 1.5s ease-in-out infinite; animation-delay: 0s;">
       <g transform="translate(200,96)">
         <rect width="32" height="32" fill="#E07020" stroke="#6B3E08" stroke-width="2" rx="1"/>
         <rect x="2" y="2" width="28" height="28" fill="#FBD000" rx="1"/>
@@ -649,7 +525,7 @@ def main():
         <path d="M 12 8 h 8 v 4 h -4 v 4 h -4 v -4 h 4 v -2 h -4 Z M 12 18 h 4 v 4 h -4 Z" fill="#FBD000"/>
       </g>
     </g>
-    <g class="bounce" style="animation-delay: 0.3s;">
+    <g class="block-2">
       <g transform="translate(236,96)">
         <rect width="32" height="32" fill="#E07020" stroke="#6B3E08" stroke-width="2" rx="1"/>
         <rect x="2" y="2" width="28" height="28" fill="#FBD000" rx="1"/>
@@ -657,7 +533,7 @@ def main():
         <path d="M 12 8 h 8 v 4 h -4 v 4 h -4 v -4 h 4 v -2 h -4 Z M 12 18 h 4 v 4 h -4 Z" fill="#FBD000"/>
       </g>
     </g>
-    <g class="bounce" style="animation-delay: 0.6s;">
+    <g style="animation: bounce 1.5s ease-in-out infinite; animation-delay: 0.6s;">
       <g transform="translate(272,96)">
         <rect width="32" height="32" fill="#E07020" stroke="#6B3E08" stroke-width="2" rx="1"/>
         <rect x="2" y="2" width="28" height="28" fill="#FBD000" rx="1"/>
@@ -682,57 +558,13 @@ def main():
 
     <!-- Coins (Floating above blocks) -->
     <g class="coin glow" style="animation-delay:0s;"   transform="translate(208, 72)"><use href="#coin-def"/></g>
-    <g class="coin glow" style="animation-delay:0.3s;" transform="translate(244, 72)"><use href="#coin-def"/></g>
+    <g class="coin-2-pop glow" transform="translate(244, 72)"><use href="#coin-def"/></g>
     <g class="coin glow" style="animation-delay:0.6s;" transform="translate(280, 72)"><use href="#coin-def"/></g>
 
     <!-- Ground Level Coins -->
-    <g class="coin glow" style="animation-delay:0.1s;" transform="translate(710, 125)"><use href="#coin-def"/></g>
-    <g class="coin glow" style="animation-delay:0.4s;" transform="translate(730, 125)"><use href="#coin-def"/></g>
-    <g class="coin glow" style="animation-delay:0.7s;" transform="translate(750, 125)"><use href="#coin-def"/></g>
-
-    <!-- ==== DUPLICATES FOR SEAMLESS LOOPING ==== -->
-    <g class="bounce" style="animation-delay: 0s;">
-      <g transform="translate(1000,96)">
-        <rect width="32" height="32" fill="#E07020" stroke="#6B3E08" stroke-width="2" rx="1"/>
-        <rect x="2" y="2" width="28" height="28" fill="#FBD000" rx="1"/>
-        <rect x="4" y="4" width="24" height="24" fill="#E07020" rx="1"/>
-        <path d="M 12 8 h 8 v 4 h -4 v 4 h -4 v -4 h 4 v -2 h -4 Z M 12 18 h 4 v 4 h -4 Z" fill="#FBD000"/>
-      </g>
-    </g>
-    <g class="bounce" style="animation-delay: 0.3s;">
-      <g transform="translate(1036,96)">
-        <rect width="32" height="32" fill="#E07020" stroke="#6B3E08" stroke-width="2" rx="1"/>
-        <rect x="2" y="2" width="28" height="28" fill="#FBD000" rx="1"/>
-        <rect x="4" y="4" width="24" height="24" fill="#E07020" rx="1"/>
-        <path d="M 12 8 h 8 v 4 h -4 v 4 h -4 v -4 h 4 v -2 h -4 Z M 12 18 h 4 v 4 h -4 Z" fill="#FBD000"/>
-      </g>
-    </g>
-    <g class="bounce" style="animation-delay: 0.6s;">
-      <g transform="translate(1072,96)">
-        <rect width="32" height="32" fill="#E07020" stroke="#6B3E08" stroke-width="2" rx="1"/>
-        <rect x="2" y="2" width="28" height="28" fill="#FBD000" rx="1"/>
-        <rect x="4" y="4" width="24" height="24" fill="#E07020" rx="1"/>
-        <path d="M 12 8 h 8 v 4 h -4 v 4 h -4 v -4 h 4 v -2 h -4 Z M 12 18 h 4 v 4 h -4 Z" fill="#FBD000"/>
-      </g>
-    </g>
-    <g transform="translate(1300,118)">
-      <rect x="0" y="0" width="44" height="14" fill="#00AA00" stroke="#004400" stroke-width="1.5" rx="1"/>
-      <rect x="3" y="3" width="8" height="8" fill="#55DD55"/>
-      <rect x="5" y="14" width="34" height="36" fill="#00AA00" stroke="#004400" stroke-width="1.5"/>
-      <rect x="8" y="14" width="6" height="36" fill="#55DD55"/>
-    </g>
-    <g transform="translate(1440,102)">
-      <rect x="0" y="0" width="44" height="14" fill="#00AA00" stroke="#004400" stroke-width="1.5" rx="1"/>
-      <rect x="3" y="3" width="8" height="8" fill="#55DD55"/>
-      <rect x="5" y="14" width="34" height="52" fill="#00AA00" stroke="#004400" stroke-width="1.5"/>
-      <rect x="8" y="14" width="6" height="52" fill="#55DD55"/>
-    </g>
-    <g class="coin glow" style="animation-delay:0s;"   transform="translate(1008, 72)"><use href="#coin-def"/></g>
-    <g class="coin glow" style="animation-delay:0.3s;" transform="translate(1044, 72)"><use href="#coin-def"/></g>
-    <g class="coin glow" style="animation-delay:0.6s;" transform="translate(1080, 72)"><use href="#coin-def"/></g>
-    <g class="coin glow" style="animation-delay:0.1s;" transform="translate(1510, 125)"><use href="#coin-def"/></g>
-    <g class="coin glow" style="animation-delay:0.4s;" transform="translate(1530, 125)"><use href="#coin-def"/></g>
-    <g class="coin glow" style="animation-delay:0.7s;" transform="translate(1550, 125)"><use href="#coin-def"/></g>
+    <g class="coin glow coin-c1" transform="translate(710, 125)"><use href="#coin-def"/></g>
+    <g class="coin glow coin-c2" transform="translate(730, 125)"><use href="#coin-def"/></g>
+    <g class="coin glow coin-c3" transform="translate(750, 125)"><use href="#coin-def"/></g>
   </g>
 
   <!-- ========= MARIO CHARACTER ========= -->
