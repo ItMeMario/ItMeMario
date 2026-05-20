@@ -1,4 +1,4 @@
-<svg width="800" height="200" viewBox="0 0 800 200" xmlns="http://www.w3.org/2000/svg">
+<svg width="800" height="200" viewBox="0 0 800 200" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
   <defs>
     <style>
       /* ---- Parallax Scrolling ---- */
@@ -12,10 +12,10 @@
         33.34%, 100% { opacity: 0; }
       }
 
-      /* ---- Floating ---- */
+      /* ---- Floating Title ---- */
       @keyframes float {
         0%, 100% { transform: translateY(0px); }
-        50%      { transform: translateY(-8px); }
+        50%      { transform: translateY(-6px); }
       }
 
       /* ---- Bounce (Question Block) ---- */
@@ -33,15 +33,14 @@
         100% { transform: scaleX(1); }
       }
 
-      /* ---- Rainbow Text ---- */
+      /* ---- Retro Rainbow Text ---- */
       @keyframes rainbow {
-        0%   { fill: #FF4444; }
-        16%  { fill: #FF8800; }
-        33%  { fill: #FFDD00; }
-        50%  { fill: #44DD44; }
-        66%  { fill: #4488FF; }
-        83%  { fill: #CC44FF; }
-        100% { fill: #FF4444; }
+        0%   { fill: #FF3333; }
+        20%  { fill: #FF8800; }
+        40%  { fill: #FFFF00; }
+        60%  { fill: #00FF00; }
+        80%  { fill: #0088FF; }
+        100% { fill: #FF3333; }
       }
 
       /* ---- Sparkle / Twinkle ---- */
@@ -58,37 +57,77 @@
 
       /* ---- Glow Pulse ---- */
       @keyframes glowPulse {
-        0%, 100% { filter: drop-shadow(0 0 4px rgba(255,215,0,0.5)); }
-        50%      { filter: drop-shadow(0 0 12px rgba(255,215,0,0.9)); }
+        0%, 100% { filter: drop-shadow(0 0 2px rgba(255,215,0,0.5)); }
+        50%      { filter: drop-shadow(0 0 8px rgba(255,215,0,0.9)); }
       }
 
       /* ---- Classes ---- */
-      .layer-far  { animation: scrollFar  20s linear infinite; }
-      .layer-mid  { animation: scrollMid  14s linear infinite; }
+      .layer-far  { animation: scrollFar  30s linear infinite; }
+      .layer-mid  { animation: scrollMid  18s linear infinite; }
       .layer-near { animation: scrollNear  8s linear infinite; }
 
       .walk-f1, .walk-f2, .walk-f3 {
         opacity: 0;
-        animation: walkCycle 0.4s steps(1) infinite;
+        animation: walkCycle 0.45s steps(1) infinite;
       }
       .walk-f1 { animation-delay: 0.000s; }
-      .walk-f2 { animation-delay: 0.133s; }
-      .walk-f3 { animation-delay: 0.266s; }
+      .walk-f2 { animation-delay: 0.150s; }
+      .walk-f3 { animation-delay: 0.300s; }
 
       .float   { animation: float 3s ease-in-out infinite; }
       .bounce  { animation: bounce 1.5s ease-in-out infinite; }
       .coin    { animation: coinSpin 1.2s linear infinite; transform-origin: center; }
-      .rainbow { animation: rainbow 5s linear infinite; }
+      .rainbow { animation: rainbow 6s linear infinite; }
       .sparkle { animation: sparkle 2s ease-in-out infinite; }
       .blink-cursor { animation: blink 1s step-end infinite; }
       .glow    { animation: glowPulse 2s ease-in-out infinite; }
+
+      /* ---- Responsive Light/Dark Mode Sky and Cloud styling ---- */
+      .sky-bg {
+        fill: url(#sky-dark);
+      }
+      .cloud-element {
+        fill: #ffffff;
+        opacity: 0.12;
+      }
+      .star-element {
+        display: block;
+      }
+      .hud-text {
+        fill: #FFFFFF;
+        opacity: 0.75;
+      }
+
+      @media (prefers-color-scheme: light) {
+        .sky-bg {
+          fill: url(#sky-light);
+        }
+        .cloud-element {
+          fill: #ffffff;
+          opacity: 0.75;
+        }
+        .star-element {
+          display: none;
+        }
+        .hud-text {
+          fill: #000000;
+          opacity: 0.65;
+        }
+      }
     </style>
 
-    <!-- Gradient Sky -->
-    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%"   stop-color="#1a0a3e"/>
-      <stop offset="40%"  stop-color="#2d1b69"/>
-      <stop offset="100%" stop-color="#5C3D99"/>
+    <!-- Dark Mode Sky Gradient -->
+    <linearGradient id="sky-dark" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#0a051d"/>
+      <stop offset="60%"  stop-color="#190e38"/>
+      <stop offset="100%" stop-color="#341b54"/>
+    </linearGradient>
+
+    <!-- Light Mode Sky Gradient -->
+    <linearGradient id="sky-light" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#5c94fc"/>
+      <stop offset="70%"  stop-color="#80b0ff"/>
+      <stop offset="100%" stop-color="#a0c8ff"/>
     </linearGradient>
 
     <!-- Ground Brick Pattern -->
@@ -101,172 +140,163 @@
       <rect x="0"  y="9"  width="6"  height="7" fill="#E87040" rx="1"/>
     </pattern>
 
-    <!-- Star Shape -->
+    <!-- Twinkle Star Shape -->
     <g id="star">
-      <polygon points="0,-6 1.5,-2 6,-2 2.5,1 4,5.5 0,3 -4,5.5 -2.5,1 -6,-2 -1.5,-2"
-               fill="#FFD700" opacity="0.9"/>
+      <polygon points="0,-4 1,-1 4,-1 1.5,1 2.5,4 0,2 -2.5,4 -1.5,1 -4,-1 -1,-1" fill="#FFD700"/>
     </g>
 
-    <!-- Cloud -->
+    <!-- Cloud Graphic -->
     <g id="cloud">
-      <ellipse cx="30" cy="18" rx="30" ry="12" fill="white" opacity="0.15"/>
-      <ellipse cx="50" cy="12" rx="22" ry="10" fill="white" opacity="0.12"/>
-      <ellipse cx="14" cy="14" rx="16" ry="10" fill="white" opacity="0.12"/>
+      <ellipse cx="30" cy="18" rx="26" ry="10" class="cloud-element"/>
+      <ellipse cx="48" cy="13" rx="18" ry="8" class="cloud-element"/>
+      <ellipse cx="14" cy="14" rx="14" ry="8" class="cloud-element"/>
     </g>
 
-    <!-- Coin -->
+    <!-- Coin Graphics -->
     <g id="coin-def">
-      <ellipse cx="8" cy="10" rx="6" ry="9" fill="#FFD700" stroke="#CC9900" stroke-width="2"/>
-      <ellipse cx="8" cy="10" rx="3" ry="7" fill="#FFEE66" opacity="0.5"/>
+      <ellipse cx="8" cy="10" rx="5" ry="8" fill="#FFD700" stroke="#CC9900" stroke-width="1.5"/>
+      <ellipse cx="8" cy="10" rx="2" ry="6" fill="#FFEE66" opacity="0.6"/>
     </g>
   </defs>
 
   <!-- ========= BACKGROUND ========= -->
-  <rect width="100%" height="100%" fill="url(#sky)"/>
+  <rect width="100%" height="100%" class="sky-bg"/>
 
-  <!-- Far Layer: Stars -->
-  <g class="layer-far">
-    <!-- Set 1 -->
-    <use href="#star" x="60"   y="25"  class="sparkle" style="animation-delay: 0s;"/>
-    <use href="#star" x="150"  y="55"  class="sparkle" style="animation-delay: 0.7s;"/>
-    <use href="#star" x="280"  y="18"  class="sparkle" style="animation-delay: 1.2s;"/>
-    <use href="#star" x="400"  y="42"  class="sparkle" style="animation-delay: 0.3s;"/>
-    <use href="#star" x="520"  y="12"  class="sparkle" style="animation-delay: 1.8s;"/>
-    <use href="#star" x="650"  y="50"  class="sparkle" style="animation-delay: 0.5s;"/>
-    <use href="#star" x="750"  y="30"  class="sparkle" style="animation-delay: 1.0s;"/>
-    <!-- Duplicate set for seamless loop -->
-    <use href="#star" x="860"  y="25"  class="sparkle" style="animation-delay: 0s;"/>
-    <use href="#star" x="950" y="55"  class="sparkle" style="animation-delay: 0.7s;"/>
-    <use href="#star" x="1080" y="18"  class="sparkle" style="animation-delay: 1.2s;"/>
-    <use href="#star" x="1200" y="42"  class="sparkle" style="animation-delay: 0.3s;"/>
-    <use href="#star" x="1320" y="12"  class="sparkle" style="animation-delay: 1.8s;"/>
-    <use href="#star" x="1450" y="50"  class="sparkle" style="animation-delay: 0.5s;"/>
-    <use href="#star" x="1550" y="30"  class="sparkle" style="animation-delay: 1.0s;"/>
+  <!-- Far Layer: Twinkling Stars (Dark Mode Only) -->
+  <g class="layer-far star-element">
+    <use href="#star" x="60"   y="20"  class="sparkle" style="animation-delay: 0s;"/>
+    <use href="#star" x="150"  y="45"  class="sparkle" style="animation-delay: 0.7s;"/>
+    <use href="#star" x="280"  y="15"  class="sparkle" style="animation-delay: 1.2s;"/>
+    <use href="#star" x="400"  y="35"  class="sparkle" style="animation-delay: 0.3s;"/>
+    <use href="#star" x="520"  y="10"  class="sparkle" style="animation-delay: 1.8s;"/>
+    <use href="#star" x="650"  y="40"  class="sparkle" style="animation-delay: 0.5s;"/>
+    <use href="#star" x="750"  y="25"  class="sparkle" style="animation-delay: 1.0s;"/>
+    <!-- Duplicate for loop -->
+    <use href="#star" x="860"  y="20"  class="sparkle" style="animation-delay: 0s;"/>
+    <use href="#star" x="950"  y="45"  class="sparkle" style="animation-delay: 0.7s;"/>
+    <use href="#star" x="1080" y="15"  class="sparkle" style="animation-delay: 1.2s;"/>
+    <use href="#star" x="1200" y="35"  class="sparkle" style="animation-delay: 0.3s;"/>
+    <use href="#star" x="1320" y="10"  class="sparkle" style="animation-delay: 1.8s;"/>
+    <use href="#star" x="1450" y="40"  class="sparkle" style="animation-delay: 0.5s;"/>
+    <use href="#star" x="1550" y="25"  class="sparkle" style="animation-delay: 1.0s;"/>
   </g>
 
-  <!-- Mid Layer: Clouds -->
+  <!-- Mid Layer: Parallax Clouds -->
   <g class="layer-mid">
-    <use href="#cloud" x="80"  y="30"/>
-    <use href="#cloud" x="300" y="60"/>
-    <use href="#cloud" x="560" y="20"/>
-    <use href="#cloud" x="720" y="55"/>
+    <use href="#cloud" x="80"  y="25"/>
+    <use href="#cloud" x="300" y="50"/>
+    <use href="#cloud" x="560" y="15"/>
+    <use href="#cloud" x="720" y="45"/>
     <!-- Duplicate -->
-    <use href="#cloud" x="880"  y="30"/>
-    <use href="#cloud" x="1100" y="60"/>
-    <use href="#cloud" x="1360" y="20"/>
-    <use href="#cloud" x="1520" y="55"/>
+    <use href="#cloud" x="880"  y="25"/>
+    <use href="#cloud" x="1100" y="50"/>
+    <use href="#cloud" x="1360" y="15"/>
+    <use href="#cloud" x="1520" y="45"/>
   </g>
 
   <!-- Near Layer: Ground, pipes, blocks, coins -->
   <g class="layer-near">
     <!-- Ground -->
     <rect y="168" width="1600" height="32" fill="url(#brick)"/>
-    <!-- Top ground edge -->
-    <rect y="166" width="1600" height="3" fill="#88CC44" rx="1"/>
+    <rect y="166" width="1600" height="3" fill="#88CC44"/>
 
     <!-- Question Blocks -->
     <g class="bounce" style="animation-delay: 0s;">
-      <g transform="translate(200,100)">
-      <rect width="32" height="32" fill="#E07020" stroke="#6B3E08" stroke-width="2" rx="2"/>
-      <rect x="2" y="2" width="28" height="28" fill="#FBD000" rx="1"/>
-      <rect x="4" y="4" width="24" height="24" fill="#E07020" rx="1"/>
-      <text x="16" y="22" font-family="'Courier New',monospace" font-size="16" font-weight="900" fill="#FBD000" text-anchor="middle">?</text>
-    </g>
+      <g transform="translate(200,96)">
+        <rect width="32" height="32" fill="#E07020" stroke="#6B3E08" stroke-width="2" rx="1"/>
+        <rect x="2" y="2" width="28" height="28" fill="#FBD000" rx="1"/>
+        <rect x="4" y="4" width="24" height="24" fill="#E07020" rx="1"/>
+        <!-- Custom Drawn pixel art '?' symbol inside block -->
+        <path d="M 12 8 h 8 v 4 h -4 v 4 h -4 v -4 h 4 v -2 h -4 Z M 12 18 h 4 v 4 h -4 Z" fill="#FBD000"/>
+      </g>
     </g>
     <g class="bounce" style="animation-delay: 0.3s;">
-      <g transform="translate(236,100)">
-      <rect width="32" height="32" fill="#E07020" stroke="#6B3E08" stroke-width="2" rx="2"/>
-      <rect x="2" y="2" width="28" height="28" fill="#FBD000" rx="1"/>
-      <rect x="4" y="4" width="24" height="24" fill="#E07020" rx="1"/>
-      <text x="16" y="22" font-family="'Courier New',monospace" font-size="16" font-weight="900" fill="#FBD000" text-anchor="middle">?</text>
-    </g>
+      <g transform="translate(236,96)">
+        <rect width="32" height="32" fill="#E07020" stroke="#6B3E08" stroke-width="2" rx="1"/>
+        <rect x="2" y="2" width="28" height="28" fill="#FBD000" rx="1"/>
+        <rect x="4" y="4" width="24" height="24" fill="#E07020" rx="1"/>
+        <path d="M 12 8 h 8 v 4 h -4 v 4 h -4 v -4 h 4 v -2 h -4 Z M 12 18 h 4 v 4 h -4 Z" fill="#FBD000"/>
+      </g>
     </g>
     <g class="bounce" style="animation-delay: 0.6s;">
-      <g transform="translate(272,100)">
-      <rect width="32" height="32" fill="#E07020" stroke="#6B3E08" stroke-width="2" rx="2"/>
-      <rect x="2" y="2" width="28" height="28" fill="#FBD000" rx="1"/>
-      <rect x="4" y="4" width="24" height="24" fill="#E07020" rx="1"/>
-      <text x="16" y="22" font-family="'Courier New',monospace" font-size="16" font-weight="900" fill="#FBD000" text-anchor="middle">?</text>
-    </g>
-    </g>
-
-    <!-- Pipes -->
-    <g transform="translate(500,120)">
-      <rect x="0" y="0" width="44" height="14" fill="#00AA00" rx="3"/>
-      <rect x="2" y="2" width="8" height="10" fill="#55DD55" rx="1"/>
-      <rect x="5" y="14" width="34" height="34" fill="#00AA00"/>
-      <rect x="7" y="14" width="6" height="34" fill="#55DD55"/>
-      <rect x="40" y="2" width="2" height="10" fill="#005500"/>
-      <rect x="36" y="14" width="2" height="34" fill="#005500"/>
-    </g>
-    <g transform="translate(620,108)">
-      <rect x="0" y="0" width="44" height="14" fill="#00AA00" rx="3"/>
-      <rect x="2" y="2" width="8" height="10" fill="#55DD55" rx="1"/>
-      <rect x="5" y="14" width="34" height="46" fill="#00AA00"/>
-      <rect x="7" y="14" width="6" height="46" fill="#55DD55"/>
-      <rect x="40" y="2" width="2" height="10" fill="#005500"/>
-      <rect x="36" y="14" width="2" height="46" fill="#005500"/>
+      <g transform="translate(272,96)">
+        <rect width="32" height="32" fill="#E07020" stroke="#6B3E08" stroke-width="2" rx="1"/>
+        <rect x="2" y="2" width="28" height="28" fill="#FBD000" rx="1"/>
+        <rect x="4" y="4" width="24" height="24" fill="#E07020" rx="1"/>
+        <path d="M 12 8 h 8 v 4 h -4 v 4 h -4 v -4 h 4 v -2 h -4 Z M 12 18 h 4 v 4 h -4 Z" fill="#FBD000"/>
+      </g>
     </g>
 
-    <!-- Coins (floating above question blocks) -->
-    <g class="coin glow" style="animation-delay:0s;"   transform="translate(208, 78)"><use href="#coin-def"/></g>
-    <g class="coin glow" style="animation-delay:0.3s;" transform="translate(244, 78)"><use href="#coin-def"/></g>
-    <g class="coin glow" style="animation-delay:0.6s;" transform="translate(280, 78)"><use href="#coin-def"/></g>
+    <!-- Green Pipes -->
+    <g transform="translate(500,118)">
+      <rect x="0" y="0" width="44" height="14" fill="#00AA00" stroke="#004400" stroke-width="1.5" rx="1"/>
+      <rect x="3" y="3" width="8" height="8" fill="#55DD55"/>
+      <rect x="5" y="14" width="34" height="36" fill="#00AA00" stroke="#004400" stroke-width="1.5"/>
+      <rect x="8" y="14" width="6" height="36" fill="#55DD55"/>
+    </g>
+    <g transform="translate(640,102)">
+      <rect x="0" y="0" width="44" height="14" fill="#00AA00" stroke="#004400" stroke-width="1.5" rx="1"/>
+      <rect x="3" y="3" width="8" height="8" fill="#55DD55"/>
+      <rect x="5" y="14" width="34" height="52" fill="#00AA00" stroke="#004400" stroke-width="1.5"/>
+      <rect x="8" y="14" width="6" height="52" fill="#55DD55"/>
+    </g>
 
-    <!-- More coins further right -->
-    <g class="coin glow" style="animation-delay:0.1s;" transform="translate(700, 120)"><use href="#coin-def"/></g>
-    <g class="coin glow" style="animation-delay:0.4s;" transform="translate(720, 120)"><use href="#coin-def"/></g>
-    <g class="coin glow" style="animation-delay:0.7s;" transform="translate(740, 120)"><use href="#coin-def"/></g>
+    <!-- Coins (Floating above blocks) -->
+    <g class="coin glow" style="animation-delay:0s;"   transform="translate(208, 72)"><use href="#coin-def"/></g>
+    <g class="coin glow" style="animation-delay:0.3s;" transform="translate(244, 72)"><use href="#coin-def"/></g>
+    <g class="coin glow" style="animation-delay:0.6s;" transform="translate(280, 72)"><use href="#coin-def"/></g>
 
-    <!-- ---- DUPLICATES for seamless loop ---- -->
+    <!-- Ground Level Coins -->
+    <g class="coin glow" style="animation-delay:0.1s;" transform="translate(710, 125)"><use href="#coin-def"/></g>
+    <g class="coin glow" style="animation-delay:0.4s;" transform="translate(730, 125)"><use href="#coin-def"/></g>
+    <g class="coin glow" style="animation-delay:0.7s;" transform="translate(750, 125)"><use href="#coin-def"/></g>
+
+    <!-- ==== DUPLICATES FOR SEAMLESS LOOPING ==== -->
     <g class="bounce" style="animation-delay: 0s;">
-      <g transform="translate(1000,100)">
-      <rect width="32" height="32" fill="#E07020" stroke="#6B3E08" stroke-width="2" rx="2"/>
-      <rect x="2" y="2" width="28" height="28" fill="#FBD000" rx="1"/>
-      <rect x="4" y="4" width="24" height="24" fill="#E07020" rx="1"/>
-      <text x="16" y="22" font-family="'Courier New',monospace" font-size="16" font-weight="900" fill="#FBD000" text-anchor="middle">?</text>
-    </g>
+      <g transform="translate(1000,96)">
+        <rect width="32" height="32" fill="#E07020" stroke="#6B3E08" stroke-width="2" rx="1"/>
+        <rect x="2" y="2" width="28" height="28" fill="#FBD000" rx="1"/>
+        <rect x="4" y="4" width="24" height="24" fill="#E07020" rx="1"/>
+        <path d="M 12 8 h 8 v 4 h -4 v 4 h -4 v -4 h 4 v -2 h -4 Z M 12 18 h 4 v 4 h -4 Z" fill="#FBD000"/>
+      </g>
     </g>
     <g class="bounce" style="animation-delay: 0.3s;">
-      <g transform="translate(1036,100)">
-      <rect width="32" height="32" fill="#E07020" stroke="#6B3E08" stroke-width="2" rx="2"/>
-      <rect x="2" y="2" width="28" height="28" fill="#FBD000" rx="1"/>
-      <rect x="4" y="4" width="24" height="24" fill="#E07020" rx="1"/>
-      <text x="16" y="22" font-family="'Courier New',monospace" font-size="16" font-weight="900" fill="#FBD000" text-anchor="middle">?</text>
-    </g>
+      <g transform="translate(1036,96)">
+        <rect width="32" height="32" fill="#E07020" stroke="#6B3E08" stroke-width="2" rx="1"/>
+        <rect x="2" y="2" width="28" height="28" fill="#FBD000" rx="1"/>
+        <rect x="4" y="4" width="24" height="24" fill="#E07020" rx="1"/>
+        <path d="M 12 8 h 8 v 4 h -4 v 4 h -4 v -4 h 4 v -2 h -4 Z M 12 18 h 4 v 4 h -4 Z" fill="#FBD000"/>
+      </g>
     </g>
     <g class="bounce" style="animation-delay: 0.6s;">
-      <g transform="translate(1072,100)">
-      <rect width="32" height="32" fill="#E07020" stroke="#6B3E08" stroke-width="2" rx="2"/>
-      <rect x="2" y="2" width="28" height="28" fill="#FBD000" rx="1"/>
-      <rect x="4" y="4" width="24" height="24" fill="#E07020" rx="1"/>
-      <text x="16" y="22" font-family="'Courier New',monospace" font-size="16" font-weight="900" fill="#FBD000" text-anchor="middle">?</text>
+      <g transform="translate(1072,96)">
+        <rect width="32" height="32" fill="#E07020" stroke="#6B3E08" stroke-width="2" rx="1"/>
+        <rect x="2" y="2" width="28" height="28" fill="#FBD000" rx="1"/>
+        <rect x="4" y="4" width="24" height="24" fill="#E07020" rx="1"/>
+        <path d="M 12 8 h 8 v 4 h -4 v 4 h -4 v -4 h 4 v -2 h -4 Z M 12 18 h 4 v 4 h -4 Z" fill="#FBD000"/>
+      </g>
     </g>
+    <g transform="translate(1300,118)">
+      <rect x="0" y="0" width="44" height="14" fill="#00AA00" stroke="#004400" stroke-width="1.5" rx="1"/>
+      <rect x="3" y="3" width="8" height="8" fill="#55DD55"/>
+      <rect x="5" y="14" width="34" height="36" fill="#00AA00" stroke="#004400" stroke-width="1.5"/>
+      <rect x="8" y="14" width="6" height="36" fill="#55DD55"/>
     </g>
-    <g transform="translate(1300,120)">
-      <rect x="0" y="0" width="44" height="14" fill="#00AA00" rx="3"/>
-      <rect x="2" y="2" width="8" height="10" fill="#55DD55" rx="1"/>
-      <rect x="5" y="14" width="34" height="34" fill="#00AA00"/>
-      <rect x="7" y="14" width="6" height="34" fill="#55DD55"/>
-      <rect x="40" y="2" width="2" height="10" fill="#005500"/>
-      <rect x="36" y="14" width="2" height="34" fill="#005500"/>
+    <g transform="translate(1440,102)">
+      <rect x="0" y="0" width="44" height="14" fill="#00AA00" stroke="#004400" stroke-width="1.5" rx="1"/>
+      <rect x="3" y="3" width="8" height="8" fill="#55DD55"/>
+      <rect x="5" y="14" width="34" height="52" fill="#00AA00" stroke="#004400" stroke-width="1.5"/>
+      <rect x="8" y="14" width="6" height="52" fill="#55DD55"/>
     </g>
-    <g transform="translate(1420,108)">
-      <rect x="0" y="0" width="44" height="14" fill="#00AA00" rx="3"/>
-      <rect x="2" y="2" width="8" height="10" fill="#55DD55" rx="1"/>
-      <rect x="5" y="14" width="34" height="46" fill="#00AA00"/>
-      <rect x="7" y="14" width="6" height="46" fill="#55DD55"/>
-      <rect x="40" y="2" width="2" height="10" fill="#005500"/>
-      <rect x="36" y="14" width="2" height="46" fill="#005500"/>
-    </g>
-    <g class="coin glow" style="animation-delay:0s;"   transform="translate(1008, 78)"><use href="#coin-def"/></g>
-    <g class="coin glow" style="animation-delay:0.3s;" transform="translate(1044, 78)"><use href="#coin-def"/></g>
-    <g class="coin glow" style="animation-delay:0.6s;" transform="translate(1080, 78)"><use href="#coin-def"/></g>
-    <g class="coin glow" style="animation-delay:0.1s;" transform="translate(1500, 120)"><use href="#coin-def"/></g>
-    <g class="coin glow" style="animation-delay:0.4s;" transform="translate(1520, 120)"><use href="#coin-def"/></g>
-    <g class="coin glow" style="animation-delay:0.7s;" transform="translate(1540, 120)"><use href="#coin-def"/></g>
+    <g class="coin glow" style="animation-delay:0s;"   transform="translate(1008, 72)"><use href="#coin-def"/></g>
+    <g class="coin glow" style="animation-delay:0.3s;" transform="translate(1044, 72)"><use href="#coin-def"/></g>
+    <g class="coin glow" style="animation-delay:0.6s;" transform="translate(1080, 72)"><use href="#coin-def"/></g>
+    <g class="coin glow" style="animation-delay:0.1s;" transform="translate(1510, 125)"><use href="#coin-def"/></g>
+    <g class="coin glow" style="animation-delay:0.4s;" transform="translate(1530, 125)"><use href="#coin-def"/></g>
+    <g class="coin glow" style="animation-delay:0.7s;" transform="translate(1550, 125)"><use href="#coin-def"/></g>
   </g>
 
+  <!-- ========= MARIO CHARACTER ========= -->
   <!-- ========= MARIO CHARACTER (static position) ========= -->
   <g transform="translate(60, 100)">
     <g class="walk-f1">
@@ -609,78 +639,36 @@
     </g>
   </g>
 
-  <!-- ========= TEXT OVERLAY ========= -->
-  <!-- Main Title -->
-  <g class="float" transform="translate(400, 46)">
-    <!-- Shadow -->
-    <text x="2" y="2"
-      font-family="'Courier New', Courier, monospace"
-      font-size="30" font-weight="900" text-anchor="middle"
-      fill="#000" opacity="0.5">
-      It&apos;s Me Mario
-    </text>
-    <!-- Rainbow text -->
-    <text x="0" y="0"
-      font-family="'Courier New', Courier, monospace"
-      font-size="30" font-weight="900" text-anchor="middle"
-      class="rainbow">
-      It&apos;s Me Mario
-    </text>
+  <!-- ========= TEXT OVERLAY (Pixel Art Paths) ========= -->
+  <!-- 1. Main Title: "ItMeMario" -->
+  <g class="float" transform="translate(400, 32)">
+    <!-- 3D Shadow -->
+    <path d="M 5 0 h 5 v 5 h -5 ZM 10 0 h 5 v 5 h -5 ZM 15 0 h 5 v 5 h -5 ZM 10 5 h 5 v 5 h -5 ZM 10 10 h 5 v 5 h -5 ZM 10 15 h 5 v 5 h -5 ZM 10 20 h 5 v 5 h -5 ZM 10 25 h 5 v 5 h -5 ZM 5 30 h 5 v 5 h -5 ZM 10 30 h 5 v 5 h -5 ZM 15 30 h 5 v 5 h -5 ZM 30 0 h 5 v 5 h -5 ZM 35 0 h 5 v 5 h -5 ZM 40 0 h 5 v 5 h -5 ZM 45 0 h 5 v 5 h -5 ZM 50 0 h 5 v 5 h -5 ZM 40 5 h 5 v 5 h -5 ZM 40 10 h 5 v 5 h -5 ZM 40 15 h 5 v 5 h -5 ZM 40 20 h 5 v 5 h -5 ZM 40 25 h 5 v 5 h -5 ZM 40 30 h 5 v 5 h -5 ZM 60 0 h 5 v 5 h -5 ZM 80 0 h 5 v 5 h -5 ZM 60 5 h 5 v 5 h -5 ZM 65 5 h 5 v 5 h -5 ZM 75 5 h 5 v 5 h -5 ZM 80 5 h 5 v 5 h -5 ZM 60 10 h 5 v 5 h -5 ZM 70 10 h 5 v 5 h -5 ZM 80 10 h 5 v 5 h -5 ZM 60 15 h 5 v 5 h -5 ZM 70 15 h 5 v 5 h -5 ZM 80 15 h 5 v 5 h -5 ZM 60 20 h 5 v 5 h -5 ZM 80 20 h 5 v 5 h -5 ZM 60 25 h 5 v 5 h -5 ZM 80 25 h 5 v 5 h -5 ZM 60 30 h 5 v 5 h -5 ZM 80 30 h 5 v 5 h -5 ZM 90 0 h 5 v 5 h -5 ZM 95 0 h 5 v 5 h -5 ZM 100 0 h 5 v 5 h -5 ZM 105 0 h 5 v 5 h -5 ZM 110 0 h 5 v 5 h -5 ZM 90 5 h 5 v 5 h -5 ZM 90 10 h 5 v 5 h -5 ZM 90 15 h 5 v 5 h -5 ZM 95 15 h 5 v 5 h -5 ZM 100 15 h 5 v 5 h -5 ZM 105 15 h 5 v 5 h -5 ZM 90 20 h 5 v 5 h -5 ZM 90 25 h 5 v 5 h -5 ZM 90 30 h 5 v 5 h -5 ZM 95 30 h 5 v 5 h -5 ZM 100 30 h 5 v 5 h -5 ZM 105 30 h 5 v 5 h -5 ZM 110 30 h 5 v 5 h -5 ZM 120 0 h 5 v 5 h -5 ZM 140 0 h 5 v 5 h -5 ZM 120 5 h 5 v 5 h -5 ZM 125 5 h 5 v 5 h -5 ZM 135 5 h 5 v 5 h -5 ZM 140 5 h 5 v 5 h -5 ZM 120 10 h 5 v 5 h -5 ZM 130 10 h 5 v 5 h -5 ZM 140 10 h 5 v 5 h -5 ZM 120 15 h 5 v 5 h -5 ZM 130 15 h 5 v 5 h -5 ZM 140 15 h 5 v 5 h -5 ZM 120 20 h 5 v 5 h -5 ZM 140 20 h 5 v 5 h -5 ZM 120 25 h 5 v 5 h -5 ZM 140 25 h 5 v 5 h -5 ZM 120 30 h 5 v 5 h -5 ZM 140 30 h 5 v 5 h -5 ZM 155 0 h 5 v 5 h -5 ZM 160 0 h 5 v 5 h -5 ZM 165 0 h 5 v 5 h -5 ZM 150 5 h 5 v 5 h -5 ZM 170 5 h 5 v 5 h -5 ZM 150 10 h 5 v 5 h -5 ZM 170 10 h 5 v 5 h -5 ZM 150 15 h 5 v 5 h -5 ZM 155 15 h 5 v 5 h -5 ZM 160 15 h 5 v 5 h -5 ZM 165 15 h 5 v 5 h -5 ZM 170 15 h 5 v 5 h -5 ZM 150 20 h 5 v 5 h -5 ZM 170 20 h 5 v 5 h -5 ZM 150 25 h 5 v 5 h -5 ZM 170 25 h 5 v 5 h -5 ZM 150 30 h 5 v 5 h -5 ZM 170 30 h 5 v 5 h -5 ZM 180 0 h 5 v 5 h -5 ZM 185 0 h 5 v 5 h -5 ZM 190 0 h 5 v 5 h -5 ZM 195 0 h 5 v 5 h -5 ZM 180 5 h 5 v 5 h -5 ZM 200 5 h 5 v 5 h -5 ZM 180 10 h 5 v 5 h -5 ZM 200 10 h 5 v 5 h -5 ZM 180 15 h 5 v 5 h -5 ZM 185 15 h 5 v 5 h -5 ZM 190 15 h 5 v 5 h -5 ZM 195 15 h 5 v 5 h -5 ZM 180 20 h 5 v 5 h -5 ZM 190 20 h 5 v 5 h -5 ZM 180 25 h 5 v 5 h -5 ZM 195 25 h 5 v 5 h -5 ZM 180 30 h 5 v 5 h -5 ZM 200 30 h 5 v 5 h -5 ZM 215 0 h 5 v 5 h -5 ZM 220 0 h 5 v 5 h -5 ZM 225 0 h 5 v 5 h -5 ZM 220 5 h 5 v 5 h -5 ZM 220 10 h 5 v 5 h -5 ZM 220 15 h 5 v 5 h -5 ZM 220 20 h 5 v 5 h -5 ZM 220 25 h 5 v 5 h -5 ZM 215 30 h 5 v 5 h -5 ZM 220 30 h 5 v 5 h -5 ZM 225 30 h 5 v 5 h -5 ZM 245 0 h 5 v 5 h -5 ZM 250 0 h 5 v 5 h -5 ZM 255 0 h 5 v 5 h -5 ZM 240 5 h 5 v 5 h -5 ZM 260 5 h 5 v 5 h -5 ZM 240 10 h 5 v 5 h -5 ZM 260 10 h 5 v 5 h -5 ZM 240 15 h 5 v 5 h -5 ZM 260 15 h 5 v 5 h -5 ZM 240 20 h 5 v 5 h -5 ZM 260 20 h 5 v 5 h -5 ZM 240 25 h 5 v 5 h -5 ZM 260 25 h 5 v 5 h -5 ZM 245 30 h 5 v 5 h -5 ZM 250 30 h 5 v 5 h -5 ZM 255 30 h 5 v 5 h -5 Z" fill="#000000" opacity="0.5" transform="translate(2, 2) translate(-132.5, 0)"/>
+    <!-- Animated Rainbow Title -->
+    <path d="M 5 0 h 5 v 5 h -5 ZM 10 0 h 5 v 5 h -5 ZM 15 0 h 5 v 5 h -5 ZM 10 5 h 5 v 5 h -5 ZM 10 10 h 5 v 5 h -5 ZM 10 15 h 5 v 5 h -5 ZM 10 20 h 5 v 5 h -5 ZM 10 25 h 5 v 5 h -5 ZM 5 30 h 5 v 5 h -5 ZM 10 30 h 5 v 5 h -5 ZM 15 30 h 5 v 5 h -5 ZM 30 0 h 5 v 5 h -5 ZM 35 0 h 5 v 5 h -5 ZM 40 0 h 5 v 5 h -5 ZM 45 0 h 5 v 5 h -5 ZM 50 0 h 5 v 5 h -5 ZM 40 5 h 5 v 5 h -5 ZM 40 10 h 5 v 5 h -5 ZM 40 15 h 5 v 5 h -5 ZM 40 20 h 5 v 5 h -5 ZM 40 25 h 5 v 5 h -5 ZM 40 30 h 5 v 5 h -5 ZM 60 0 h 5 v 5 h -5 ZM 80 0 h 5 v 5 h -5 ZM 60 5 h 5 v 5 h -5 ZM 65 5 h 5 v 5 h -5 ZM 75 5 h 5 v 5 h -5 ZM 80 5 h 5 v 5 h -5 ZM 60 10 h 5 v 5 h -5 ZM 70 10 h 5 v 5 h -5 ZM 80 10 h 5 v 5 h -5 ZM 60 15 h 5 v 5 h -5 ZM 70 15 h 5 v 5 h -5 ZM 80 15 h 5 v 5 h -5 ZM 60 20 h 5 v 5 h -5 ZM 80 20 h 5 v 5 h -5 ZM 60 25 h 5 v 5 h -5 ZM 80 25 h 5 v 5 h -5 ZM 60 30 h 5 v 5 h -5 ZM 80 30 h 5 v 5 h -5 ZM 90 0 h 5 v 5 h -5 ZM 95 0 h 5 v 5 h -5 ZM 100 0 h 5 v 5 h -5 ZM 105 0 h 5 v 5 h -5 ZM 110 0 h 5 v 5 h -5 ZM 90 5 h 5 v 5 h -5 ZM 90 10 h 5 v 5 h -5 ZM 90 15 h 5 v 5 h -5 ZM 95 15 h 5 v 5 h -5 ZM 100 15 h 5 v 5 h -5 ZM 105 15 h 5 v 5 h -5 ZM 90 20 h 5 v 5 h -5 ZM 90 25 h 5 v 5 h -5 ZM 90 30 h 5 v 5 h -5 ZM 95 30 h 5 v 5 h -5 ZM 100 30 h 5 v 5 h -5 ZM 105 30 h 5 v 5 h -5 ZM 110 30 h 5 v 5 h -5 ZM 120 0 h 5 v 5 h -5 ZM 140 0 h 5 v 5 h -5 ZM 120 5 h 5 v 5 h -5 ZM 125 5 h 5 v 5 h -5 ZM 135 5 h 5 v 5 h -5 ZM 140 5 h 5 v 5 h -5 ZM 120 10 h 5 v 5 h -5 ZM 130 10 h 5 v 5 h -5 ZM 140 10 h 5 v 5 h -5 ZM 120 15 h 5 v 5 h -5 ZM 130 15 h 5 v 5 h -5 ZM 140 15 h 5 v 5 h -5 ZM 120 20 h 5 v 5 h -5 ZM 140 20 h 5 v 5 h -5 ZM 120 25 h 5 v 5 h -5 ZM 140 25 h 5 v 5 h -5 ZM 120 30 h 5 v 5 h -5 ZM 140 30 h 5 v 5 h -5 ZM 155 0 h 5 v 5 h -5 ZM 160 0 h 5 v 5 h -5 ZM 165 0 h 5 v 5 h -5 ZM 150 5 h 5 v 5 h -5 ZM 170 5 h 5 v 5 h -5 ZM 150 10 h 5 v 5 h -5 ZM 170 10 h 5 v 5 h -5 ZM 150 15 h 5 v 5 h -5 ZM 155 15 h 5 v 5 h -5 ZM 160 15 h 5 v 5 h -5 ZM 165 15 h 5 v 5 h -5 ZM 170 15 h 5 v 5 h -5 ZM 150 20 h 5 v 5 h -5 ZM 170 20 h 5 v 5 h -5 ZM 150 25 h 5 v 5 h -5 ZM 170 25 h 5 v 5 h -5 ZM 150 30 h 5 v 5 h -5 ZM 170 30 h 5 v 5 h -5 ZM 180 0 h 5 v 5 h -5 ZM 185 0 h 5 v 5 h -5 ZM 190 0 h 5 v 5 h -5 ZM 195 0 h 5 v 5 h -5 ZM 180 5 h 5 v 5 h -5 ZM 200 5 h 5 v 5 h -5 ZM 180 10 h 5 v 5 h -5 ZM 200 10 h 5 v 5 h -5 ZM 180 15 h 5 v 5 h -5 ZM 185 15 h 5 v 5 h -5 ZM 190 15 h 5 v 5 h -5 ZM 195 15 h 5 v 5 h -5 ZM 180 20 h 5 v 5 h -5 ZM 190 20 h 5 v 5 h -5 ZM 180 25 h 5 v 5 h -5 ZM 195 25 h 5 v 5 h -5 ZM 180 30 h 5 v 5 h -5 ZM 200 30 h 5 v 5 h -5 ZM 215 0 h 5 v 5 h -5 ZM 220 0 h 5 v 5 h -5 ZM 225 0 h 5 v 5 h -5 ZM 220 5 h 5 v 5 h -5 ZM 220 10 h 5 v 5 h -5 ZM 220 15 h 5 v 5 h -5 ZM 220 20 h 5 v 5 h -5 ZM 220 25 h 5 v 5 h -5 ZM 215 30 h 5 v 5 h -5 ZM 220 30 h 5 v 5 h -5 ZM 225 30 h 5 v 5 h -5 ZM 245 0 h 5 v 5 h -5 ZM 250 0 h 5 v 5 h -5 ZM 255 0 h 5 v 5 h -5 ZM 240 5 h 5 v 5 h -5 ZM 260 5 h 5 v 5 h -5 ZM 240 10 h 5 v 5 h -5 ZM 260 10 h 5 v 5 h -5 ZM 240 15 h 5 v 5 h -5 ZM 260 15 h 5 v 5 h -5 ZM 240 20 h 5 v 5 h -5 ZM 260 20 h 5 v 5 h -5 ZM 240 25 h 5 v 5 h -5 ZM 260 25 h 5 v 5 h -5 ZM 245 30 h 5 v 5 h -5 ZM 250 30 h 5 v 5 h -5 ZM 255 30 h 5 v 5 h -5 Z" class="rainbow" transform="translate(-132.5, 0)"/>
   </g>
 
-  <!-- Tagline -->
+  <!-- 2. Subtitle: "FULL-STACK | OPEN SOURCE | GAMING" -->
   <g transform="translate(400, 74)">
-    <!-- Shadow -->
-    <text x="1" y="1"
-      font-family="'Courier New', Courier, monospace"
-      font-size="14" font-weight="700" text-anchor="middle"
-      fill="#000" opacity="0.4">
-      full-stack  |  open source  |  gaming
-    </text>
-    <text x="0" y="0"
-      font-family="'Courier New', Courier, monospace"
-      font-size="14" font-weight="700" text-anchor="middle"
-      fill="#E0D0FF">
-      full-stack  |  open source  |  gaming
-    </text>
+    <path d="M 0 0 h 2 v 2 h -2 ZM 2 0 h 2 v 2 h -2 ZM 4 0 h 2 v 2 h -2 ZM 6 0 h 2 v 2 h -2 ZM 8 0 h 2 v 2 h -2 ZM 0 2 h 2 v 2 h -2 ZM 0 4 h 2 v 2 h -2 ZM 0 6 h 2 v 2 h -2 ZM 2 6 h 2 v 2 h -2 ZM 4 6 h 2 v 2 h -2 ZM 6 6 h 2 v 2 h -2 ZM 0 8 h 2 v 2 h -2 ZM 0 10 h 2 v 2 h -2 ZM 0 12 h 2 v 2 h -2 ZM 12 0 h 2 v 2 h -2 ZM 20 0 h 2 v 2 h -2 ZM 12 2 h 2 v 2 h -2 ZM 20 2 h 2 v 2 h -2 ZM 12 4 h 2 v 2 h -2 ZM 20 4 h 2 v 2 h -2 ZM 12 6 h 2 v 2 h -2 ZM 20 6 h 2 v 2 h -2 ZM 12 8 h 2 v 2 h -2 ZM 20 8 h 2 v 2 h -2 ZM 12 10 h 2 v 2 h -2 ZM 20 10 h 2 v 2 h -2 ZM 14 12 h 2 v 2 h -2 ZM 16 12 h 2 v 2 h -2 ZM 18 12 h 2 v 2 h -2 ZM 24 0 h 2 v 2 h -2 ZM 24 2 h 2 v 2 h -2 ZM 24 4 h 2 v 2 h -2 ZM 24 6 h 2 v 2 h -2 ZM 24 8 h 2 v 2 h -2 ZM 24 10 h 2 v 2 h -2 ZM 24 12 h 2 v 2 h -2 ZM 26 12 h 2 v 2 h -2 ZM 28 12 h 2 v 2 h -2 ZM 30 12 h 2 v 2 h -2 ZM 32 12 h 2 v 2 h -2 ZM 36 0 h 2 v 2 h -2 ZM 36 2 h 2 v 2 h -2 ZM 36 4 h 2 v 2 h -2 ZM 36 6 h 2 v 2 h -2 ZM 36 8 h 2 v 2 h -2 ZM 36 10 h 2 v 2 h -2 ZM 36 12 h 2 v 2 h -2 ZM 38 12 h 2 v 2 h -2 ZM 40 12 h 2 v 2 h -2 ZM 42 12 h 2 v 2 h -2 ZM 44 12 h 2 v 2 h -2 ZM 48 6 h 2 v 2 h -2 ZM 50 6 h 2 v 2 h -2 ZM 52 6 h 2 v 2 h -2 ZM 54 6 h 2 v 2 h -2 ZM 56 6 h 2 v 2 h -2 ZM 62 0 h 2 v 2 h -2 ZM 64 0 h 2 v 2 h -2 ZM 66 0 h 2 v 2 h -2 ZM 60 2 h 2 v 2 h -2 ZM 68 2 h 2 v 2 h -2 ZM 62 4 h 2 v 2 h -2 ZM 64 6 h 2 v 2 h -2 ZM 66 8 h 2 v 2 h -2 ZM 60 10 h 2 v 2 h -2 ZM 68 10 h 2 v 2 h -2 ZM 62 12 h 2 v 2 h -2 ZM 64 12 h 2 v 2 h -2 ZM 66 12 h 2 v 2 h -2 ZM 72 0 h 2 v 2 h -2 ZM 74 0 h 2 v 2 h -2 ZM 76 0 h 2 v 2 h -2 ZM 78 0 h 2 v 2 h -2 ZM 80 0 h 2 v 2 h -2 ZM 76 2 h 2 v 2 h -2 ZM 76 4 h 2 v 2 h -2 ZM 76 6 h 2 v 2 h -2 ZM 76 8 h 2 v 2 h -2 ZM 76 10 h 2 v 2 h -2 ZM 76 12 h 2 v 2 h -2 ZM 86 0 h 2 v 2 h -2 ZM 88 0 h 2 v 2 h -2 ZM 90 0 h 2 v 2 h -2 ZM 84 2 h 2 v 2 h -2 ZM 92 2 h 2 v 2 h -2 ZM 84 4 h 2 v 2 h -2 ZM 92 4 h 2 v 2 h -2 ZM 84 6 h 2 v 2 h -2 ZM 86 6 h 2 v 2 h -2 ZM 88 6 h 2 v 2 h -2 ZM 90 6 h 2 v 2 h -2 ZM 92 6 h 2 v 2 h -2 ZM 84 8 h 2 v 2 h -2 ZM 92 8 h 2 v 2 h -2 ZM 84 10 h 2 v 2 h -2 ZM 92 10 h 2 v 2 h -2 ZM 84 12 h 2 v 2 h -2 ZM 92 12 h 2 v 2 h -2 ZM 98 0 h 2 v 2 h -2 ZM 100 0 h 2 v 2 h -2 ZM 102 0 h 2 v 2 h -2 ZM 96 2 h 2 v 2 h -2 ZM 104 2 h 2 v 2 h -2 ZM 96 4 h 2 v 2 h -2 ZM 96 6 h 2 v 2 h -2 ZM 96 8 h 2 v 2 h -2 ZM 96 10 h 2 v 2 h -2 ZM 104 10 h 2 v 2 h -2 ZM 98 12 h 2 v 2 h -2 ZM 100 12 h 2 v 2 h -2 ZM 102 12 h 2 v 2 h -2 ZM 108 0 h 2 v 2 h -2 ZM 116 0 h 2 v 2 h -2 ZM 108 2 h 2 v 2 h -2 ZM 114 2 h 2 v 2 h -2 ZM 108 4 h 2 v 2 h -2 ZM 112 4 h 2 v 2 h -2 ZM 108 6 h 2 v 2 h -2 ZM 110 6 h 2 v 2 h -2 ZM 108 8 h 2 v 2 h -2 ZM 112 8 h 2 v 2 h -2 ZM 108 10 h 2 v 2 h -2 ZM 114 10 h 2 v 2 h -2 ZM 108 12 h 2 v 2 h -2 ZM 116 12 h 2 v 2 h -2 ZM 136 0 h 2 v 2 h -2 ZM 136 2 h 2 v 2 h -2 ZM 136 4 h 2 v 2 h -2 ZM 136 6 h 2 v 2 h -2 ZM 136 8 h 2 v 2 h -2 ZM 136 10 h 2 v 2 h -2 ZM 136 12 h 2 v 2 h -2 ZM 158 0 h 2 v 2 h -2 ZM 160 0 h 2 v 2 h -2 ZM 162 0 h 2 v 2 h -2 ZM 156 2 h 2 v 2 h -2 ZM 164 2 h 2 v 2 h -2 ZM 156 4 h 2 v 2 h -2 ZM 164 4 h 2 v 2 h -2 ZM 156 6 h 2 v 2 h -2 ZM 164 6 h 2 v 2 h -2 ZM 156 8 h 2 v 2 h -2 ZM 164 8 h 2 v 2 h -2 ZM 156 10 h 2 v 2 h -2 ZM 164 10 h 2 v 2 h -2 ZM 158 12 h 2 v 2 h -2 ZM 160 12 h 2 v 2 h -2 ZM 162 12 h 2 v 2 h -2 ZM 168 0 h 2 v 2 h -2 ZM 170 0 h 2 v 2 h -2 ZM 172 0 h 2 v 2 h -2 ZM 174 0 h 2 v 2 h -2 ZM 168 2 h 2 v 2 h -2 ZM 176 2 h 2 v 2 h -2 ZM 168 4 h 2 v 2 h -2 ZM 176 4 h 2 v 2 h -2 ZM 168 6 h 2 v 2 h -2 ZM 170 6 h 2 v 2 h -2 ZM 172 6 h 2 v 2 h -2 ZM 174 6 h 2 v 2 h -2 ZM 168 8 h 2 v 2 h -2 ZM 168 10 h 2 v 2 h -2 ZM 168 12 h 2 v 2 h -2 ZM 180 0 h 2 v 2 h -2 ZM 182 0 h 2 v 2 h -2 ZM 184 0 h 2 v 2 h -2 ZM 186 0 h 2 v 2 h -2 ZM 188 0 h 2 v 2 h -2 ZM 180 2 h 2 v 2 h -2 ZM 180 4 h 2 v 2 h -2 ZM 180 6 h 2 v 2 h -2 ZM 182 6 h 2 v 2 h -2 ZM 184 6 h 2 v 2 h -2 ZM 186 6 h 2 v 2 h -2 ZM 180 8 h 2 v 2 h -2 ZM 180 10 h 2 v 2 h -2 ZM 180 12 h 2 v 2 h -2 ZM 182 12 h 2 v 2 h -2 ZM 184 12 h 2 v 2 h -2 ZM 186 12 h 2 v 2 h -2 ZM 188 12 h 2 v 2 h -2 ZM 192 0 h 2 v 2 h -2 ZM 200 0 h 2 v 2 h -2 ZM 192 2 h 2 v 2 h -2 ZM 194 2 h 2 v 2 h -2 ZM 200 2 h 2 v 2 h -2 ZM 192 4 h 2 v 2 h -2 ZM 196 4 h 2 v 2 h -2 ZM 200 4 h 2 v 2 h -2 ZM 192 6 h 2 v 2 h -2 ZM 198 6 h 2 v 2 h -2 ZM 200 6 h 2 v 2 h -2 ZM 192 8 h 2 v 2 h -2 ZM 200 8 h 2 v 2 h -2 ZM 192 10 h 2 v 2 h -2 ZM 200 10 h 2 v 2 h -2 ZM 192 12 h 2 v 2 h -2 ZM 200 12 h 2 v 2 h -2 ZM 218 0 h 2 v 2 h -2 ZM 220 0 h 2 v 2 h -2 ZM 222 0 h 2 v 2 h -2 ZM 216 2 h 2 v 2 h -2 ZM 224 2 h 2 v 2 h -2 ZM 218 4 h 2 v 2 h -2 ZM 220 6 h 2 v 2 h -2 ZM 222 8 h 2 v 2 h -2 ZM 216 10 h 2 v 2 h -2 ZM 224 10 h 2 v 2 h -2 ZM 218 12 h 2 v 2 h -2 ZM 220 12 h 2 v 2 h -2 ZM 222 12 h 2 v 2 h -2 ZM 230 0 h 2 v 2 h -2 ZM 232 0 h 2 v 2 h -2 ZM 234 0 h 2 v 2 h -2 ZM 228 2 h 2 v 2 h -2 ZM 236 2 h 2 v 2 h -2 ZM 228 4 h 2 v 2 h -2 ZM 236 4 h 2 v 2 h -2 ZM 228 6 h 2 v 2 h -2 ZM 236 6 h 2 v 2 h -2 ZM 228 8 h 2 v 2 h -2 ZM 236 8 h 2 v 2 h -2 ZM 228 10 h 2 v 2 h -2 ZM 236 10 h 2 v 2 h -2 ZM 230 12 h 2 v 2 h -2 ZM 232 12 h 2 v 2 h -2 ZM 234 12 h 2 v 2 h -2 ZM 240 0 h 2 v 2 h -2 ZM 248 0 h 2 v 2 h -2 ZM 240 2 h 2 v 2 h -2 ZM 248 2 h 2 v 2 h -2 ZM 240 4 h 2 v 2 h -2 ZM 248 4 h 2 v 2 h -2 ZM 240 6 h 2 v 2 h -2 ZM 248 6 h 2 v 2 h -2 ZM 240 8 h 2 v 2 h -2 ZM 248 8 h 2 v 2 h -2 ZM 240 10 h 2 v 2 h -2 ZM 248 10 h 2 v 2 h -2 ZM 242 12 h 2 v 2 h -2 ZM 244 12 h 2 v 2 h -2 ZM 246 12 h 2 v 2 h -2 ZM 252 0 h 2 v 2 h -2 ZM 254 0 h 2 v 2 h -2 ZM 256 0 h 2 v 2 h -2 ZM 258 0 h 2 v 2 h -2 ZM 252 2 h 2 v 2 h -2 ZM 260 2 h 2 v 2 h -2 ZM 252 4 h 2 v 2 h -2 ZM 260 4 h 2 v 2 h -2 ZM 252 6 h 2 v 2 h -2 ZM 254 6 h 2 v 2 h -2 ZM 256 6 h 2 v 2 h -2 ZM 258 6 h 2 v 2 h -2 ZM 252 8 h 2 v 2 h -2 ZM 256 8 h 2 v 2 h -2 ZM 252 10 h 2 v 2 h -2 ZM 258 10 h 2 v 2 h -2 ZM 252 12 h 2 v 2 h -2 ZM 260 12 h 2 v 2 h -2 ZM 266 0 h 2 v 2 h -2 ZM 268 0 h 2 v 2 h -2 ZM 270 0 h 2 v 2 h -2 ZM 264 2 h 2 v 2 h -2 ZM 272 2 h 2 v 2 h -2 ZM 264 4 h 2 v 2 h -2 ZM 264 6 h 2 v 2 h -2 ZM 264 8 h 2 v 2 h -2 ZM 264 10 h 2 v 2 h -2 ZM 272 10 h 2 v 2 h -2 ZM 266 12 h 2 v 2 h -2 ZM 268 12 h 2 v 2 h -2 ZM 270 12 h 2 v 2 h -2 ZM 276 0 h 2 v 2 h -2 ZM 278 0 h 2 v 2 h -2 ZM 280 0 h 2 v 2 h -2 ZM 282 0 h 2 v 2 h -2 ZM 284 0 h 2 v 2 h -2 ZM 276 2 h 2 v 2 h -2 ZM 276 4 h 2 v 2 h -2 ZM 276 6 h 2 v 2 h -2 ZM 278 6 h 2 v 2 h -2 ZM 280 6 h 2 v 2 h -2 ZM 282 6 h 2 v 2 h -2 ZM 276 8 h 2 v 2 h -2 ZM 276 10 h 2 v 2 h -2 ZM 276 12 h 2 v 2 h -2 ZM 278 12 h 2 v 2 h -2 ZM 280 12 h 2 v 2 h -2 ZM 282 12 h 2 v 2 h -2 ZM 284 12 h 2 v 2 h -2 ZM 304 0 h 2 v 2 h -2 ZM 304 2 h 2 v 2 h -2 ZM 304 4 h 2 v 2 h -2 ZM 304 6 h 2 v 2 h -2 ZM 304 8 h 2 v 2 h -2 ZM 304 10 h 2 v 2 h -2 ZM 304 12 h 2 v 2 h -2 ZM 326 0 h 2 v 2 h -2 ZM 328 0 h 2 v 2 h -2 ZM 330 0 h 2 v 2 h -2 ZM 324 2 h 2 v 2 h -2 ZM 332 2 h 2 v 2 h -2 ZM 324 4 h 2 v 2 h -2 ZM 324 6 h 2 v 2 h -2 ZM 328 6 h 2 v 2 h -2 ZM 330 6 h 2 v 2 h -2 ZM 332 6 h 2 v 2 h -2 ZM 324 8 h 2 v 2 h -2 ZM 332 8 h 2 v 2 h -2 ZM 324 10 h 2 v 2 h -2 ZM 332 10 h 2 v 2 h -2 ZM 326 12 h 2 v 2 h -2 ZM 328 12 h 2 v 2 h -2 ZM 330 12 h 2 v 2 h -2 ZM 338 0 h 2 v 2 h -2 ZM 340 0 h 2 v 2 h -2 ZM 342 0 h 2 v 2 h -2 ZM 336 2 h 2 v 2 h -2 ZM 344 2 h 2 v 2 h -2 ZM 336 4 h 2 v 2 h -2 ZM 344 4 h 2 v 2 h -2 ZM 336 6 h 2 v 2 h -2 ZM 338 6 h 2 v 2 h -2 ZM 340 6 h 2 v 2 h -2 ZM 342 6 h 2 v 2 h -2 ZM 344 6 h 2 v 2 h -2 ZM 336 8 h 2 v 2 h -2 ZM 344 8 h 2 v 2 h -2 ZM 336 10 h 2 v 2 h -2 ZM 344 10 h 2 v 2 h -2 ZM 336 12 h 2 v 2 h -2 ZM 344 12 h 2 v 2 h -2 ZM 348 0 h 2 v 2 h -2 ZM 356 0 h 2 v 2 h -2 ZM 348 2 h 2 v 2 h -2 ZM 350 2 h 2 v 2 h -2 ZM 354 2 h 2 v 2 h -2 ZM 356 2 h 2 v 2 h -2 ZM 348 4 h 2 v 2 h -2 ZM 352 4 h 2 v 2 h -2 ZM 356 4 h 2 v 2 h -2 ZM 348 6 h 2 v 2 h -2 ZM 352 6 h 2 v 2 h -2 ZM 356 6 h 2 v 2 h -2 ZM 348 8 h 2 v 2 h -2 ZM 356 8 h 2 v 2 h -2 ZM 348 10 h 2 v 2 h -2 ZM 356 10 h 2 v 2 h -2 ZM 348 12 h 2 v 2 h -2 ZM 356 12 h 2 v 2 h -2 ZM 362 0 h 2 v 2 h -2 ZM 364 0 h 2 v 2 h -2 ZM 366 0 h 2 v 2 h -2 ZM 364 2 h 2 v 2 h -2 ZM 364 4 h 2 v 2 h -2 ZM 364 6 h 2 v 2 h -2 ZM 364 8 h 2 v 2 h -2 ZM 364 10 h 2 v 2 h -2 ZM 362 12 h 2 v 2 h -2 ZM 364 12 h 2 v 2 h -2 ZM 366 12 h 2 v 2 h -2 ZM 372 0 h 2 v 2 h -2 ZM 380 0 h 2 v 2 h -2 ZM 372 2 h 2 v 2 h -2 ZM 374 2 h 2 v 2 h -2 ZM 380 2 h 2 v 2 h -2 ZM 372 4 h 2 v 2 h -2 ZM 376 4 h 2 v 2 h -2 ZM 380 4 h 2 v 2 h -2 ZM 372 6 h 2 v 2 h -2 ZM 378 6 h 2 v 2 h -2 ZM 380 6 h 2 v 2 h -2 ZM 372 8 h 2 v 2 h -2 ZM 380 8 h 2 v 2 h -2 ZM 372 10 h 2 v 2 h -2 ZM 380 10 h 2 v 2 h -2 ZM 372 12 h 2 v 2 h -2 ZM 380 12 h 2 v 2 h -2 ZM 386 0 h 2 v 2 h -2 ZM 388 0 h 2 v 2 h -2 ZM 390 0 h 2 v 2 h -2 ZM 384 2 h 2 v 2 h -2 ZM 392 2 h 2 v 2 h -2 ZM 384 4 h 2 v 2 h -2 ZM 384 6 h 2 v 2 h -2 ZM 388 6 h 2 v 2 h -2 ZM 390 6 h 2 v 2 h -2 ZM 392 6 h 2 v 2 h -2 ZM 384 8 h 2 v 2 h -2 ZM 392 8 h 2 v 2 h -2 ZM 384 10 h 2 v 2 h -2 ZM 392 10 h 2 v 2 h -2 ZM 386 12 h 2 v 2 h -2 ZM 388 12 h 2 v 2 h -2 ZM 390 12 h 2 v 2 h -2 Z" fill="#000000" opacity="0.4" transform="translate(1, 1) translate(-197.0, 0)"/>
+    <path d="M 0 0 h 2 v 2 h -2 ZM 2 0 h 2 v 2 h -2 ZM 4 0 h 2 v 2 h -2 ZM 6 0 h 2 v 2 h -2 ZM 8 0 h 2 v 2 h -2 ZM 0 2 h 2 v 2 h -2 ZM 0 4 h 2 v 2 h -2 ZM 0 6 h 2 v 2 h -2 ZM 2 6 h 2 v 2 h -2 ZM 4 6 h 2 v 2 h -2 ZM 6 6 h 2 v 2 h -2 ZM 0 8 h 2 v 2 h -2 ZM 0 10 h 2 v 2 h -2 ZM 0 12 h 2 v 2 h -2 ZM 12 0 h 2 v 2 h -2 ZM 20 0 h 2 v 2 h -2 ZM 12 2 h 2 v 2 h -2 ZM 20 2 h 2 v 2 h -2 ZM 12 4 h 2 v 2 h -2 ZM 20 4 h 2 v 2 h -2 ZM 12 6 h 2 v 2 h -2 ZM 20 6 h 2 v 2 h -2 ZM 12 8 h 2 v 2 h -2 ZM 20 8 h 2 v 2 h -2 ZM 12 10 h 2 v 2 h -2 ZM 20 10 h 2 v 2 h -2 ZM 14 12 h 2 v 2 h -2 ZM 16 12 h 2 v 2 h -2 ZM 18 12 h 2 v 2 h -2 ZM 24 0 h 2 v 2 h -2 ZM 24 2 h 2 v 2 h -2 ZM 24 4 h 2 v 2 h -2 ZM 24 6 h 2 v 2 h -2 ZM 24 8 h 2 v 2 h -2 ZM 24 10 h 2 v 2 h -2 ZM 24 12 h 2 v 2 h -2 ZM 26 12 h 2 v 2 h -2 ZM 28 12 h 2 v 2 h -2 ZM 30 12 h 2 v 2 h -2 ZM 32 12 h 2 v 2 h -2 ZM 36 0 h 2 v 2 h -2 ZM 36 2 h 2 v 2 h -2 ZM 36 4 h 2 v 2 h -2 ZM 36 6 h 2 v 2 h -2 ZM 36 8 h 2 v 2 h -2 ZM 36 10 h 2 v 2 h -2 ZM 36 12 h 2 v 2 h -2 ZM 38 12 h 2 v 2 h -2 ZM 40 12 h 2 v 2 h -2 ZM 42 12 h 2 v 2 h -2 ZM 44 12 h 2 v 2 h -2 ZM 48 6 h 2 v 2 h -2 ZM 50 6 h 2 v 2 h -2 ZM 52 6 h 2 v 2 h -2 ZM 54 6 h 2 v 2 h -2 ZM 56 6 h 2 v 2 h -2 ZM 62 0 h 2 v 2 h -2 ZM 64 0 h 2 v 2 h -2 ZM 66 0 h 2 v 2 h -2 ZM 60 2 h 2 v 2 h -2 ZM 68 2 h 2 v 2 h -2 ZM 62 4 h 2 v 2 h -2 ZM 64 6 h 2 v 2 h -2 ZM 66 8 h 2 v 2 h -2 ZM 60 10 h 2 v 2 h -2 ZM 68 10 h 2 v 2 h -2 ZM 62 12 h 2 v 2 h -2 ZM 64 12 h 2 v 2 h -2 ZM 66 12 h 2 v 2 h -2 ZM 72 0 h 2 v 2 h -2 ZM 74 0 h 2 v 2 h -2 ZM 76 0 h 2 v 2 h -2 ZM 78 0 h 2 v 2 h -2 ZM 80 0 h 2 v 2 h -2 ZM 76 2 h 2 v 2 h -2 ZM 76 4 h 2 v 2 h -2 ZM 76 6 h 2 v 2 h -2 ZM 76 8 h 2 v 2 h -2 ZM 76 10 h 2 v 2 h -2 ZM 76 12 h 2 v 2 h -2 ZM 86 0 h 2 v 2 h -2 ZM 88 0 h 2 v 2 h -2 ZM 90 0 h 2 v 2 h -2 ZM 84 2 h 2 v 2 h -2 ZM 92 2 h 2 v 2 h -2 ZM 84 4 h 2 v 2 h -2 ZM 92 4 h 2 v 2 h -2 ZM 84 6 h 2 v 2 h -2 ZM 86 6 h 2 v 2 h -2 ZM 88 6 h 2 v 2 h -2 ZM 90 6 h 2 v 2 h -2 ZM 92 6 h 2 v 2 h -2 ZM 84 8 h 2 v 2 h -2 ZM 92 8 h 2 v 2 h -2 ZM 84 10 h 2 v 2 h -2 ZM 92 10 h 2 v 2 h -2 ZM 84 12 h 2 v 2 h -2 ZM 92 12 h 2 v 2 h -2 ZM 98 0 h 2 v 2 h -2 ZM 100 0 h 2 v 2 h -2 ZM 102 0 h 2 v 2 h -2 ZM 96 2 h 2 v 2 h -2 ZM 104 2 h 2 v 2 h -2 ZM 96 4 h 2 v 2 h -2 ZM 96 6 h 2 v 2 h -2 ZM 96 8 h 2 v 2 h -2 ZM 96 10 h 2 v 2 h -2 ZM 104 10 h 2 v 2 h -2 ZM 98 12 h 2 v 2 h -2 ZM 100 12 h 2 v 2 h -2 ZM 102 12 h 2 v 2 h -2 ZM 108 0 h 2 v 2 h -2 ZM 116 0 h 2 v 2 h -2 ZM 108 2 h 2 v 2 h -2 ZM 114 2 h 2 v 2 h -2 ZM 108 4 h 2 v 2 h -2 ZM 112 4 h 2 v 2 h -2 ZM 108 6 h 2 v 2 h -2 ZM 110 6 h 2 v 2 h -2 ZM 108 8 h 2 v 2 h -2 ZM 112 8 h 2 v 2 h -2 ZM 108 10 h 2 v 2 h -2 ZM 114 10 h 2 v 2 h -2 ZM 108 12 h 2 v 2 h -2 ZM 116 12 h 2 v 2 h -2 ZM 136 0 h 2 v 2 h -2 ZM 136 2 h 2 v 2 h -2 ZM 136 4 h 2 v 2 h -2 ZM 136 6 h 2 v 2 h -2 ZM 136 8 h 2 v 2 h -2 ZM 136 10 h 2 v 2 h -2 ZM 136 12 h 2 v 2 h -2 ZM 158 0 h 2 v 2 h -2 ZM 160 0 h 2 v 2 h -2 ZM 162 0 h 2 v 2 h -2 ZM 156 2 h 2 v 2 h -2 ZM 164 2 h 2 v 2 h -2 ZM 156 4 h 2 v 2 h -2 ZM 164 4 h 2 v 2 h -2 ZM 156 6 h 2 v 2 h -2 ZM 164 6 h 2 v 2 h -2 ZM 156 8 h 2 v 2 h -2 ZM 164 8 h 2 v 2 h -2 ZM 156 10 h 2 v 2 h -2 ZM 164 10 h 2 v 2 h -2 ZM 158 12 h 2 v 2 h -2 ZM 160 12 h 2 v 2 h -2 ZM 162 12 h 2 v 2 h -2 ZM 168 0 h 2 v 2 h -2 ZM 170 0 h 2 v 2 h -2 ZM 172 0 h 2 v 2 h -2 ZM 174 0 h 2 v 2 h -2 ZM 168 2 h 2 v 2 h -2 ZM 176 2 h 2 v 2 h -2 ZM 168 4 h 2 v 2 h -2 ZM 176 4 h 2 v 2 h -2 ZM 168 6 h 2 v 2 h -2 ZM 170 6 h 2 v 2 h -2 ZM 172 6 h 2 v 2 h -2 ZM 174 6 h 2 v 2 h -2 ZM 168 8 h 2 v 2 h -2 ZM 168 10 h 2 v 2 h -2 ZM 168 12 h 2 v 2 h -2 ZM 180 0 h 2 v 2 h -2 ZM 182 0 h 2 v 2 h -2 ZM 184 0 h 2 v 2 h -2 ZM 186 0 h 2 v 2 h -2 ZM 188 0 h 2 v 2 h -2 ZM 180 2 h 2 v 2 h -2 ZM 180 4 h 2 v 2 h -2 ZM 180 6 h 2 v 2 h -2 ZM 182 6 h 2 v 2 h -2 ZM 184 6 h 2 v 2 h -2 ZM 186 6 h 2 v 2 h -2 ZM 180 8 h 2 v 2 h -2 ZM 180 10 h 2 v 2 h -2 ZM 180 12 h 2 v 2 h -2 ZM 182 12 h 2 v 2 h -2 ZM 184 12 h 2 v 2 h -2 ZM 186 12 h 2 v 2 h -2 ZM 188 12 h 2 v 2 h -2 ZM 192 0 h 2 v 2 h -2 ZM 200 0 h 2 v 2 h -2 ZM 192 2 h 2 v 2 h -2 ZM 194 2 h 2 v 2 h -2 ZM 200 2 h 2 v 2 h -2 ZM 192 4 h 2 v 2 h -2 ZM 196 4 h 2 v 2 h -2 ZM 200 4 h 2 v 2 h -2 ZM 192 6 h 2 v 2 h -2 ZM 198 6 h 2 v 2 h -2 ZM 200 6 h 2 v 2 h -2 ZM 192 8 h 2 v 2 h -2 ZM 200 8 h 2 v 2 h -2 ZM 192 10 h 2 v 2 h -2 ZM 200 10 h 2 v 2 h -2 ZM 192 12 h 2 v 2 h -2 ZM 200 12 h 2 v 2 h -2 ZM 218 0 h 2 v 2 h -2 ZM 220 0 h 2 v 2 h -2 ZM 222 0 h 2 v 2 h -2 ZM 216 2 h 2 v 2 h -2 ZM 224 2 h 2 v 2 h -2 ZM 218 4 h 2 v 2 h -2 ZM 220 6 h 2 v 2 h -2 ZM 222 8 h 2 v 2 h -2 ZM 216 10 h 2 v 2 h -2 ZM 224 10 h 2 v 2 h -2 ZM 218 12 h 2 v 2 h -2 ZM 220 12 h 2 v 2 h -2 ZM 222 12 h 2 v 2 h -2 ZM 230 0 h 2 v 2 h -2 ZM 232 0 h 2 v 2 h -2 ZM 234 0 h 2 v 2 h -2 ZM 228 2 h 2 v 2 h -2 ZM 236 2 h 2 v 2 h -2 ZM 228 4 h 2 v 2 h -2 ZM 236 4 h 2 v 2 h -2 ZM 228 6 h 2 v 2 h -2 ZM 236 6 h 2 v 2 h -2 ZM 228 8 h 2 v 2 h -2 ZM 236 8 h 2 v 2 h -2 ZM 228 10 h 2 v 2 h -2 ZM 236 10 h 2 v 2 h -2 ZM 230 12 h 2 v 2 h -2 ZM 232 12 h 2 v 2 h -2 ZM 234 12 h 2 v 2 h -2 ZM 240 0 h 2 v 2 h -2 ZM 248 0 h 2 v 2 h -2 ZM 240 2 h 2 v 2 h -2 ZM 248 2 h 2 v 2 h -2 ZM 240 4 h 2 v 2 h -2 ZM 248 4 h 2 v 2 h -2 ZM 240 6 h 2 v 2 h -2 ZM 248 6 h 2 v 2 h -2 ZM 240 8 h 2 v 2 h -2 ZM 248 8 h 2 v 2 h -2 ZM 240 10 h 2 v 2 h -2 ZM 248 10 h 2 v 2 h -2 ZM 242 12 h 2 v 2 h -2 ZM 244 12 h 2 v 2 h -2 ZM 246 12 h 2 v 2 h -2 ZM 252 0 h 2 v 2 h -2 ZM 254 0 h 2 v 2 h -2 ZM 256 0 h 2 v 2 h -2 ZM 258 0 h 2 v 2 h -2 ZM 252 2 h 2 v 2 h -2 ZM 260 2 h 2 v 2 h -2 ZM 252 4 h 2 v 2 h -2 ZM 260 4 h 2 v 2 h -2 ZM 252 6 h 2 v 2 h -2 ZM 254 6 h 2 v 2 h -2 ZM 256 6 h 2 v 2 h -2 ZM 258 6 h 2 v 2 h -2 ZM 252 8 h 2 v 2 h -2 ZM 256 8 h 2 v 2 h -2 ZM 252 10 h 2 v 2 h -2 ZM 258 10 h 2 v 2 h -2 ZM 252 12 h 2 v 2 h -2 ZM 260 12 h 2 v 2 h -2 ZM 266 0 h 2 v 2 h -2 ZM 268 0 h 2 v 2 h -2 ZM 270 0 h 2 v 2 h -2 ZM 264 2 h 2 v 2 h -2 ZM 272 2 h 2 v 2 h -2 ZM 264 4 h 2 v 2 h -2 ZM 264 6 h 2 v 2 h -2 ZM 264 8 h 2 v 2 h -2 ZM 264 10 h 2 v 2 h -2 ZM 272 10 h 2 v 2 h -2 ZM 266 12 h 2 v 2 h -2 ZM 268 12 h 2 v 2 h -2 ZM 270 12 h 2 v 2 h -2 ZM 276 0 h 2 v 2 h -2 ZM 278 0 h 2 v 2 h -2 ZM 280 0 h 2 v 2 h -2 ZM 282 0 h 2 v 2 h -2 ZM 284 0 h 2 v 2 h -2 ZM 276 2 h 2 v 2 h -2 ZM 276 4 h 2 v 2 h -2 ZM 276 6 h 2 v 2 h -2 ZM 278 6 h 2 v 2 h -2 ZM 280 6 h 2 v 2 h -2 ZM 282 6 h 2 v 2 h -2 ZM 276 8 h 2 v 2 h -2 ZM 276 10 h 2 v 2 h -2 ZM 276 12 h 2 v 2 h -2 ZM 278 12 h 2 v 2 h -2 ZM 280 12 h 2 v 2 h -2 ZM 282 12 h 2 v 2 h -2 ZM 284 12 h 2 v 2 h -2 ZM 304 0 h 2 v 2 h -2 ZM 304 2 h 2 v 2 h -2 ZM 304 4 h 2 v 2 h -2 ZM 304 6 h 2 v 2 h -2 ZM 304 8 h 2 v 2 h -2 ZM 304 10 h 2 v 2 h -2 ZM 304 12 h 2 v 2 h -2 ZM 326 0 h 2 v 2 h -2 ZM 328 0 h 2 v 2 h -2 ZM 330 0 h 2 v 2 h -2 ZM 324 2 h 2 v 2 h -2 ZM 332 2 h 2 v 2 h -2 ZM 324 4 h 2 v 2 h -2 ZM 324 6 h 2 v 2 h -2 ZM 328 6 h 2 v 2 h -2 ZM 330 6 h 2 v 2 h -2 ZM 332 6 h 2 v 2 h -2 ZM 324 8 h 2 v 2 h -2 ZM 332 8 h 2 v 2 h -2 ZM 324 10 h 2 v 2 h -2 ZM 332 10 h 2 v 2 h -2 ZM 326 12 h 2 v 2 h -2 ZM 328 12 h 2 v 2 h -2 ZM 330 12 h 2 v 2 h -2 ZM 338 0 h 2 v 2 h -2 ZM 340 0 h 2 v 2 h -2 ZM 342 0 h 2 v 2 h -2 ZM 336 2 h 2 v 2 h -2 ZM 344 2 h 2 v 2 h -2 ZM 336 4 h 2 v 2 h -2 ZM 344 4 h 2 v 2 h -2 ZM 336 6 h 2 v 2 h -2 ZM 338 6 h 2 v 2 h -2 ZM 340 6 h 2 v 2 h -2 ZM 342 6 h 2 v 2 h -2 ZM 344 6 h 2 v 2 h -2 ZM 336 8 h 2 v 2 h -2 ZM 344 8 h 2 v 2 h -2 ZM 336 10 h 2 v 2 h -2 ZM 344 10 h 2 v 2 h -2 ZM 336 12 h 2 v 2 h -2 ZM 344 12 h 2 v 2 h -2 ZM 348 0 h 2 v 2 h -2 ZM 356 0 h 2 v 2 h -2 ZM 348 2 h 2 v 2 h -2 ZM 350 2 h 2 v 2 h -2 ZM 354 2 h 2 v 2 h -2 ZM 356 2 h 2 v 2 h -2 ZM 348 4 h 2 v 2 h -2 ZM 352 4 h 2 v 2 h -2 ZM 356 4 h 2 v 2 h -2 ZM 348 6 h 2 v 2 h -2 ZM 352 6 h 2 v 2 h -2 ZM 356 6 h 2 v 2 h -2 ZM 348 8 h 2 v 2 h -2 ZM 356 8 h 2 v 2 h -2 ZM 348 10 h 2 v 2 h -2 ZM 356 10 h 2 v 2 h -2 ZM 348 12 h 2 v 2 h -2 ZM 356 12 h 2 v 2 h -2 ZM 362 0 h 2 v 2 h -2 ZM 364 0 h 2 v 2 h -2 ZM 366 0 h 2 v 2 h -2 ZM 364 2 h 2 v 2 h -2 ZM 364 4 h 2 v 2 h -2 ZM 364 6 h 2 v 2 h -2 ZM 364 8 h 2 v 2 h -2 ZM 364 10 h 2 v 2 h -2 ZM 362 12 h 2 v 2 h -2 ZM 364 12 h 2 v 2 h -2 ZM 366 12 h 2 v 2 h -2 ZM 372 0 h 2 v 2 h -2 ZM 380 0 h 2 v 2 h -2 ZM 372 2 h 2 v 2 h -2 ZM 374 2 h 2 v 2 h -2 ZM 380 2 h 2 v 2 h -2 ZM 372 4 h 2 v 2 h -2 ZM 376 4 h 2 v 2 h -2 ZM 380 4 h 2 v 2 h -2 ZM 372 6 h 2 v 2 h -2 ZM 378 6 h 2 v 2 h -2 ZM 380 6 h 2 v 2 h -2 ZM 372 8 h 2 v 2 h -2 ZM 380 8 h 2 v 2 h -2 ZM 372 10 h 2 v 2 h -2 ZM 380 10 h 2 v 2 h -2 ZM 372 12 h 2 v 2 h -2 ZM 380 12 h 2 v 2 h -2 ZM 386 0 h 2 v 2 h -2 ZM 388 0 h 2 v 2 h -2 ZM 390 0 h 2 v 2 h -2 ZM 384 2 h 2 v 2 h -2 ZM 392 2 h 2 v 2 h -2 ZM 384 4 h 2 v 2 h -2 ZM 384 6 h 2 v 2 h -2 ZM 388 6 h 2 v 2 h -2 ZM 390 6 h 2 v 2 h -2 ZM 392 6 h 2 v 2 h -2 ZM 384 8 h 2 v 2 h -2 ZM 392 8 h 2 v 2 h -2 ZM 384 10 h 2 v 2 h -2 ZM 392 10 h 2 v 2 h -2 ZM 386 12 h 2 v 2 h -2 ZM 388 12 h 2 v 2 h -2 ZM 390 12 h 2 v 2 h -2 Z" fill="#FFEEAA" transform="translate(-197.0, 0)"/>
   </g>
 
-  <!-- Decorative "PRESS START" blinking -->
-  <g transform="translate(400, 152)">
-    <text
-      font-family="'Courier New', Courier, monospace"
-      font-size="11" font-weight="bold" text-anchor="middle"
-      fill="#FFD700" class="blink-cursor">
-      &#x25B6;  PRESS START  &#x25C0;
-    </text>
+  <!-- 3. Blinking "PRESS START" -->
+  <g class="blink-cursor" transform="translate(400, 146)">
+    <path d="M 0.0 0.0 h 1.5 v 1.5 h -1.5 ZM 1.5 1.5 h 1.5 v 1.5 h -1.5 ZM 3.0 3.0 h 1.5 v 1.5 h -1.5 ZM 4.5 4.5 h 1.5 v 1.5 h -1.5 ZM 3.0 6.0 h 1.5 v 1.5 h -1.5 ZM 1.5 7.5 h 1.5 v 1.5 h -1.5 ZM 0.0 9.0 h 1.5 v 1.5 h -1.5 ZM 18.0 0.0 h 1.5 v 1.5 h -1.5 ZM 19.5 0.0 h 1.5 v 1.5 h -1.5 ZM 21.0 0.0 h 1.5 v 1.5 h -1.5 ZM 22.5 0.0 h 1.5 v 1.5 h -1.5 ZM 18.0 1.5 h 1.5 v 1.5 h -1.5 ZM 24.0 1.5 h 1.5 v 1.5 h -1.5 ZM 18.0 3.0 h 1.5 v 1.5 h -1.5 ZM 24.0 3.0 h 1.5 v 1.5 h -1.5 ZM 18.0 4.5 h 1.5 v 1.5 h -1.5 ZM 19.5 4.5 h 1.5 v 1.5 h -1.5 ZM 21.0 4.5 h 1.5 v 1.5 h -1.5 ZM 22.5 4.5 h 1.5 v 1.5 h -1.5 ZM 18.0 6.0 h 1.5 v 1.5 h -1.5 ZM 18.0 7.5 h 1.5 v 1.5 h -1.5 ZM 18.0 9.0 h 1.5 v 1.5 h -1.5 ZM 27.0 0.0 h 1.5 v 1.5 h -1.5 ZM 28.5 0.0 h 1.5 v 1.5 h -1.5 ZM 30.0 0.0 h 1.5 v 1.5 h -1.5 ZM 31.5 0.0 h 1.5 v 1.5 h -1.5 ZM 27.0 1.5 h 1.5 v 1.5 h -1.5 ZM 33.0 1.5 h 1.5 v 1.5 h -1.5 ZM 27.0 3.0 h 1.5 v 1.5 h -1.5 ZM 33.0 3.0 h 1.5 v 1.5 h -1.5 ZM 27.0 4.5 h 1.5 v 1.5 h -1.5 ZM 28.5 4.5 h 1.5 v 1.5 h -1.5 ZM 30.0 4.5 h 1.5 v 1.5 h -1.5 ZM 31.5 4.5 h 1.5 v 1.5 h -1.5 ZM 27.0 6.0 h 1.5 v 1.5 h -1.5 ZM 30.0 6.0 h 1.5 v 1.5 h -1.5 ZM 27.0 7.5 h 1.5 v 1.5 h -1.5 ZM 31.5 7.5 h 1.5 v 1.5 h -1.5 ZM 27.0 9.0 h 1.5 v 1.5 h -1.5 ZM 33.0 9.0 h 1.5 v 1.5 h -1.5 ZM 36.0 0.0 h 1.5 v 1.5 h -1.5 ZM 37.5 0.0 h 1.5 v 1.5 h -1.5 ZM 39.0 0.0 h 1.5 v 1.5 h -1.5 ZM 40.5 0.0 h 1.5 v 1.5 h -1.5 ZM 42.0 0.0 h 1.5 v 1.5 h -1.5 ZM 36.0 1.5 h 1.5 v 1.5 h -1.5 ZM 36.0 3.0 h 1.5 v 1.5 h -1.5 ZM 36.0 4.5 h 1.5 v 1.5 h -1.5 ZM 37.5 4.5 h 1.5 v 1.5 h -1.5 ZM 39.0 4.5 h 1.5 v 1.5 h -1.5 ZM 40.5 4.5 h 1.5 v 1.5 h -1.5 ZM 36.0 6.0 h 1.5 v 1.5 h -1.5 ZM 36.0 7.5 h 1.5 v 1.5 h -1.5 ZM 36.0 9.0 h 1.5 v 1.5 h -1.5 ZM 37.5 9.0 h 1.5 v 1.5 h -1.5 ZM 39.0 9.0 h 1.5 v 1.5 h -1.5 ZM 40.5 9.0 h 1.5 v 1.5 h -1.5 ZM 42.0 9.0 h 1.5 v 1.5 h -1.5 ZM 46.5 0.0 h 1.5 v 1.5 h -1.5 ZM 48.0 0.0 h 1.5 v 1.5 h -1.5 ZM 49.5 0.0 h 1.5 v 1.5 h -1.5 ZM 45.0 1.5 h 1.5 v 1.5 h -1.5 ZM 51.0 1.5 h 1.5 v 1.5 h -1.5 ZM 46.5 3.0 h 1.5 v 1.5 h -1.5 ZM 48.0 4.5 h 1.5 v 1.5 h -1.5 ZM 49.5 6.0 h 1.5 v 1.5 h -1.5 ZM 45.0 7.5 h 1.5 v 1.5 h -1.5 ZM 51.0 7.5 h 1.5 v 1.5 h -1.5 ZM 46.5 9.0 h 1.5 v 1.5 h -1.5 ZM 48.0 9.0 h 1.5 v 1.5 h -1.5 ZM 49.5 9.0 h 1.5 v 1.5 h -1.5 ZM 55.5 0.0 h 1.5 v 1.5 h -1.5 ZM 57.0 0.0 h 1.5 v 1.5 h -1.5 ZM 58.5 0.0 h 1.5 v 1.5 h -1.5 ZM 54.0 1.5 h 1.5 v 1.5 h -1.5 ZM 60.0 1.5 h 1.5 v 1.5 h -1.5 ZM 55.5 3.0 h 1.5 v 1.5 h -1.5 ZM 57.0 4.5 h 1.5 v 1.5 h -1.5 ZM 58.5 6.0 h 1.5 v 1.5 h -1.5 ZM 54.0 7.5 h 1.5 v 1.5 h -1.5 ZM 60.0 7.5 h 1.5 v 1.5 h -1.5 ZM 55.5 9.0 h 1.5 v 1.5 h -1.5 ZM 57.0 9.0 h 1.5 v 1.5 h -1.5 ZM 58.5 9.0 h 1.5 v 1.5 h -1.5 ZM 73.5 0.0 h 1.5 v 1.5 h -1.5 ZM 75.0 0.0 h 1.5 v 1.5 h -1.5 ZM 76.5 0.0 h 1.5 v 1.5 h -1.5 ZM 72.0 1.5 h 1.5 v 1.5 h -1.5 ZM 78.0 1.5 h 1.5 v 1.5 h -1.5 ZM 73.5 3.0 h 1.5 v 1.5 h -1.5 ZM 75.0 4.5 h 1.5 v 1.5 h -1.5 ZM 76.5 6.0 h 1.5 v 1.5 h -1.5 ZM 72.0 7.5 h 1.5 v 1.5 h -1.5 ZM 78.0 7.5 h 1.5 v 1.5 h -1.5 ZM 73.5 9.0 h 1.5 v 1.5 h -1.5 ZM 75.0 9.0 h 1.5 v 1.5 h -1.5 ZM 76.5 9.0 h 1.5 v 1.5 h -1.5 ZM 81.0 0.0 h 1.5 v 1.5 h -1.5 ZM 82.5 0.0 h 1.5 v 1.5 h -1.5 ZM 84.0 0.0 h 1.5 v 1.5 h -1.5 ZM 85.5 0.0 h 1.5 v 1.5 h -1.5 ZM 87.0 0.0 h 1.5 v 1.5 h -1.5 ZM 84.0 1.5 h 1.5 v 1.5 h -1.5 ZM 84.0 3.0 h 1.5 v 1.5 h -1.5 ZM 84.0 4.5 h 1.5 v 1.5 h -1.5 ZM 84.0 6.0 h 1.5 v 1.5 h -1.5 ZM 84.0 7.5 h 1.5 v 1.5 h -1.5 ZM 84.0 9.0 h 1.5 v 1.5 h -1.5 ZM 91.5 0.0 h 1.5 v 1.5 h -1.5 ZM 93.0 0.0 h 1.5 v 1.5 h -1.5 ZM 94.5 0.0 h 1.5 v 1.5 h -1.5 ZM 90.0 1.5 h 1.5 v 1.5 h -1.5 ZM 96.0 1.5 h 1.5 v 1.5 h -1.5 ZM 90.0 3.0 h 1.5 v 1.5 h -1.5 ZM 96.0 3.0 h 1.5 v 1.5 h -1.5 ZM 90.0 4.5 h 1.5 v 1.5 h -1.5 ZM 91.5 4.5 h 1.5 v 1.5 h -1.5 ZM 93.0 4.5 h 1.5 v 1.5 h -1.5 ZM 94.5 4.5 h 1.5 v 1.5 h -1.5 ZM 96.0 4.5 h 1.5 v 1.5 h -1.5 ZM 90.0 6.0 h 1.5 v 1.5 h -1.5 ZM 96.0 6.0 h 1.5 v 1.5 h -1.5 ZM 90.0 7.5 h 1.5 v 1.5 h -1.5 ZM 96.0 7.5 h 1.5 v 1.5 h -1.5 ZM 90.0 9.0 h 1.5 v 1.5 h -1.5 ZM 96.0 9.0 h 1.5 v 1.5 h -1.5 ZM 99.0 0.0 h 1.5 v 1.5 h -1.5 ZM 100.5 0.0 h 1.5 v 1.5 h -1.5 ZM 102.0 0.0 h 1.5 v 1.5 h -1.5 ZM 103.5 0.0 h 1.5 v 1.5 h -1.5 ZM 99.0 1.5 h 1.5 v 1.5 h -1.5 ZM 105.0 1.5 h 1.5 v 1.5 h -1.5 ZM 99.0 3.0 h 1.5 v 1.5 h -1.5 ZM 105.0 3.0 h 1.5 v 1.5 h -1.5 ZM 99.0 4.5 h 1.5 v 1.5 h -1.5 ZM 100.5 4.5 h 1.5 v 1.5 h -1.5 ZM 102.0 4.5 h 1.5 v 1.5 h -1.5 ZM 103.5 4.5 h 1.5 v 1.5 h -1.5 ZM 99.0 6.0 h 1.5 v 1.5 h -1.5 ZM 102.0 6.0 h 1.5 v 1.5 h -1.5 ZM 99.0 7.5 h 1.5 v 1.5 h -1.5 ZM 103.5 7.5 h 1.5 v 1.5 h -1.5 ZM 99.0 9.0 h 1.5 v 1.5 h -1.5 ZM 105.0 9.0 h 1.5 v 1.5 h -1.5 ZM 108.0 0.0 h 1.5 v 1.5 h -1.5 ZM 109.5 0.0 h 1.5 v 1.5 h -1.5 ZM 111.0 0.0 h 1.5 v 1.5 h -1.5 ZM 112.5 0.0 h 1.5 v 1.5 h -1.5 ZM 114.0 0.0 h 1.5 v 1.5 h -1.5 ZM 111.0 1.5 h 1.5 v 1.5 h -1.5 ZM 111.0 3.0 h 1.5 v 1.5 h -1.5 ZM 111.0 4.5 h 1.5 v 1.5 h -1.5 ZM 111.0 6.0 h 1.5 v 1.5 h -1.5 ZM 111.0 7.5 h 1.5 v 1.5 h -1.5 ZM 111.0 9.0 h 1.5 v 1.5 h -1.5 ZM 132.0 0.0 h 1.5 v 1.5 h -1.5 ZM 130.5 1.5 h 1.5 v 1.5 h -1.5 ZM 129.0 3.0 h 1.5 v 1.5 h -1.5 ZM 127.5 4.5 h 1.5 v 1.5 h -1.5 ZM 129.0 6.0 h 1.5 v 1.5 h -1.5 ZM 130.5 7.5 h 1.5 v 1.5 h -1.5 ZM 132.0 9.0 h 1.5 v 1.5 h -1.5 Z" fill="#FFD700" transform="translate(-66.75, 0)"/>
   </g>
 
-  <!-- Score HUD top-left -->
-  <g transform="translate(16, 18)">
-    <text font-family="'Courier New', Courier, monospace"
-          font-size="10" font-weight="bold" fill="#FFFFFF" opacity="0.7">
-      SCORE
-    </text>
-    <text font-family="'Courier New', Courier, monospace"
-          font-size="10" font-weight="bold" fill="#FFFFFF" opacity="0.7"
-          y="14">
-      001337
-    </text>
+  <!-- ========= HUD HEADS UP DISPLAY ========= -->
+  <!-- Score Display (Top Left) -->
+  <g transform="translate(16, 12)">
+    <path d="M 1.5 0.0 h 1.5 v 1.5 h -1.5 ZM 3.0 0.0 h 1.5 v 1.5 h -1.5 ZM 4.5 0.0 h 1.5 v 1.5 h -1.5 ZM 0.0 1.5 h 1.5 v 1.5 h -1.5 ZM 6.0 1.5 h 1.5 v 1.5 h -1.5 ZM 1.5 3.0 h 1.5 v 1.5 h -1.5 ZM 3.0 4.5 h 1.5 v 1.5 h -1.5 ZM 4.5 6.0 h 1.5 v 1.5 h -1.5 ZM 0.0 7.5 h 1.5 v 1.5 h -1.5 ZM 6.0 7.5 h 1.5 v 1.5 h -1.5 ZM 1.5 9.0 h 1.5 v 1.5 h -1.5 ZM 3.0 9.0 h 1.5 v 1.5 h -1.5 ZM 4.5 9.0 h 1.5 v 1.5 h -1.5 ZM 10.5 0.0 h 1.5 v 1.5 h -1.5 ZM 12.0 0.0 h 1.5 v 1.5 h -1.5 ZM 13.5 0.0 h 1.5 v 1.5 h -1.5 ZM 9.0 1.5 h 1.5 v 1.5 h -1.5 ZM 15.0 1.5 h 1.5 v 1.5 h -1.5 ZM 9.0 3.0 h 1.5 v 1.5 h -1.5 ZM 9.0 4.5 h 1.5 v 1.5 h -1.5 ZM 9.0 6.0 h 1.5 v 1.5 h -1.5 ZM 9.0 7.5 h 1.5 v 1.5 h -1.5 ZM 15.0 7.5 h 1.5 v 1.5 h -1.5 ZM 10.5 9.0 h 1.5 v 1.5 h -1.5 ZM 12.0 9.0 h 1.5 v 1.5 h -1.5 ZM 13.5 9.0 h 1.5 v 1.5 h -1.5 ZM 19.5 0.0 h 1.5 v 1.5 h -1.5 ZM 21.0 0.0 h 1.5 v 1.5 h -1.5 ZM 22.5 0.0 h 1.5 v 1.5 h -1.5 ZM 18.0 1.5 h 1.5 v 1.5 h -1.5 ZM 24.0 1.5 h 1.5 v 1.5 h -1.5 ZM 18.0 3.0 h 1.5 v 1.5 h -1.5 ZM 24.0 3.0 h 1.5 v 1.5 h -1.5 ZM 18.0 4.5 h 1.5 v 1.5 h -1.5 ZM 24.0 4.5 h 1.5 v 1.5 h -1.5 ZM 18.0 6.0 h 1.5 v 1.5 h -1.5 ZM 24.0 6.0 h 1.5 v 1.5 h -1.5 ZM 18.0 7.5 h 1.5 v 1.5 h -1.5 ZM 24.0 7.5 h 1.5 v 1.5 h -1.5 ZM 19.5 9.0 h 1.5 v 1.5 h -1.5 ZM 21.0 9.0 h 1.5 v 1.5 h -1.5 ZM 22.5 9.0 h 1.5 v 1.5 h -1.5 ZM 27.0 0.0 h 1.5 v 1.5 h -1.5 ZM 28.5 0.0 h 1.5 v 1.5 h -1.5 ZM 30.0 0.0 h 1.5 v 1.5 h -1.5 ZM 31.5 0.0 h 1.5 v 1.5 h -1.5 ZM 27.0 1.5 h 1.5 v 1.5 h -1.5 ZM 33.0 1.5 h 1.5 v 1.5 h -1.5 ZM 27.0 3.0 h 1.5 v 1.5 h -1.5 ZM 33.0 3.0 h 1.5 v 1.5 h -1.5 ZM 27.0 4.5 h 1.5 v 1.5 h -1.5 ZM 28.5 4.5 h 1.5 v 1.5 h -1.5 ZM 30.0 4.5 h 1.5 v 1.5 h -1.5 ZM 31.5 4.5 h 1.5 v 1.5 h -1.5 ZM 27.0 6.0 h 1.5 v 1.5 h -1.5 ZM 30.0 6.0 h 1.5 v 1.5 h -1.5 ZM 27.0 7.5 h 1.5 v 1.5 h -1.5 ZM 31.5 7.5 h 1.5 v 1.5 h -1.5 ZM 27.0 9.0 h 1.5 v 1.5 h -1.5 ZM 33.0 9.0 h 1.5 v 1.5 h -1.5 ZM 36.0 0.0 h 1.5 v 1.5 h -1.5 ZM 37.5 0.0 h 1.5 v 1.5 h -1.5 ZM 39.0 0.0 h 1.5 v 1.5 h -1.5 ZM 40.5 0.0 h 1.5 v 1.5 h -1.5 ZM 42.0 0.0 h 1.5 v 1.5 h -1.5 ZM 36.0 1.5 h 1.5 v 1.5 h -1.5 ZM 36.0 3.0 h 1.5 v 1.5 h -1.5 ZM 36.0 4.5 h 1.5 v 1.5 h -1.5 ZM 37.5 4.5 h 1.5 v 1.5 h -1.5 ZM 39.0 4.5 h 1.5 v 1.5 h -1.5 ZM 40.5 4.5 h 1.5 v 1.5 h -1.5 ZM 36.0 6.0 h 1.5 v 1.5 h -1.5 ZM 36.0 7.5 h 1.5 v 1.5 h -1.5 ZM 36.0 9.0 h 1.5 v 1.5 h -1.5 ZM 37.5 9.0 h 1.5 v 1.5 h -1.5 ZM 39.0 9.0 h 1.5 v 1.5 h -1.5 ZM 40.5 9.0 h 1.5 v 1.5 h -1.5 ZM 42.0 9.0 h 1.5 v 1.5 h -1.5 Z" class="hud-text"/>
+    <path d="M 1.5 0.0 h 1.5 v 1.5 h -1.5 ZM 3.0 0.0 h 1.5 v 1.5 h -1.5 ZM 4.5 0.0 h 1.5 v 1.5 h -1.5 ZM 0.0 1.5 h 1.5 v 1.5 h -1.5 ZM 6.0 1.5 h 1.5 v 1.5 h -1.5 ZM 0.0 3.0 h 1.5 v 1.5 h -1.5 ZM 4.5 3.0 h 1.5 v 1.5 h -1.5 ZM 6.0 3.0 h 1.5 v 1.5 h -1.5 ZM 0.0 4.5 h 1.5 v 1.5 h -1.5 ZM 3.0 4.5 h 1.5 v 1.5 h -1.5 ZM 6.0 4.5 h 1.5 v 1.5 h -1.5 ZM 0.0 6.0 h 1.5 v 1.5 h -1.5 ZM 1.5 6.0 h 1.5 v 1.5 h -1.5 ZM 6.0 6.0 h 1.5 v 1.5 h -1.5 ZM 0.0 7.5 h 1.5 v 1.5 h -1.5 ZM 6.0 7.5 h 1.5 v 1.5 h -1.5 ZM 1.5 9.0 h 1.5 v 1.5 h -1.5 ZM 3.0 9.0 h 1.5 v 1.5 h -1.5 ZM 4.5 9.0 h 1.5 v 1.5 h -1.5 ZM 10.5 0.0 h 1.5 v 1.5 h -1.5 ZM 12.0 0.0 h 1.5 v 1.5 h -1.5 ZM 13.5 0.0 h 1.5 v 1.5 h -1.5 ZM 9.0 1.5 h 1.5 v 1.5 h -1.5 ZM 15.0 1.5 h 1.5 v 1.5 h -1.5 ZM 9.0 3.0 h 1.5 v 1.5 h -1.5 ZM 13.5 3.0 h 1.5 v 1.5 h -1.5 ZM 15.0 3.0 h 1.5 v 1.5 h -1.5 ZM 9.0 4.5 h 1.5 v 1.5 h -1.5 ZM 12.0 4.5 h 1.5 v 1.5 h -1.5 ZM 15.0 4.5 h 1.5 v 1.5 h -1.5 ZM 9.0 6.0 h 1.5 v 1.5 h -1.5 ZM 10.5 6.0 h 1.5 v 1.5 h -1.5 ZM 15.0 6.0 h 1.5 v 1.5 h -1.5 ZM 9.0 7.5 h 1.5 v 1.5 h -1.5 ZM 15.0 7.5 h 1.5 v 1.5 h -1.5 ZM 10.5 9.0 h 1.5 v 1.5 h -1.5 ZM 12.0 9.0 h 1.5 v 1.5 h -1.5 ZM 13.5 9.0 h 1.5 v 1.5 h -1.5 ZM 21.0 0.0 h 1.5 v 1.5 h -1.5 ZM 19.5 1.5 h 1.5 v 1.5 h -1.5 ZM 21.0 1.5 h 1.5 v 1.5 h -1.5 ZM 21.0 3.0 h 1.5 v 1.5 h -1.5 ZM 21.0 4.5 h 1.5 v 1.5 h -1.5 ZM 21.0 6.0 h 1.5 v 1.5 h -1.5 ZM 21.0 7.5 h 1.5 v 1.5 h -1.5 ZM 19.5 9.0 h 1.5 v 1.5 h -1.5 ZM 21.0 9.0 h 1.5 v 1.5 h -1.5 ZM 22.5 9.0 h 1.5 v 1.5 h -1.5 ZM 28.5 0.0 h 1.5 v 1.5 h -1.5 ZM 30.0 0.0 h 1.5 v 1.5 h -1.5 ZM 31.5 0.0 h 1.5 v 1.5 h -1.5 ZM 27.0 1.5 h 1.5 v 1.5 h -1.5 ZM 33.0 1.5 h 1.5 v 1.5 h -1.5 ZM 33.0 3.0 h 1.5 v 1.5 h -1.5 ZM 30.0 4.5 h 1.5 v 1.5 h -1.5 ZM 31.5 4.5 h 1.5 v 1.5 h -1.5 ZM 33.0 6.0 h 1.5 v 1.5 h -1.5 ZM 27.0 7.5 h 1.5 v 1.5 h -1.5 ZM 33.0 7.5 h 1.5 v 1.5 h -1.5 ZM 28.5 9.0 h 1.5 v 1.5 h -1.5 ZM 30.0 9.0 h 1.5 v 1.5 h -1.5 ZM 31.5 9.0 h 1.5 v 1.5 h -1.5 ZM 37.5 0.0 h 1.5 v 1.5 h -1.5 ZM 39.0 0.0 h 1.5 v 1.5 h -1.5 ZM 40.5 0.0 h 1.5 v 1.5 h -1.5 ZM 36.0 1.5 h 1.5 v 1.5 h -1.5 ZM 42.0 1.5 h 1.5 v 1.5 h -1.5 ZM 42.0 3.0 h 1.5 v 1.5 h -1.5 ZM 39.0 4.5 h 1.5 v 1.5 h -1.5 ZM 40.5 4.5 h 1.5 v 1.5 h -1.5 ZM 42.0 6.0 h 1.5 v 1.5 h -1.5 ZM 36.0 7.5 h 1.5 v 1.5 h -1.5 ZM 42.0 7.5 h 1.5 v 1.5 h -1.5 ZM 37.5 9.0 h 1.5 v 1.5 h -1.5 ZM 39.0 9.0 h 1.5 v 1.5 h -1.5 ZM 40.5 9.0 h 1.5 v 1.5 h -1.5 ZM 45.0 0.0 h 1.5 v 1.5 h -1.5 ZM 46.5 0.0 h 1.5 v 1.5 h -1.5 ZM 48.0 0.0 h 1.5 v 1.5 h -1.5 ZM 49.5 0.0 h 1.5 v 1.5 h -1.5 ZM 51.0 0.0 h 1.5 v 1.5 h -1.5 ZM 51.0 1.5 h 1.5 v 1.5 h -1.5 ZM 49.5 3.0 h 1.5 v 1.5 h -1.5 ZM 48.0 4.5 h 1.5 v 1.5 h -1.5 ZM 46.5 6.0 h 1.5 v 1.5 h -1.5 ZM 46.5 7.5 h 1.5 v 1.5 h -1.5 ZM 46.5 9.0 h 1.5 v 1.5 h -1.5 Z" class="hud-text" transform="translate(0, 13)"/>
   </g>
 
-  <!-- Lives HUD top-right -->
-  <g transform="translate(730, 18)">
-    <text font-family="'Courier New', Courier, monospace"
-          font-size="10" font-weight="bold" fill="#FFFFFF" opacity="0.7">
-      WORLD
-    </text>
-    <text font-family="'Courier New', Courier, monospace"
-          font-size="10" font-weight="bold" fill="#FFFFFF" opacity="0.7"
-          y="14">
-      &#x2605; 1-1
-    </text>
+  <!-- World Display (Top Right) -->
+  <g transform="translate(734, 12)">
+    <path d="M 0.0 0.0 h 1.5 v 1.5 h -1.5 ZM 6.0 0.0 h 1.5 v 1.5 h -1.5 ZM 0.0 1.5 h 1.5 v 1.5 h -1.5 ZM 6.0 1.5 h 1.5 v 1.5 h -1.5 ZM 0.0 3.0 h 1.5 v 1.5 h -1.5 ZM 6.0 3.0 h 1.5 v 1.5 h -1.5 ZM 0.0 4.5 h 1.5 v 1.5 h -1.5 ZM 3.0 4.5 h 1.5 v 1.5 h -1.5 ZM 6.0 4.5 h 1.5 v 1.5 h -1.5 ZM 0.0 6.0 h 1.5 v 1.5 h -1.5 ZM 3.0 6.0 h 1.5 v 1.5 h -1.5 ZM 6.0 6.0 h 1.5 v 1.5 h -1.5 ZM 0.0 7.5 h 1.5 v 1.5 h -1.5 ZM 1.5 7.5 h 1.5 v 1.5 h -1.5 ZM 4.5 7.5 h 1.5 v 1.5 h -1.5 ZM 6.0 7.5 h 1.5 v 1.5 h -1.5 ZM 0.0 9.0 h 1.5 v 1.5 h -1.5 ZM 6.0 9.0 h 1.5 v 1.5 h -1.5 ZM 10.5 0.0 h 1.5 v 1.5 h -1.5 ZM 12.0 0.0 h 1.5 v 1.5 h -1.5 ZM 13.5 0.0 h 1.5 v 1.5 h -1.5 ZM 9.0 1.5 h 1.5 v 1.5 h -1.5 ZM 15.0 1.5 h 1.5 v 1.5 h -1.5 ZM 9.0 3.0 h 1.5 v 1.5 h -1.5 ZM 15.0 3.0 h 1.5 v 1.5 h -1.5 ZM 9.0 4.5 h 1.5 v 1.5 h -1.5 ZM 15.0 4.5 h 1.5 v 1.5 h -1.5 ZM 9.0 6.0 h 1.5 v 1.5 h -1.5 ZM 15.0 6.0 h 1.5 v 1.5 h -1.5 ZM 9.0 7.5 h 1.5 v 1.5 h -1.5 ZM 15.0 7.5 h 1.5 v 1.5 h -1.5 ZM 10.5 9.0 h 1.5 v 1.5 h -1.5 ZM 12.0 9.0 h 1.5 v 1.5 h -1.5 ZM 13.5 9.0 h 1.5 v 1.5 h -1.5 ZM 18.0 0.0 h 1.5 v 1.5 h -1.5 ZM 19.5 0.0 h 1.5 v 1.5 h -1.5 ZM 21.0 0.0 h 1.5 v 1.5 h -1.5 ZM 22.5 0.0 h 1.5 v 1.5 h -1.5 ZM 18.0 1.5 h 1.5 v 1.5 h -1.5 ZM 24.0 1.5 h 1.5 v 1.5 h -1.5 ZM 18.0 3.0 h 1.5 v 1.5 h -1.5 ZM 24.0 3.0 h 1.5 v 1.5 h -1.5 ZM 18.0 4.5 h 1.5 v 1.5 h -1.5 ZM 19.5 4.5 h 1.5 v 1.5 h -1.5 ZM 21.0 4.5 h 1.5 v 1.5 h -1.5 ZM 22.5 4.5 h 1.5 v 1.5 h -1.5 ZM 18.0 6.0 h 1.5 v 1.5 h -1.5 ZM 21.0 6.0 h 1.5 v 1.5 h -1.5 ZM 18.0 7.5 h 1.5 v 1.5 h -1.5 ZM 22.5 7.5 h 1.5 v 1.5 h -1.5 ZM 18.0 9.0 h 1.5 v 1.5 h -1.5 ZM 24.0 9.0 h 1.5 v 1.5 h -1.5 ZM 27.0 0.0 h 1.5 v 1.5 h -1.5 ZM 27.0 1.5 h 1.5 v 1.5 h -1.5 ZM 27.0 3.0 h 1.5 v 1.5 h -1.5 ZM 27.0 4.5 h 1.5 v 1.5 h -1.5 ZM 27.0 6.0 h 1.5 v 1.5 h -1.5 ZM 27.0 7.5 h 1.5 v 1.5 h -1.5 ZM 27.0 9.0 h 1.5 v 1.5 h -1.5 ZM 28.5 9.0 h 1.5 v 1.5 h -1.5 ZM 30.0 9.0 h 1.5 v 1.5 h -1.5 ZM 31.5 9.0 h 1.5 v 1.5 h -1.5 ZM 33.0 9.0 h 1.5 v 1.5 h -1.5 ZM 36.0 0.0 h 1.5 v 1.5 h -1.5 ZM 37.5 0.0 h 1.5 v 1.5 h -1.5 ZM 39.0 0.0 h 1.5 v 1.5 h -1.5 ZM 40.5 0.0 h 1.5 v 1.5 h -1.5 ZM 36.0 1.5 h 1.5 v 1.5 h -1.5 ZM 42.0 1.5 h 1.5 v 1.5 h -1.5 ZM 36.0 3.0 h 1.5 v 1.5 h -1.5 ZM 42.0 3.0 h 1.5 v 1.5 h -1.5 ZM 36.0 4.5 h 1.5 v 1.5 h -1.5 ZM 42.0 4.5 h 1.5 v 1.5 h -1.5 ZM 36.0 6.0 h 1.5 v 1.5 h -1.5 ZM 42.0 6.0 h 1.5 v 1.5 h -1.5 ZM 36.0 7.5 h 1.5 v 1.5 h -1.5 ZM 42.0 7.5 h 1.5 v 1.5 h -1.5 ZM 36.0 9.0 h 1.5 v 1.5 h -1.5 ZM 37.5 9.0 h 1.5 v 1.5 h -1.5 ZM 39.0 9.0 h 1.5 v 1.5 h -1.5 ZM 40.5 9.0 h 1.5 v 1.5 h -1.5 Z" class="hud-text"/>
+    <path d="M 3.0 0.0 h 1.5 v 1.5 h -1.5 ZM 1.5 1.5 h 1.5 v 1.5 h -1.5 ZM 3.0 1.5 h 1.5 v 1.5 h -1.5 ZM 3.0 3.0 h 1.5 v 1.5 h -1.5 ZM 3.0 4.5 h 1.5 v 1.5 h -1.5 ZM 3.0 6.0 h 1.5 v 1.5 h -1.5 ZM 3.0 7.5 h 1.5 v 1.5 h -1.5 ZM 1.5 9.0 h 1.5 v 1.5 h -1.5 ZM 3.0 9.0 h 1.5 v 1.5 h -1.5 ZM 4.5 9.0 h 1.5 v 1.5 h -1.5 ZM 9.0 4.5 h 1.5 v 1.5 h -1.5 ZM 10.5 4.5 h 1.5 v 1.5 h -1.5 ZM 12.0 4.5 h 1.5 v 1.5 h -1.5 ZM 13.5 4.5 h 1.5 v 1.5 h -1.5 ZM 15.0 4.5 h 1.5 v 1.5 h -1.5 ZM 21.0 0.0 h 1.5 v 1.5 h -1.5 ZM 19.5 1.5 h 1.5 v 1.5 h -1.5 ZM 21.0 1.5 h 1.5 v 1.5 h -1.5 ZM 21.0 3.0 h 1.5 v 1.5 h -1.5 ZM 21.0 4.5 h 1.5 v 1.5 h -1.5 ZM 21.0 6.0 h 1.5 v 1.5 h -1.5 ZM 21.0 7.5 h 1.5 v 1.5 h -1.5 ZM 19.5 9.0 h 1.5 v 1.5 h -1.5 ZM 21.0 9.0 h 1.5 v 1.5 h -1.5 ZM 22.5 9.0 h 1.5 v 1.5 h -1.5 Z" class="hud-text" transform="translate(14, 13)"/>
   </g>
-
-  <!-- Subtle vignette overlay -->
-  <rect width="100%" height="100%" fill="url(#sky)" opacity="0" pointer-events="none"/>
 </svg>

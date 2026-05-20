@@ -1,7 +1,3 @@
-<div align="center">
-  <img src="./banner.svg" alt="Animated Game Banner" width="100%" style="max-width: 800px; border-radius: 8px;" />
-</div>
-
 ## Hi there 👋
 
 <!--
