@@ -129,13 +129,23 @@
 
     <!-- Mushroom House -->
     <g id="mushroom-house" stroke="#000" stroke-width="2">
-      <path d="M 20,60 v 40 h 60 v -40 z" fill="#f8d8b0" />
-      <path d="M 40,70 v 30 h 20 v -30 z" fill="#c84c0c" />
-      <circle cx="55" cy="85" r="2" fill="#000" stroke="none" />
-      <path d="M 0,60 C 0,10 100,10 100,60 Z" fill="#d82800" />
-      <circle cx="20" cy="40" r="10" fill="#fff" stroke="none" />
-      <circle cx="50" cy="25" r="12" fill="#fff" stroke="none" />
-      <circle cx="80" cy="40" r="10" fill="#fff" stroke="none" />
+      <path d="M 26,60 v 40 h 48 v -40 z" fill="#f8d8b0" stroke-linejoin="round" />
+      <path d="M 42,100 v -20 C 42,74 58,74 58,80 v 20 z" fill="#c84c0c" />
+      <circle cx="54" cy="90" r="2" fill="#000" stroke="none" />
+      
+      <clipPath id="house-head-clip">
+        <path d="M 14,60 C 14,20 86,20 86,60 Z" />
+      </clipPath>
+      
+      <path d="M 14,60 C 14,20 86,20 86,60 Z" fill="#d82800" stroke-linejoin="round" />
+      
+      <g clip-path="url(#house-head-clip)" stroke="none">
+        <circle cx="50" cy="34" r="12" fill="#fff" />
+        <circle cx="26" cy="46" r="10" fill="#fff" />
+        <circle cx="74" cy="46" r="10" fill="#fff" />
+      </g>
+      
+      <path d="M 14,60 C 14,20 86,20 86,60 Z" fill="none" stroke-linejoin="round" />
     </g>
   </defs>
 
