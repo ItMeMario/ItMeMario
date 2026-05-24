@@ -5,12 +5,40 @@
       <path d="M 30,0 h40 v10 h20 v20 h10 v20 h-10 v10 h-90 v-10 h-10 v-20 h10 v-20 h20 v-10 z" />
     </g>
 
-    <!-- Pixel Bush -->
-    <g id="pixel-bush" fill="#4caf50" stroke="#000" stroke-width="2">
-      <path d="M 30,0 h40 v10 h20 v20 h10 v20 h-10 v10 h-90 v-10 h-10 v-20 h10 v-20 h20 v-10 z" />
-      <path fill="#2e7d32" stroke="none" d="M 20,20 h60 v10 h-60 z" />
-      <path fill="#2e7d32" stroke="none" d="M -5,40 h10 v10 h-10 z" />
-      <path fill="#2e7d32" stroke="none" d="M 85,40 h10 v10 h-10 z" />
+    <!-- Lumpy Bush (Type 1) -->
+    <g id="bush-type1" stroke="#000" stroke-width="2">
+      <path d="M 10,50 v -10 h 10 v -10 h 10 v -10 h 10 v -10 h 20 v 10 h 30 v 10 h 10 v 10 h 10 v 10 z" fill="#58d040" />
+      <path d="M 12,48 v -8 h 10 v -10 h 10 v -10 h 10 v -10 h 18" fill="none" stroke="#a0f070" stroke-width="4" stroke-linecap="square"/>
+      <path d="M 62,22 h 26" fill="none" stroke="#a0f070" stroke-width="4" stroke-linecap="square"/>
+      <path fill="#288010" stroke="none" d="M 40,40 h 20 v 10 h -20 z M 80,30 h 10 v 20 h -10 z M 50,20 h 10 v 10 h -10 z" />
+    </g>
+
+    <!-- Tall Pill Bush -->
+    <clipPath id="clip-tall">
+      <path d="M 10,80 v -60 h 10 v -10 h 20 v 10 h 10 v 60 z" />
+    </clipPath>
+    <g id="bush-tall" stroke="#000" stroke-width="2">
+      <path d="M 10,80 v -60 h 10 v -10 h 20 v 10 h 10 v 60 z" fill="#58d040" />
+      <g clip-path="url(#clip-tall)" stroke="none">
+        <rect x="10" y="10" width="4" height="70" fill="#a0f070" />
+        <rect x="14" y="10" width="20" height="4" fill="#a0f070" />
+        <path d="M -10,70 l 80,-40 M -10,50 l 80,-40 M -10,90 l 80,-40 M -10,110 l 80,-40" stroke="#288010" stroke-width="6" stroke-linecap="square" />
+      </g>
+      <path d="M 10,80 v -60 h 10 v -10 h 20 v 10 h 10 v 60 z" fill="none" />
+    </g>
+
+    <!-- Short Pill Bush -->
+    <clipPath id="clip-short">
+      <path d="M 10,50 v -30 h 10 v -10 h 20 v 10 h 10 v 30 z" />
+    </clipPath>
+    <g id="bush-short" stroke="#000" stroke-width="2">
+      <path d="M 10,50 v -30 h 10 v -10 h 20 v 10 h 10 v 30 z" fill="#58d040" />
+      <g clip-path="url(#clip-short)" stroke="none">
+        <rect x="10" y="10" width="4" height="40" fill="#a0f070" />
+        <rect x="14" y="10" width="20" height="4" fill="#a0f070" />
+        <path d="M -10,40 l 80,-40 M -10,60 l 80,-40 M -10,80 l 80,-40" stroke="#288010" stroke-width="6" stroke-linecap="square" />
+      </g>
+      <path d="M 10,50 v -30 h 10 v -10 h 20 v 10 h 10 v 30 z" fill="none" />
     </g>
 
     <!-- Pixel Mountain -->
@@ -79,9 +107,12 @@
   <g transform="translate(700, 50)"><g transform="scale(1.3333)"><use href="#mountain" /></g></g>
 
   <!-- Bushes -->
-  <g transform="translate(50, 190)"><use href="#pixel-bush" /></g>
-  <g transform="translate(350, 190)"><use href="#pixel-bush" /></g>
-  <g transform="translate(850, 190)"><use href="#pixel-bush" /></g>
+  <g transform="translate(60, 200)"><use href="#bush-type1" /></g>
+  
+  <g transform="translate(350, 170)"><use href="#bush-tall" /></g>
+  <g transform="translate(385, 200)"><use href="#bush-short" /></g>
+  
+  <g transform="translate(800, 200)"><use href="#bush-type1" /></g>
   
   <!-- Ground -->
   <rect x="0" y="250" width="1000" height="50" fill="url(#ground-pattern)" />
