@@ -1,5 +1,9 @@
 
 
+<div align="center">
+  <img src="./github-banner.svg" width="100%" alt="Animated GitHub Banner">
+</div>
+
 ## Hi there 👋
 
 <!--

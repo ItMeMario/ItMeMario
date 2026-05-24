@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 300" width="1000" height="300">
+  <defs>
+    <!-- Pixel Cloud -->
+    <g id="pixel-cloud" fill="#ffffff" stroke="#000" stroke-width="2">
+      <path d="M 30,0 h40 v10 h20 v20 h10 v20 h-10 v10 h-90 v-10 h-10 v-20 h10 v-20 h20 v-10 z" />
+    </g>
+
+    <!-- Pixel Bush -->
+    <g id="pixel-bush" fill="#4caf50" stroke="#000" stroke-width="2">
+      <path d="M 30,0 h40 v10 h20 v20 h10 v20 h-10 v10 h-90 v-10 h-10 v-20 h10 v-20 h20 v-10 z" />
+      <path fill="#2e7d32" stroke="none" d="M 20,20 h60 v10 h-60 z" />
+      <path fill="#2e7d32" stroke="none" d="M -5,40 h10 v10 h-10 z" />
+      <path fill="#2e7d32" stroke="none" d="M 85,40 h10 v10 h-10 z" />
+    </g>
+
+    <!-- Pixel Mountain -->
+    <g id="mountain" fill="#4caf50" stroke="#000" stroke-width="2">
+      <path d="M 150,0 h 20 v10 h10 v10 h10 v10 h10 v10 h10 v10 h10 v10 h10 v10 h10 v10 h10 v10 h10 v10 h10 v10 h10 v10 h10 v10 h10 v10 h10 v10 h-300 v-10 h10 v-10 h10 v-10 h10 v-10 h10 v-10 h10 v-10 h10 v-10 h10 v-10 h10 v-10 h10 v-10 h10 v-10 h10 v-10 h10 v-10 h10 v-10 h10 v-10 z" />
+      <!-- Snow cap -->
+      <path fill="#ffffff" stroke="#000" stroke-width="2" d="M 150,0 h 20 v10 h10 v10 h10 v10 h10 v10 h10 v10 h-10 v-10 h-10 v10 h-20 v-10 h-20 v10 h-10 v-10 h-10 v10 h-10 v-10 h10 v-10 h10 v-10 h10 v-10 h10 v-10 z" />
+      <!-- Mountain detail lines -->
+      <path d="M 160,20 v 130" stroke="#000" stroke-width="2" fill="none" opacity="0.3" />
+    </g>
+
+    <!-- Ground Pattern -->
+    <pattern id="ground-pattern" width="40" height="40" patternUnits="userSpaceOnUse">
+      <rect width="40" height="40" fill="#e88c00"/>
+      <!-- grass top -->
+      <rect width="40" height="8" fill="#4caf50"/>
+      <rect y="8" width="40" height="2" fill="#000"/>
+      <!-- Dirt Details (like SMW) -->
+      <rect x="0" y="24" width="40" height="2" fill="#000"/>
+      <rect x="18" y="10" width="2" height="14" fill="#000"/>
+      <rect x="38" y="26" width="2" height="14" fill="#000"/>
+    </pattern>
+  </defs>
+
+  <style>
+    @keyframes move1 {
+      0% { transform: translate(1100px, 30px) scale(0.8); }
+      100% { transform: translate(-200px, 30px) scale(0.8); }
+    }
+    .c1 { animation: move1 35s linear infinite; }
+    
+    @keyframes move2 {
+      0% { transform: translate(1100px, 50px) scale(1.2); }
+      100% { transform: translate(-200px, 50px) scale(1.2); }
+    }
+    .c2 { animation: move2 45s linear infinite; animation-delay: -15s; }
+    
+    @keyframes move3 {
+      0% { transform: translate(1100px, 20px) scale(0.9); }
+      100% { transform: translate(-200px, 20px) scale(0.9); }
+    }
+    .c3 { animation: move3 40s linear infinite; animation-delay: -25s; }
+    
+    @keyframes move4 {
+      0% { transform: translate(1100px, 120px) scale(0.6); }
+      100% { transform: translate(-200px, 120px) scale(0.6); }
+    }
+    .c4 { animation: move4 60s linear infinite; animation-delay: -5s; }
+  </style>
+
+  <!-- Sky background -->
+  <rect x="0" y="0" width="1000" height="120" fill="#6ba4ff" />
+  <rect x="0" y="120" width="1000" height="80" fill="#88baff" />
+  <rect x="0" y="200" width="1000" height="50" fill="#a4ccff" />
+
+  <!-- Animated Clouds -->
+  <g class="c1"><use href="#pixel-cloud" /></g>
+  <g class="c2"><use href="#pixel-cloud" /></g>
+  <g class="c3"><use href="#pixel-cloud" /></g>
+  <g class="c4"><use href="#pixel-cloud" /></g>
+
+  <!-- Static background layer: Mountains -->
+  <g transform="translate(-50, 150)"><g transform="scale(0.6666)"><use href="#mountain" /></g></g>
+  <g transform="translate(100, 100)"><use href="#mountain" /></g>
+  <g transform="translate(450, 120)"><g transform="scale(0.8666)"><use href="#mountain" /></g></g>
+  <g transform="translate(700, 50)"><g transform="scale(1.3333)"><use href="#mountain" /></g></g>
+
+  <!-- Bushes -->
+  <g transform="translate(50, 190)"><use href="#pixel-bush" /></g>
+  <g transform="translate(350, 190)"><use href="#pixel-bush" /></g>
+  <g transform="translate(850, 190)"><use href="#pixel-bush" /></g>
+  
+  <!-- Ground -->
+  <rect x="0" y="250" width="1000" height="50" fill="url(#ground-pattern)" />
+  <rect x="0" y="250" width="1000" height="2" fill="#000" />
+</svg>
