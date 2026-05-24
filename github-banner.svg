@@ -196,6 +196,20 @@
       40%, 75% { transform: translateY(0px); }
     }
     .piranha { animation: piranhaMove 6s ease-in-out infinite; }
+
+    /* Mario Movement */
+    @keyframes marioRunJump {
+      0%   { transform: translate(-80px, 190px); }
+      38%  { transform: translate(365px, 190px); }
+      40%  { transform: translate(388px, 130px); }
+      42%  { transform: translate(410px, 80px); }
+      45%  { transform: translate(450px, 60px); }
+      48%  { transform: translate(490px, 80px); }
+      50%  { transform: translate(512px, 130px); }
+      52%  { transform: translate(535px, 190px); }
+      100% { transform: translate(1100px, 190px); }
+    }
+    .mario { animation: marioRunJump 10s linear infinite; }
   </style>
 
   <!-- Sky background -->
@@ -251,7 +265,7 @@
   <use href="#mushroom-house" x="800" y="150" />
 
 <!-- ========= MARIO CHARACTER (static position) ========= -->
-  <g transform="translate(60, 100)">
+  <g class="mario">
     <g class="walk-f1">
       <rect x="16" y="0" width="4" height="4" fill="#E52521"/>
       <rect x="20" y="0" width="4" height="4" fill="#E52521"/>
